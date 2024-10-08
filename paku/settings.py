@@ -1,3 +1,5 @@
+from os import getenv
+
 """
 Django settings for paku project.
 
@@ -23,10 +25,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-v6kvkw#h(336qn(p#7s(90(7(#y2d6fqinz=#ybx3a)!g(3b+)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+PRODUCTION = getenv('PRODUCTION', False)
+DEBUG = not PRODUCTION
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "muhammad-vito31-paku.pbp.cs.ui.ac.id"]
 
 # Application definition
 
@@ -115,7 +117,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+if DEBUG:
+    STATICFILES_DIRS = [BASE_DIR / 'static']
+else:
+    STATIC_ROOT = BASE_DIR / 'static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
