@@ -45,8 +45,9 @@ Bagi merchant, PaKu memberikan peluang untuk **menambahkan produk makanan** baru
 Database yang kami gunakan berupa makanan yang ada di daerah Palu, yang dikumpulkan oleh masing-masing anggota dari beberapa sumber seperti Gofood dan Instagram. Sumber asli dari masing-masing data tercantum di sebelah kanan data. Database lengkap dapat diakses di sini:  
 [Database Makanan Palu](https://docs.google.com/spreadsheets/d/1Ur2plN-P3rhImHU4pRWBbaf4-A2v4ZTRyL2-IQnt6WQ/edit?usp=sharing)
 
-Sumber database:
-
+<details>
+<summary>Sumber Database</summary>
+  
 - https://gofood.co.id/en/palu/restaurant/dapur-ikan-katombo-dan-mujair-extra-pedas-s-parman-23c36104-1f13-4492-b02f-07749d424516
 - https://gofood.co.id/en/palu/restaurant/alpukat-kocok-buron-palu-barat-baru-wahid-hasyim-461b7ef4-ffef-46f3-bccf-57ed62161cd9
 - https://gofood.co.id/en/palu/restaurant/lumpia-phoenix-palu-malonda-1268838c-64f9-4cdd-b47b-5695c6b7b3c7
@@ -99,6 +100,8 @@ Sumber database:
 - https://www.instagram.com/p/C6IhRs0P8lM/
 - https://www.instagram.com/p/C6DL1_ivu41/
 - https://www.instagram.com/p/C55U3T9vL0I/
+
+</details>
 
 ## :bust_in_silhouette: _Role_ atau Peran Pengguna beserta Deskripsinya
 
