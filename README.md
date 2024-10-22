@@ -1,5 +1,7 @@
 # PaKu: Palu Kuliner
 
+test
+
 ## :busts_in_silhouette: Anggota Kelompok F04
 1. 2306244936 &mdash; Rizqya Az Zahra Putri
 2. 2306215816 &mdash; Arya Raditya Kusuma
