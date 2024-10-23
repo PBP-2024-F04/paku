@@ -1,5 +1,5 @@
 from django import forms
-from .models import Promo
+from products.models import Promo
 
 class PromoForm(forms.ModelForm):
     class Meta:

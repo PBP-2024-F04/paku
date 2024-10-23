@@ -2,4 +2,41 @@
 
 {% block content %}
 <h1>Promos Page</h1>
+<h2>My Promos</h2>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Promo Title</th>
+            <th>Description</th>
+            <th>Price Before</th>
+            <th>Price After</th>
+            <th>Product</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for promo in promos %}
+        <tr>
+            <td>{{ promo.promo_title }}</td>
+            <td>{{ promo.promo_description }}</td>
+            <td>{{ promo.price_before }}</td>
+            <td>{{ promo.price_after }}</td>
+            <td>{{ promo.product.name }}</td> <!-- Asumsikan product memiliki field 'name' -->
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">You have not created any promos yet.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Add New Promo</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Promo</button>
+</form>
+
 {% endblock content %}

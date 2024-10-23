@@ -6,14 +6,10 @@ from .forms import PromoForm
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 
-def main(request):
-    return render(request, 'promos.html')
-
 @login_required
-def user_promos(request):
-    # User sudah dipastikan login
+def main(request):
     promos = Promo.objects.filter(user=request.user)  # Ambil semua promo yang dibuat oleh user
-    return render(request, 'promos/user_promos.html', {'promos': promos})
+    return render(request, 'promos.html', {'promos': promos})
 
 def get_user_products(request):
     user = request.user
@@ -24,16 +20,16 @@ def get_user_products(request):
         return JsonResponse({'products': product_data})
     return JsonResponse({'error': 'Unauthorized access'}, status=403)
 
-def create_promo(request):
+@login_required
+def add_promo(request):
     if request.method == 'POST':
         form = PromoForm(request.POST)
         if form.is_valid():
             promo = form.save(commit=False)
-            promo.user = request.user  
-            promo.product_id = request.POST.get('product')  
+            promo.user = request.user  # Menyimpan user yang sedang login sebagai pemilik promo
             promo.save()
-            return redirect('promos.html')
+            return redirect('user_promos')  # Redirect ke halaman semua promo user setelah berhasil menambah promo
     else:
         form = PromoForm()
 
-    return render(request, 'promos/create_promo.html', {'form': form})
+    return render(request, 'promos/add_promo.html', {'form': form})
