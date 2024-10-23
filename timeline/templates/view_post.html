@@ -9,12 +9,6 @@
 <hr>
 
 <div id="comment-container">
-	{% for comment in comments %}
-	<div>
-		<p><strong>{{ comment.user.foodieprofile.full_name }}</strong> replied:</p>
-		<p>{{ comment.text }}</p>
-	</div>
-	{% endfor %}
 </div>
 
 <form id="comment-form">
@@ -23,6 +17,28 @@
 </form>
 
 <script>
+function getComments() {
+	return fetch("{% url 'timeline:get_comments' post.id %}").then(res => res.json());
+}
+
+async function refreshComments() {
+	const commentContainer = document.getElementById('comment-container');
+	const comments = await getComments();
+
+	let innerHTML = '';
+
+	for (const comment of comments) {
+		innerHTML += `
+			<div>
+				<p><strong>${comment.user_fullname}</strong> @${comment.username} replied:</p>
+				<p>${comment.text}</p>
+			</div>
+		`;
+	}
+
+	commentContainer.innerHTML = innerHTML;
+}
+
 document.getElementById('comment-form').addEventListener('submit', (e) => {
 	e.preventDefault();
 
@@ -30,9 +46,12 @@ document.getElementById('comment-form').addEventListener('submit', (e) => {
 		method: 'POST',
 		body: new FormData(e.target),
 	}).then(() => {
+		refreshComments();
 		e.target.reset();
 	});
 })
+
+refreshComments();
 </script>
 
 {% endblock content %}

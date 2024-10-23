@@ -7,6 +7,8 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 
+from accounts.models import User
+
 from .models import Comment, Post
 from .forms import PostForm
 
@@ -46,6 +48,21 @@ def edit_post(request, post_id):
 
 def delete_post(request, post_id):
     return render(request, 'delete_post.html', {'post_id':post_id})
+
+def get_comments(_, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    # comments = Comment.objects.filter(post=post).values(
+    #     'text', 'user__foodieprofile__full_name', 'user__username'
+    # )
+    comments = [
+        {
+            'text': comment.text,
+            'username': comment.user.username,
+            'user_fullname': comment.user.foodieprofile.full_name,
+        }
+        for comment in Comment.objects.filter(post=post)
+    ]
+    return JsonResponse(list(comments), safe=False)
 
 @csrf_exempt
 @require_POST
