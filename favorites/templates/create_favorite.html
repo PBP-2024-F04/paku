@@ -1,0 +1,18 @@
+{% extends 'base_navbar.html' %}
+
+{% block content %}
+<h1>Add "{{ product.product_name }}" to Your Favorites</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+        <tr>
+            <td></td>
+            <td>
+                <input type="submit" value="Add to Favorites"/>
+            </td>
+        </tr>
+    </table>
+</form>
+{% endblock content %}
