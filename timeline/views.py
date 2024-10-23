@@ -24,6 +24,6 @@ def create_post(request):
 
     post_form = PostForm()
 
-    return render(request, 'create_product.html', {
+    return render(request, 'create_post.html', {
         'form': post_form,
     })
