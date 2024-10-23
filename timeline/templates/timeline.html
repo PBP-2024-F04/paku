@@ -2,4 +2,16 @@
 
 {% block content %}
 <h1>Timeline Page</h1>
+
+<table>
+	<tr>
+		<th>Post</th>
+	</tr>
+	{% for post in posts%}
+	<tr>
+		<td>{{ post.text }}</td>
+	</tr>
+	{% endfor %}
+</table>
+
 {% endblock content %}
