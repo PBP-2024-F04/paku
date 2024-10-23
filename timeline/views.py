@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 
-from .models import Post
+from .models import Comment, Post
 from .forms import PostForm
 
 def main(request):
@@ -32,7 +32,9 @@ def create_post(request):
     })
 
 def view_post(request, post_id):
-    return render(request, 'view_post.html', {'post_id':post_id})
+    post = Post.objects.get(pk=post_id)
+    comments = Comment.objects.filter(post=post)
+    return render(request, 'view_post.html', {'post': post, 'comments': comments})
 
 def edit_post(request, post_id):
     return render(request, 'edit_post.html', {'post_id':post_id})

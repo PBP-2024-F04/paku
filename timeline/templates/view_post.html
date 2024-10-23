@@ -1,1 +1,18 @@
-<h1>Viewing {{ post_id }}</h1>
+{% extends 'base_navbar.html' %}
+
+{% block content %}
+<div>
+	<p><strong>{{ post.user.foodieprofile.full_name }}</strong> wrote:</p>
+	<p>{{ post.text }}</p>
+</div>
+
+<hr>
+
+{% for comment in comments %}
+<div>
+	<p><strong>{{ comment.user.foodieprofile.full_name }}</strong> replied:</p>
+	<p>{{ comment.text }}</p>
+</div>
+{% endfor %}
+
+{% endblock content %}
