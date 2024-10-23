@@ -4,9 +4,16 @@ from .models import Promo
 from products.models import Product
 from .forms import PromoForm
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 
 def main(request):
     return render(request, 'promos.html')
+
+@login_required
+def user_promos(request):
+    # User sudah dipastikan login
+    promos = Promo.objects.filter(user=request.user)  # Ambil semua promo yang dibuat oleh user
+    return render(request, 'promos/user_promos.html', {'promos': promos})
 
 def get_user_products(request):
     user = request.user
@@ -25,7 +32,7 @@ def create_promo(request):
             promo.user = request.user  
             promo.product_id = request.POST.get('product')  
             promo.save()
-            return redirect('promo_success_page')
+            return redirect('promos.html')
     else:
         form = PromoForm()
 
