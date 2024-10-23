@@ -1,5 +1,10 @@
 from django.contrib import messages
-from django.shortcuts import redirect, render
+from django.core import serializers
+from django.forms.models import model_to_dict
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import get_list_or_404, get_object_or_404, redirect, render
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 
 from .models import Comment, Post
@@ -41,3 +46,16 @@ def edit_post(request, post_id):
 
 def delete_post(request, post_id):
     return render(request, 'delete_post.html', {'post_id':post_id})
+
+@csrf_exempt
+@require_POST
+def create_comment(request, post_id):
+    text = request.POST.get("text")
+    user = request.user
+    post = get_object_or_404(Post, pk=post_id)
+
+    comment = Comment(user=user, post=post, text=text)
+    comment.save()
+
+    return HttpResponse(b"CREATED", status=201)
+
