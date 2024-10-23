@@ -3,15 +3,21 @@
 {% block content %}
 <h1>Timeline Page</h1>
 
-<table>
-	<tr>
-		<th>Post</th>
-	</tr>
-	{% for post in posts%}
-	<tr>
-		<td>{{ post.text }}</td>
-	</tr>
-	{% endfor %}
-</table>
+<hr>
+
+{% for post in posts %}
+<div>
+	<p><strong>{{ post.user.foodieprofile.full_name }}</strong> posted</p>
+	<p><em>{{ post.text }}</em></p>
+	<a href='{% url 'timeline:view_post' post.id %}'>[view]</a>
+
+	{% if post.user.id == user.id %}
+		&mdash; <a href='{% url 'timeline:edit_post' post.id %}'>[edit]</a>
+		&mdash; <a href='{% url 'timeline:delete_post' post.id %}'>[delete]</a>
+	{% endif %}
+</div>
+
+<hr>
+{% endfor %}
 
 {% endblock content %}

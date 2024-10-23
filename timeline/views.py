@@ -7,7 +7,10 @@ from .forms import PostForm
 
 def main(request):
     posts = Post.objects.all()
-    return render(request, 'timeline.html', {'posts':posts})
+    return render(request, 'timeline.html', {
+        'posts': posts,
+        'user': request.user,
+    })
 
 @login_required(login_url='/accounts/login')
 def create_post(request):
@@ -27,3 +30,12 @@ def create_post(request):
     return render(request, 'create_post.html', {
         'form': post_form,
     })
+
+def view_post(request, post_id):
+    return render(request, 'view_post.html', {'post_id':post_id})
+
+def edit_post(request, post_id):
+    return render(request, 'edit_post.html', {'post_id':post_id})
+
+def delete_post(request, post_id):
+    return render(request, 'delete_post.html', {'post_id':post_id})
