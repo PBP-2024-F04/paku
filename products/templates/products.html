@@ -4,7 +4,7 @@
 <h1>Products Page</h1>
 
 {% if not products %}
-<p>Belum ada data produk pada PaKu.</p>
+<p>{{ empty_message }}</p>
 {% else %}
 <table>
   <tr>
@@ -22,6 +22,11 @@
     <td>{{ product.price }}</td>
     <td>{{ product.description }}</td>
     <td>{{ product.category }}</td>
+    <td>
+      <a href="{% url 'products:view_product' product.pk %}">
+          View
+      </a>
+  </td>
     <td>
         <a href="{% url 'products:edit_product' product.pk %}">
             <button>

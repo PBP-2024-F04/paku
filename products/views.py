@@ -6,7 +6,6 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 from products.forms import ProductForm
 from products.models import Product
 
-@login_required(login_url='/accounts/login')
 def main(request):
     products = Product.objects.all()
 
@@ -17,19 +16,20 @@ def main(request):
     return render(request, 'products.html', context)
 
 @login_required(login_url='/accounts/login')
-def vieww(request): # blm fix
+def view_products(request):
     products = Product.objects.filter(user=request.user)
 
     context = {
-        'products' : products,
+        'products': products,
+        'empty_message': 'You dont have any products yet. Please create a new product.',
     }
 
     return render(request, 'products.html', context)
 
 @login_required(login_url='/accounts/login')
-def view_product(request):
+def view_product(request, id):
     product = get_object_or_404(Product, pk=id)
-    return render(request, 'products.html', {'product' : product})
+    return render(request, 'view_product.html', {'product': product})
 
 @login_required(login_url='/accounts/login')
 def create_product(request):
@@ -47,18 +47,20 @@ def create_product(request):
 
 @login_required(login_url='/accounts/login')
 def edit_product(request, id):
-    product = Product.objects.get(pk = id)
+    product = get_object_or_404(Product, pk=id)
     form = ProductForm(request.POST or None, instance=product)
 
     if form.is_valid() and request.method == "POST":
         form.save()
-        return HttpResponseRedirect(reverse('products:main'))
+        messages.success(request, "Your product has been successfully updated!")
+        return redirect('products:main')
 
-    context = {'form': form}
+    context = {'form': form, 'product': product}
     return render(request, "edit_product.html", context)
 
 @login_required(login_url='/accounts/login')
 def delete_product(request, id):
-    product = Product.objects.get(pk = id)
+    product = get_object_or_404(Product, pk=id)
     product.delete()
-    return HttpResponseRedirect(reverse('products:main'))
+    messages.success(request, "Your product has been successfully deleted!")
+    return redirect('products:main')
