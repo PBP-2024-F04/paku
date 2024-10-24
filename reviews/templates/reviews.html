@@ -1,5 +1,57 @@
 {% extends 'base_navbar.html' %}
 
 {% block content %}
-<h1>Reviews Page</h1>
+<div class="container">
+    <h1>Product Reviews</h1>
+
+    <!-- Tabs Navigation -->
+    <ul class="nav nav-tabs" id="reviewsTabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="all-reviews-tab" data-toggle="tab" href="#all-reviews" role="tab">All Reviews</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="my-reviews-tab" data-toggle="tab" href="#my-reviews" role="tab">My Reviews</a>
+        </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content">
+        <!-- All Reviews Tab -->
+        <div class="tab-pane fade show active" id="all-reviews" role="tabpanel" aria-labelledby="all-reviews-tab">
+            <h3>All Reviews</h3>
+            <ul>
+                {% for review in all_reviews %}
+                    <li>{{ review.content }} - by {{ review.user.username }}</li>
+                {% empty %}
+                    <li>No reviews found.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- My Reviews Tab -->
+        <div class="tab-pane fade" id="my-reviews" role="tabpanel" aria-labelledby="my-reviews-tab">
+            <h3>My Reviews</h3>
+            {% if my_reviews %}
+                <ul>
+                    {% for review in my_reviews %}
+                        <li>
+                            {{ review.content }} - by {{ review.user.username }}
+                            <a href="{% url 'reviews:edit_review' review.id %}">Edit</a> |
+                            <a href="{% url 'reviews:delete_review' review.id %}">Delete</a>
+                        </li>
+                    {% empty %}
+                        <li>You have not posted any reviews yet.</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>You must be logged in to view your reviews.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Optional: Bootstrap JS for Tabs functionality -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
 {% endblock content %}
