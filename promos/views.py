@@ -5,31 +5,43 @@ from products.models import Product
 from .forms import PromoForm
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
-@login_required
+@login_required(login_url='/accounts/login')
 def main(request):
-    promos = Promo.objects.filter(user=request.user)  # Ambil semua promo yang dibuat oleh user
-    return render(request, 'promos.html', {'promos': promos})
+    promos = Promo.objects.all()
+    return render(request, 'promos.html', {'promos': promos, 'user' : request.user})
+
+def my_promos(request):
+    promos = Promo.objects.filter(user=request.user) 
+    return render(request, 'promos.html', {'promos': promos, 'user' : request.user})
 
 def get_user_products(request):
     user = request.user
     if request.is_ajax() and user.is_authenticated:
-        # Ambil product milik user
         products = Product.objects.filter(user=user)
         product_data = [{'id': product.id, 'name': product.name} for product in products]
         return JsonResponse({'products': product_data})
     return JsonResponse({'error': 'Unauthorized access'}, status=403)
 
-@login_required
 def add_promo(request):
     if request.method == 'POST':
-        form = PromoForm(request.POST)
-        if form.is_valid():
-            promo = form.save(commit=False)
-            promo.user = request.user  # Menyimpan user yang sedang login sebagai pemilik promo
-            promo.save()
-            return redirect('user_promos')  # Redirect ke halaman semua promo user setelah berhasil menambah promo
-    else:
-        form = PromoForm()
+        promo_form = PromoForm(request.POST)
 
-    return render(request, 'promos/add_promo.html', {'form': form})
+        if promo_form.is_valid():
+            promo = promo_form.save(commit=False)
+            promo.user = request.user
+            promo.save()
+
+            messages.success(request, "Your post has been successfully created!")
+            return redirect('promo:my_promos')
+
+    post_form = PromoForm()
+
+    return render(request, 'add_promo.html', {'form': post_form,})
+
+def edit_promo(request):
+    pass
+
+def delete_promo(request):
+    pass
