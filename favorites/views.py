@@ -19,6 +19,11 @@ def main(request):
 @login_required(login_url='/accounts/login')
 def create_favorite(request, product_id):
     product = Product.objects.get(pk = product_id) 
+    existing_favorite = Favorite.objects.filter(foodie=request.user, product=product).first()
+
+    if existing_favorite:
+        return redirect('favorites:edit_favorite', favorite_id=existing_favorite.favorite_id)
+    
     form = FavoriteForm(request.POST or None)
         
     if form.is_valid() and request.method == 'POST':
@@ -44,7 +49,7 @@ def edit_favorite(request, favorite_id):
     return render(request, 'edit_favorite.html', context)
 
 def delete_favorite(request, favorite_id):
-    favorite = Product.objects.get(pk = favorite_id) 
+    favorite = Favorite.objects.get(pk = favorite_id) 
     favorite.delete()
     return redirect('favorites:main')
 
