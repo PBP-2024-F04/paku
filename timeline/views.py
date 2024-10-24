@@ -40,7 +40,18 @@ def view_post(request, post_id):
     return render(request, 'view_post.html', {'post': post, 'comments': comments})
 
 def edit_post(request, post_id):
-    return render(request, 'edit_post.html', {'post_id':post_id})
+    instance = get_object_or_404(Post, pk=post_id)
+
+    if request.method == 'POST':
+        post_form = PostForm(request.POST, instance=instance)
+
+        if post_form.is_valid():
+            post_form.save()
+
+        return redirect('timeline:main')
+
+    form = PostForm(instance=instance)
+    return render(request, 'edit_post.html', {'form': form})
 
 def delete_post(request, post_id):
     return render(request, 'delete_post.html', {'post_id':post_id})
