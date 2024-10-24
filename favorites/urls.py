@@ -5,5 +5,7 @@ app_name = 'favorites'
 
 urlpatterns = [
     path('', main, name='main'),
-    path('favorites/create/<uuid:product_id>/', create_favorite, name='create_favorite'),
+    path('create/<uuid:product_id>/', create_favorite, name='create_favorite'),
+    path('<uuid:favorite_id>/edit', edit_favorite, name='edit_favorite'),
+    path('<uuid:favorite_id>/delete', delete_favorite, name='delete_favorite'),
 ]

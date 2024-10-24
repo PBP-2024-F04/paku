@@ -40,7 +40,7 @@ def edit_favorite(request, product_id):
 
     return render(request, 'edit_favorite.html', context)
 
-def delete_mood(request, product_id):
+def delete_favorite(request, product_id):
     product = Product.objects.get(pk = product_id) 
     product.delete()
     return HttpResponseRedirect(reverse('favorites:main'))
