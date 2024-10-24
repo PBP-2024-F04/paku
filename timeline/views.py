@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Comment, Post
 from .forms import CommentForm, PostForm
 
+@login_required(login_url='/accounts/login')
 def main(request):
     posts = Post.objects.all()
     return render(request, 'timeline.html', {
@@ -34,11 +35,13 @@ def create_post(request):
         'form': post_form,
     })
 
+@login_required(login_url='/accounts/login')
 def view_post(request, post_id):
     post = Post.objects.get(pk=post_id)
     comments = Comment.objects.filter(post=post)
     return render(request, 'view_post.html', {'post': post, 'comments': comments})
 
+@login_required(login_url='/accounts/login')
 def edit_post(request, post_id):
     instance = get_object_or_404(Post, pk=post_id)
 
@@ -53,6 +56,7 @@ def edit_post(request, post_id):
     form = PostForm(instance=instance)
     return render(request, 'edit_post.html', {'form': form})
 
+@login_required(login_url='/accounts/login')
 def delete_post(request, post_id):
     instance = get_object_or_404(Post, pk=post_id)
 
@@ -62,6 +66,7 @@ def delete_post(request, post_id):
 
     return render(request, 'delete_post.html', {'post': instance})
 
+@login_required(login_url='/accounts/login')
 def get_comments(_, post_id):
     post = get_object_or_404(Post, pk=post_id)
 
@@ -80,6 +85,7 @@ def get_comments(_, post_id):
 
 @csrf_exempt
 @require_POST
+@login_required(login_url='/accounts/login')
 def create_comment(request, post_id):
     text = request.POST.get("text")
     post = get_object_or_404(Post, pk=post_id)
@@ -90,6 +96,7 @@ def create_comment(request, post_id):
 
     return HttpResponse(b"CREATED", status=201)
 
+@login_required(login_url='/accounts/login')
 def edit_comment(request, comment_id):
     instance = get_object_or_404(Comment, pk=comment_id)
 
@@ -104,6 +111,7 @@ def edit_comment(request, comment_id):
     form = CommentForm(instance=instance)
     return render(request, 'edit_comment.html', {'form': form})
 
+@login_required(login_url='/accounts/login')
 def delete_comment(request, comment_id):
     comment = get_object_or_404(Comment, pk=comment_id)
 
