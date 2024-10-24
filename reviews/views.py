@@ -6,7 +6,7 @@ from products.models import Product
 from .forms import ReviewForm
 
 # Show all reviews + My reviews
-def show_review(request):
+def reviews_page(request):
     all_reviews = Review.objects.all()
     
     if request.user.is_authenticated:
