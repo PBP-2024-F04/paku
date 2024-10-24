@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 
 from .models import Comment, Post
-from .forms import PostForm
+from .forms import CommentForm, PostForm
 
 def main(request):
     posts = Post.objects.all()
@@ -85,7 +85,18 @@ def create_comment(request, post_id):
     return HttpResponse(b"CREATED", status=201)
 
 def edit_comment(request, comment_id):
-    return render(request, 'edit_comment.html')
+    instance = get_object_or_404(Comment, pk=comment_id)
+
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST, instance=instance)
+
+        if comment_form.is_valid():
+            comment_form.save()
+
+        return redirect('timeline:view_post', post_id=instance.post.id)
+
+    form = CommentForm(instance=instance)
+    return render(request, 'edit_comment.html', {'form': form})
 
 def delete_comment(request, comment_id):
     return render(request, 'delete_comment.html')
