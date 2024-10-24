@@ -1,6 +1,8 @@
 {% extends 'base_navbar.html' %}
 
 {% block content %}
+
+{% if user.role == 'Foodie' %}
 <h1>Add "{{ product.product_name }}" to Your Favorites</h1>
 
 <form method="POST">
@@ -15,4 +17,6 @@
         </tr>
     </table>
 </form>
+{% endif %}
+
 {% endblock content %}

@@ -1,6 +1,7 @@
 {% extends 'base_navbar.html' %}
 
 {% block content %}
+{% if user.role == 'Foodie' %}
 <h1>{{ profile_user.foodieprofile.full_name }}'s Favorites</h1>
 
 {% if not want_to_try and not loving_it and not all_time_favorites %}
@@ -78,6 +79,7 @@
 <p>{{ profile_user.foodieprofile.full_name }} belum memiliki All Time Favorite.</p>
 {% endif %}
 <br>
+{% endif %}
 {% endif %}
 
 {% endblock content %}

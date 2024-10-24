@@ -1,6 +1,7 @@
 {% extends 'base_navbar.html' %}
 
 {% block content %}
+{% if user.role == 'Foodie' %}
 <h1>{{ user.foodieprofile.full_name }}'s Favorites</h1>
 
 <h2>Want to Try</h2>
@@ -133,6 +134,6 @@
   </button>
 </a>
 {% endif %}
-
+{% endif %}
 
 {% endblock content %}
