@@ -1,24 +1,5 @@
-<h1>Register</h1>
+<h1>Register a New User</h1>
 
-<form method="POST">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <div id="foodie_form">{{ foodie_form.as_p }}</div>
-  <div id="merchant_form" hidden>{{ merchant_form.as_p }}</div>
-  <div>
-    <input type="submit" value="Register" />
-  </div>
-</form>
-
-<script>
-function selector(event) {
-  const value = document.getElementById("id_role").value;
-  document.getElementById("foodie_form").hidden = value === 'Merchant';
-  document.getElementById("id_full_name").required = value === 'Foodie';
-  document.getElementById("merchant_form").hidden = value === 'Foodie';
-  document.getElementById("id_restaurant_name").required = value === 'Merchant';
-};
-
-document.getElementById("id_role").onchange = selector;
-window.onload = selector;
-</script>
+<a href="{% url 'accounts:register_foodie' %}">Register a Foodie Account</a>
+&mdash;
+<a href="{% url 'accounts:register_merchant' %}">Register a Merchant Account</a>
