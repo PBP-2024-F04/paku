@@ -4,8 +4,10 @@ from .views import *
 app_name = 'products'
 
 urlpatterns = [
-    path('products/', main, name='main'),
-    path('products/create-product', create_product, name='create_product'),
-    path('products/edit-product/<uuid:id>', edit_product, name='edit_product'),
-    path('products/delete/<uuid:id>', delete_product, name='delete_product'),
+    path('', main, name='main'), # all products
+    path('me/', view_products, name='view_products'),
+    path('me/<uuid:id>', view_product, name='view_product'), # 1 product
+    path('me/create-product', create_product, name='create_product'),
+    path('me/<uuid:id>/edit-product/', edit_product, name='edit_product'),
+    path('me/<uuid:id>/delete/', delete_product, name='delete_product'),
 ]
