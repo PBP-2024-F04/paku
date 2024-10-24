@@ -2,10 +2,11 @@ from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from products.forms import ProductForm
 from products.models import Product
 
+# Show all products from database
 def main(request):
     products = Product.objects.all()
 
@@ -15,6 +16,7 @@ def main(request):
 
     return render(request, 'products.html', context)
 
+# Show all merchant's products who is currently loggd in
 @login_required(login_url='/accounts/login')
 def view_products(request):
     products = Product.objects.filter(user=request.user)
@@ -26,6 +28,7 @@ def view_products(request):
 
     return render(request, 'products.html', context)
 
+# Show a specific product
 @login_required(login_url='/accounts/login')
 def view_product(request, id):
     product = get_object_or_404(Product, pk=id)
