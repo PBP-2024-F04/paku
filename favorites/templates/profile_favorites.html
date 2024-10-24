@@ -15,7 +15,6 @@
       <th>Nama Produk</th>
       <th>Asal Restoran</th>
       <th>Harga</th>
-      <th>Kategori</th>
     </tr>
   
     {% for produk in want_to_try %}
@@ -23,7 +22,6 @@
       <td>{{produk.product.product_name}}</td>
       <td>{{produk.product.restaurant}}</td>
       <td>{{produk.product.price}}</td>
-      <td>{{produk.product.category}}</td>
     </tr>
     {% endfor %}
   </table>
@@ -39,15 +37,13 @@
       <th>Nama Produk</th>
       <th>Asal Restoran</th>
       <th>Harga</th>
-      <th>Kategori</th>
     </tr>
   
-    {% for produk in want_to_try %}
+    {% for produk in loving_it %}
     <tr>
       <td>{{produk.product.product_name}}</td>
       <td>{{produk.product.restaurant}}</td>
       <td>{{produk.product.price}}</td>
-      <td>{{produk.product.category}}</td>
     </tr>
     {% endfor %}
   </table>
@@ -63,15 +59,13 @@
       <th>Nama Produk</th>
       <th>Asal Restoran</th>
       <th>Harga</th>
-      <th>Kategori</th>
     </tr>
   
-    {% for produk in want_to_try %}
+    {% for produk in all_time_favorites %}
     <tr>
       <td>{{produk.product.product_name}}</td>
       <td>{{produk.product.restaurant}}</td>
       <td>{{produk.product.price}}</td>
-      <td>{{produk.product.category}}</td>
     </tr>
     {% endfor %}
   </table>

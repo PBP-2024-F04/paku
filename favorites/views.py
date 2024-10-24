@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from products.models import Product
 from .models import Favorite
@@ -18,7 +18,7 @@ def main(request):
 
 @login_required(login_url='/accounts/login')
 def create_favorite(request, product_id):
-    product = Product.objects.get(pk = product_id) 
+    product = get_object_or_404(Product, pk=product_id)
     existing_favorite = Favorite.objects.filter(foodie=request.user, product=product).first()
 
     if existing_favorite:
@@ -36,8 +36,9 @@ def create_favorite(request, product_id):
     context = {'form': form, 'product': product}
     return render(request, 'create_favorite.html', context)
 
+@login_required(login_url='/accounts/login')
 def edit_favorite(request, favorite_id):
-    favorite = Favorite.objects.get(pk=favorite_id)
+    favorite = get_object_or_404(Favorite, pk=favorite_id)
     form = FavoriteForm(request.POST or None, instance=favorite)
 
     if form.is_valid() and request.method == "POST":
@@ -48,13 +49,19 @@ def edit_favorite(request, favorite_id):
 
     return render(request, 'edit_favorite.html', context)
 
+@login_required(login_url='/accounts/login')
 def delete_favorite(request, favorite_id):
-    favorite = Favorite.objects.get(pk = favorite_id) 
+    favorite = get_object_or_404(Favorite, pk=favorite_id) 
+
+    if favorite.foodie != request.user:
+        return redirect('favorites:main')
+    
     favorite.delete()
     return redirect('favorites:main')
 
+@login_required(login_url='/accounts/login')
 def user_favorites(request, user_id):
-    profile_user = User.objects.get(pk = user_id)
+    profile_user = get_object_or_404(User, pk=user_id)
     favorites = Favorite.objects.filter(foodie=profile_user)
 
     # Filter berdasarkan kategori
