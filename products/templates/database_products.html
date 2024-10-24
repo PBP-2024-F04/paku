@@ -23,7 +23,7 @@
     <td>{{ product.description }}</td>
     <td>{{ product.category }}</td>
     <td>
-        <a href="{% url 'products:delete_product' product.pk %}">
+        <a href="{% url 'reviews:create_review' product.pk %}">
             <button>
                 Review
             </button>
