@@ -26,7 +26,9 @@
       <a href="{% url 'products:view_product' product.pk %}">
           View
       </a>
-  </td>
+    </td>
+    
+    {% if user.is_authenticated and user.role == 'Merchant' %}
     <td>
         <a href="{% url 'products:edit_product' product.pk %}">
             <button>
@@ -41,6 +43,7 @@
             </button>
         </a>
     </td>
+    {% endif %}
   </tr>
   {% endfor %}
 </table>
@@ -48,8 +51,10 @@
 
 <br />
 
+{% if user.is_authenticated and user.role == 'Merchant' %}
 <a href="{% url 'products:create_product' %}">
   <button>Add New Product</button>
 </a>
+{% endif %}
 
 {% endblock content %}
