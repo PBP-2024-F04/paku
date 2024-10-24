@@ -1,5 +1,90 @@
 {% extends 'base_navbar.html' %}
 
 {% block content %}
-<h1>Favorites Page</h1>
+<h1>{{ user.foodieprofile.full_name }}'s Favorites</h1>
+
+<h2>Want to Try</h2>
+{% if want_to_try %}
+<table>
+  <tr>
+    <th>Nama Produk</th>
+    <th>Asal Restoran</th>
+    <th>Harga</th>
+    <th>Kategori</th>
+  </tr>
+
+  {% for produk in want_to_try %}
+  <tr>
+    <td>{{produk.name}}</td>
+    <td>{{produk.restaurant}}</td>
+    <td>{{produk.price}}</td>
+    <td>{{produk.category}}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% else %}
+<p>Kamu belum punya kuliner favorit</p>
+<form action="{% url 'products:main' %}" method="get">
+  <button type="submit">Yuk Jelajahi Kuliner Palu!</button>
+</form>
+{% endif %}
+<br>
+
+<h2>Loving It</h2>
+{% if loving_it %}
+<table>
+  <tr>
+    <th>Nama Produk</th>
+    <th>Asal Restoran</th>
+    <th>Harga</th>
+    <th>Kategori</th>
+  </tr>
+
+  {% for produk in loving_it %}
+  <tr>
+    <td>{{produk.name}}</td>
+    <td>{{produk.restaurant}}</td>
+    <td>{{produk.price}}</td>
+    <td>{{produk.category}}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% else %}
+<p>Kamu belum punya kuliner favorit</p>
+<form action="{% url 'products:main' %}" method="get">
+  <button type="submit">Yuk Jelajahi Kuliner Palu!</button>
+</form>
+{% endif %}
+<br>
+
+<h2>All Time Favorite</h2>
+{% if all_time_favorites %}
+<table>
+  <tr>
+    <th>Nama Produk</th>
+    <th>Asal Restoran</th>
+    <th>Harga</th>
+    <th>Kategori</th>
+  </tr>
+
+  {% for produk in all_time_favorites %}
+  <tr>
+    <td>{{produk.name}}</td>
+    <td>{{produk.restaurant}}</td>
+    <td>{{produk.price}}</td>
+    <td>{{produk.category}}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% else %}
+<p>Kamu belum punya kuliner favorit</p>
+<form action="{% url 'products:main' %}" method="get">
+  <button type="submit">Yuk Jelajahi Kuliner Palu!</button>
+</form>
+{% endif %}
+
+
 {% endblock content %}
