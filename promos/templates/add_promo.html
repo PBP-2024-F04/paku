@@ -1,0 +1,38 @@
+{% extends 'base_navbar.html' %}
+
+{% block content %}
+<h1>Tambah Promo Baru</h1>
+
+<form id="addPromoForm">
+    {% csrf_token %}
+    {{ form.as_p }}  
+    <button type="submit" class="btn btn-success">Tambah Promo</button>
+</form>
+
+<script>
+    document.getElementById('addPromoForm').addEventListener('submit', function(event) {
+        event.preventDefault();  // Mencegah pengiriman form default
+
+        const formData = new FormData(this);
+        fetch('{% url "promos:add_promo" %}', {  // Gunakan URL name untuk memastikan konsistensi
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Promo berhasil ditambahkan!');
+                window.location.href = '{% url "promos:my_promos" %}';  // Arahkan ke My Promos
+            } else {
+                alert('Gagal menambahkan promo: ' + JSON.stringify(data.errors));
+            }
+        })
+        .catch(error => console.error('Error:', error)); // Menangkap error
+    });
+</script>
+
+
+{% endblock %}

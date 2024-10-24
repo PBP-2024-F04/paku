@@ -1,42 +1,23 @@
 {% extends 'base_navbar.html' %}
 
 {% block content %}
-<h1>Promos Page</h1>
-<h2>My Promos</h2>
+<h1>Daftar Promo</h1>
 
-<table border="1">
-    <thead>
-        <tr>
-            <th>Promo Title</th>
-            <th>Description</th>
-            <th>Price Before</th>
-            <th>Price After</th>
-            <th>Product</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for promo in promos %}
-        <tr>
-            <td>{{ promo.promo_title }}</td>
-            <td>{{ promo.promo_description }}</td>
-            <td>{{ promo.price_before }}</td>
-            <td>{{ promo.price_after }}</td>
-            <td>{{ promo.product.name }}</td> <!-- Asumsikan product memiliki field 'name' -->
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="5">You have not created any promos yet.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<hr>
 
-<h2>Add New Promo</h2>
+<!-- Loop through all promos -->
+{% for promo in promos %}
+<div>
+    <p><strong>{{ promo.promo_title }}</strong></p>
+    <p>Resto: {{ promo.restaurant_name }}</p>
+    <p>{{ promo.promo_description }}</p>
+    <p>Berlaku hingga: {{ promo.batas_penggunaan }}</p>
 
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Add Promo</button>
-</form>
+    <hr>
+</div>
+{% empty %}
+<!-- Display this section if no promos are available -->
+<p>Tidak ada promo yang berlaku saat ini!</p>
+{% endfor %}
 
-{% endblock content %}
+{% endblock %}

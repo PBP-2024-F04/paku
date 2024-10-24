@@ -8,11 +8,9 @@ from products.models import Product
 class Promo(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)  
-    product = models.ForeignKey(Product, on_delete=models.CASCADE) 
     promo_title = models.CharField(max_length=50)
     promo_description = models.CharField(max_length=200)
-    price_before = models.IntegerField()
-    price_after = models.IntegerField()
+    batas_penggunaan = models.CharField(max_length=50, default="Tidak ada batas")
     
     @property
     def restaurant_name(self):

@@ -1,0 +1,56 @@
+{% extends 'base_navbar.html' %}
+
+{% block content %}
+<h1>My Promo</h1>
+
+<a href="{% url 'promos:add_promo' %}" class="btn btn-primary">Tambah Promo Baru</a>
+
+<hr>
+
+<!-- Loop through all promos -->
+{% for promo in promos %}
+<div class="promo-card">
+    <h3><strong>{{ promo.promo_title }}</strong></h3>
+    <p><strong>Resto:</strong> {{ promo.restaurant_name }}</p>
+    <p><strong>Deskripsi:</strong> {{ promo.promo_description }}</p>
+    <p><strong>Berlaku hingga:</strong> {{ promo.batas_penggunaan }}</p>
+
+    <!-- Buttons for editing and deleting promo -->
+    <button class="btn btn-warning" onclick="editPromo({{ promo.id }})">Edit</button>
+    <button class="btn btn-danger" onclick="deletePromo({{ promo.id }})">Hapus</button>
+
+    <hr>
+</div>
+{% empty %}
+<!-- Display this section if no promos are available -->
+<p>Belum ada promo yang kamu tambahkan!</p>
+{% endfor %}
+
+<script>
+    function editPromo(promoId) {
+        // Implement the edit functionality (e.g., redirect to edit page)
+        window.location.href = `/promos/edit_promo/${promoId}/`; // Pastikan URL untuk edit promo sesuai
+    }
+
+    function deletePromo(promoId) {
+        if (confirm('Apakah Anda yakin ingin menghapus promo ini?')) {
+            fetch(`/promos/delete_promo/${promoId}/`, {  // Pastikan URL diawali dengan promos/
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}', // Include CSRF token for security
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Promo berhasil dihapus!');
+                    location.reload(); // Reload the page to see the updated list
+                } else {
+                    alert('Gagal menghapus promo: ' + data.error);
+                }
+            });
+        }
+    }
+</script>
+
+{% endblock %}
