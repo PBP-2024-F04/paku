@@ -1,0 +1,65 @@
+{% extends 'base_navbar.html' %}
+
+{% block content %}
+<div>
+  <p><strong>{{ post.user.foodieprofile.full_name }}</strong> wrote:</p>
+  <p>{{ post.text }}</p>
+</div>
+
+<hr>
+
+<div id="comment-container">
+</div>
+
+<form id="comment-form">
+  <input type="text" name="text" autocomplete="off" />
+  <button type="submit">Create Comment</button>
+</form>
+
+<script>
+function getComments() {
+  return fetch("{% url 'timeline:get_comments' post.id %}").then(res => res.json());
+}
+
+async function refreshComments() {
+  const comments = await getComments();
+
+  $("#comment-container").html(
+    comments
+      .map(comment => (
+        $('<div></div>')
+          .append(
+            $('<p></p>')
+              .html('<strong></strong> @<span></span> replied:')
+              .find('strong').text(comment.user_fullname).end()
+              .find('span').text(comment.username).end()
+          )
+          .append($('<p></p>').text(comment.text))
+          .append(
+            comment.user_id === "{{ post.user_id }}"
+              ? `<a href="/timeline/comment/${comment.id}/edit">[edit]</a> &mdash;
+                 <a href="/timeline/comment/${comment.id}/delete">[delete]</a>`
+              : ''
+          )
+          .html()
+      ))
+      .join('')
+  );
+}
+
+$('#comment-form').on('submit', (e) => {
+  e.preventDefault();
+
+  fetch("{% url 'timeline:create_comment' post.id %}", {
+    method: 'POST',
+    body: new FormData(e.target),
+  }).then(() => {
+    refreshComments();
+    e.target.reset();
+  });
+})
+
+refreshComments();
+</script>
+
+{% endblock content %}
