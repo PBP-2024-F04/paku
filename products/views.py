@@ -8,15 +8,14 @@ from products.models import Product
 
 # Show all products from database
 def main(request):
-    products = Product.objects.all()
+    dataset_products = Product.objects.filter(user__isnull=True)
+    user_products = Product.objects.filter(user__isnull=False)
 
-    context = {
-        'products' : products,
-    }
+    products = dataset_products.union(user_products)
+    
+    return render(request, 'database_products.html', {'products': products})
 
-    return render(request, 'products.html', context)
-
-# Show all merchant's products who is currently loggd in
+# Show all logged in merchant's products
 @login_required(login_url='/accounts/login')
 def view_products(request):
     products = Product.objects.filter(user=request.user)
@@ -31,7 +30,7 @@ def view_products(request):
 # Show a specific product
 @login_required(login_url='/accounts/login')
 def view_product(request, id):
-    product = get_object_or_404(Product, pk=id)
+    product = get_object_or_404(Product, pk=id, user=request.user)
     return render(request, 'view_product.html', {'product': product})
 
 @login_required(login_url='/accounts/login')
@@ -50,9 +49,9 @@ def create_product(request):
 
 @login_required(login_url='/accounts/login')
 def edit_product(request, id):
-    product = get_object_or_404(Product, pk=id)
+    product = get_object_or_404(Product, pk=id, user=request.user)
     form = ProductForm(request.POST or None, instance=product)
-
+    
     if form.is_valid() and request.method == "POST":
         form.save()
         messages.success(request, "Your product has been successfully updated!")
@@ -63,7 +62,7 @@ def edit_product(request, id):
 
 @login_required(login_url='/accounts/login')
 def delete_product(request, id):
-    product = get_object_or_404(Product, pk=id)
+    product = get_object_or_404(Product, pk=id, user=request.user)
     product.delete()
     messages.success(request, "Your product has been successfully deleted!")
     return redirect('products:main')
