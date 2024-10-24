@@ -1,1 +1,20 @@
-<h1>Delete Comment</h1>
+{% extends 'base_navbar.html' %}
+
+{% block content %}
+<div>
+  <p><strong>{{ post.user.foodieprofile.full_name }}</strong> wrote:</p>
+  <p>{{ post.text }}</p>
+</div>
+
+<hr>
+
+<form method="POST">
+	{% csrf_token %}
+	<p>Are you sure you want to delete this comment?</p>
+	<div>
+		<p>you wrote:</p>
+		<p>{{ comment.text }}</p>
+	</div>
+	<button type="submit">Yes</button>
+</form>
+{% endblock content %}

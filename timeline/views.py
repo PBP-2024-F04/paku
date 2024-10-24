@@ -54,7 +54,13 @@ def edit_post(request, post_id):
     return render(request, 'edit_post.html', {'form': form})
 
 def delete_post(request, post_id):
-    return render(request, 'delete_post.html', {'post_id':post_id})
+    instance = get_object_or_404(Post, pk=post_id)
+
+    if request.method == 'POST':
+        instance.delete()
+        return redirect('timeline:main')
+
+    return render(request, 'delete_post.html', {'post': instance})
 
 def get_comments(_, post_id):
     post = get_object_or_404(Post, pk=post_id)
@@ -99,4 +105,10 @@ def edit_comment(request, comment_id):
     return render(request, 'edit_comment.html', {'form': form})
 
 def delete_comment(request, comment_id):
-    return render(request, 'delete_comment.html')
+    comment = get_object_or_404(Comment, pk=comment_id)
+
+    if request.method == 'POST':
+        comment.delete()
+        return redirect('timeline:view_post', post_id=comment.post.id)
+
+    return render(request, 'delete_comment.html', {'comment': comment, 'post': comment.post})
