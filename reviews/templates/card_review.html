@@ -1,0 +1,13 @@
+<div class="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-md space-y-4">
+    <div class="flex items-center space-x-4">
+        <div class="text-lg font-medium text-black">{{ review.user.username }}</div>
+    </div>
+    <p class="text-gray-500">{{ review.content }}</p>
+    <div class="flex justify-between items-center">
+        <span class="text-sm text-gray-400">{{ review.created_at|date:"F j, Y" }}</span>
+        <div>
+            <a href="{% url 'reviews:edit_review' review.id %}" class="text-blue-500 hover:underline">Edit</a>
+            <a href="{% url 'reviews:delete_review' review.id %}" class="text-red-500 hover:underline">Delete</a>
+        </div>
+    </div>
+</div>
