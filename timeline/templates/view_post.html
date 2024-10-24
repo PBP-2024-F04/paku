@@ -35,6 +35,12 @@ async function refreshComments() {
               .find('span').text(comment.username).end()
           )
           .append($('<p></p>').text(comment.text))
+          .append(
+            comment.user_id === "{{ post.user_id }}"
+              ? `<a href="/timeline/comment/${comment.id}/edit">[edit]</a> &mdash;
+                 <a href="/timeline/comment/${comment.id}/delete">[delete]</a>`
+              : ''
+          )
           .html()
       ))
       .join('')

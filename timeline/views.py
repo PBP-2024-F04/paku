@@ -61,9 +61,11 @@ def get_comments(_, post_id):
 
     comments = [
         {
+            'id': comment.id,
             'text': comment.text,
             'username': comment.user.username,
             'user_fullname': comment.user.foodieprofile.full_name,
+            'user_id': comment.user.id,
         }
         for comment in Comment.objects.filter(post=post)
     ]
@@ -82,3 +84,8 @@ def create_comment(request, post_id):
 
     return HttpResponse(b"CREATED", status=201)
 
+def edit_comment(request, comment_id):
+    return render(request, 'edit_comment.html')
+
+def delete_comment(request, comment_id):
+    return render(request, 'delete_comment.html')
