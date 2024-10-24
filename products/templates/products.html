@@ -2,6 +2,49 @@
 
 {% block content %}
 <h1>Products Page</h1>
-{% endblock content %}
 
-<p>{{ nama }}</p>
+{% if not products %}
+<p>Belum ada data produk pada PaKu.</p>
+{% else %}
+<table>
+  <tr>
+    <th>Product Name</th>
+    <th>Restaurant</th>
+    <th>Price</th>
+    <th>Description</th>
+    <th>Category</th>
+  </tr>
+
+  {% for product in products %}
+  <tr>
+    <td>{{ product.product_name }}</td>
+    <td>{{ product.restaurant }}</td>
+    <td>{{ product.price }}</td>
+    <td>{{ product.description }}</td>
+    <td>{{ product.category }}</td>
+    <td>
+        <a href="{% url 'products:edit_product' product.pk %}">
+            <button>
+                Edit
+            </button>
+        </a>
+    </td>
+    <td>
+        <a href="{% url 'products:delete_product' product.pk %}">
+            <button>
+                Delete
+            </button>
+        </a>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+<br />
+
+<a href="{% url 'products:create_product' %}">
+  <button>Add New Product</button>
+</a>
+
+{% endblock content %}
