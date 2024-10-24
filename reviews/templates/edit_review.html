@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container mx-auto py-8">
-    <h1 class="text-3xl font-bold mb-6 text-gray-800">Create a Review</h1>
+    <h1 class="text-3xl font-bold mb-6 text-gray-800">Edit Review</h1>
 
     <form method="post" class="bg-white shadow-md rounded-lg px-8 pt-6 pb-8 mb-4">
         {% csrf_token %}
@@ -12,9 +12,9 @@
 
         <div class="flex items-center justify-between">
             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">
-                Submit
+                Save Changes
             </button>
-            <a href="{% url 'reviews:product_reviews' product.id %}" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:underline">
+            <a href="{% url 'reviews:product_reviews' review.product.id %}" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:underline">
                 Cancel
             </a>
         </div>
