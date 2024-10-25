@@ -1,18 +1,13 @@
 {% extends 'base_navbar.html' %}
 
 {% block content %}
-<h1>Products Page</h1>
-
-<!-- Daftar Kategori -->
-<h2>Browse by Category</h2>
-<ul>
-  <li><a href="{% url 'products:products_by_category' 'Seafood' %}">Seafood</a></li>
-  <li><a href="{% url 'products:products_by_category' 'Indonesian' %}">Indonesian</a></li>
-  <li><a href="{% url 'products:products_by_category' 'Chinese' %}">Chinese</a></li>
-  <li><a href="{% url 'products:products_by_category' 'Western' %}">Western</a></li>
-  <li><a href="{% url 'products:products_by_category' 'Snacks' %}">Snacks</a></li>
-  <li><a href="{% url 'products:products_by_category' 'Beverages' %}">Beverages</a></li>
-</ul>
+<h1>
+  {% if category_name %}
+    Products in {{ category_name }}
+  {% else %}
+    Products Page
+  {% endif %}
+</h1>
 
 {% if not products %}
 <p>{{ empty_message }}</p>

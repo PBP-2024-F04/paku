@@ -11,5 +11,6 @@ urlpatterns = [
     path('me/create-product/', create_product, name='create_product'),
     path('me/<uuid:id>/edit-product/', edit_product, name='edit_product'),
     path('me/<uuid:id>/delete-product/', delete_product, name='delete_product'),
-    path('category/<str:category_name>/', views.products_by_category, name='products_by_category'),
+    path('category/', view_categories, name='view_categories'),
+    path('category/<str:category_name>/', products_by_category, name='products_by_category'),
 ]
