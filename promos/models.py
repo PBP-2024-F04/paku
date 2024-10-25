@@ -10,7 +10,7 @@ class Promo(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)  
     promo_title = models.CharField(max_length=50)
     promo_description = models.CharField(max_length=200)
-    batas_penggunaan = models.CharField(max_length=50, default="Tidak ada batas")
+    batas_penggunaan = models.DateField(null=True, blank=True)  
     
     @property
     def restaurant_name(self):

@@ -1,23 +1,23 @@
 {% extends 'base_navbar.html' %}
 
 {% block content %}
-<h1>Daftar Promo</h1>
+<h1 class="text-3xl px-8 text-center"><strong>Available Promos</strong></h1>
+<h4 class="text-lg mt-2 text-sage-dark text-center">Jangan lewatkan promo-promo berikut! Waktu terbatas!</h4>
 
-<hr>
+<hr class="my-6">
 
-<!-- Loop through all promos -->
-{% for promo in promos %}
-<div>
-    <p><strong>{{ promo.promo_title }}</strong></p>
-    <p>Resto: {{ promo.restaurant_name }}</p>
-    <p>{{ promo.promo_description }}</p>
-    <p>Berlaku hingga: {{ promo.batas_penggunaan }}</p>
-
-    <hr>
+<div class="bg-sage-dark p-6 m-4 w-full mx-auto flex flex-wrap justify-center gap-4 min-h-[calc(2*10rem)]">  <!-- Sesuaikan min-height sesuai kebutuhan -->
+    {% for promo in promos %}
+        <div class="bg-white shadow-lg p-6 m-4 w-72 mx-auto">
+            <h3 class="text-2xl text-center">📌</h3>
+            <h3 class="text-2xl mt-4 font-semibold text-grey text-center"><strong>{{ promo.promo_title }}</strong></h3>
+            <p class="text-peach text-center">di <strong> {{ promo.restaurant_name }} </strong></p>
+            <p class="text-grey mt-2">{{ promo.promo_description }}</p>
+            <p class="text-sm text-grey mt-2">Berlaku hingga:{{ promo.batas_penggunaan|date:"Y-m-d" }}{% if not promo.batas_penggunaan %} (Tidak punya batas){% endif %}</p>
+        </div>
+    {% empty %}
+        <p>Tidak ada promo yang berlaku saat ini!</p>
+    {% endfor %}
 </div>
-{% empty %}
-<!-- Display this section if no promos are available -->
-<p>Tidak ada promo yang berlaku saat ini!</p>
-{% endfor %}
 
 {% endblock %}

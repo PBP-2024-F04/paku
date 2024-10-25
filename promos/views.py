@@ -39,12 +39,15 @@ def add_promo(request):
 def update_promo(request, promo_id):
     promo = get_object_or_404(Promo, id=promo_id, user=request.user)  # Pastikan hanya merchant yang bisa mengupdate promo mereka
     if request.method == 'POST':
-        promo.promo_title = request.POST.get('promo_title')
-        promo.promo_description = request.POST.get('promo_description')
-        promo.batas_penggunaan = request.POST.get('batas_penggunaan')
-        promo.save()
-        return JsonResponse({'success': True})
-    return render(request, 'update_promo.html', {'promo': promo})
+        form = PromoForm(request.POST, instance=promo)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
+    else:
+        form = PromoForm(instance=promo)
+    return render(request, 'update_promo.html', {'form': form})
 
 @csrf_exempt
 @login_required(login_url='/accounts/login')

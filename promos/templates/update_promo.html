@@ -2,56 +2,56 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2>Update Promo</h2>
+    <h2 class="text-3xl text-center font-bold">Update Promo</h2>
+    <h4 class="text-lg mt-2 text-sage-dark text-center">Silakan perbarui informasi promo Anda di bawah ini.</h4>
 
-    <form id="updatePromoForm" class="mt-3">
+    <form id="updatePromoForm" class="bg-white flex flex-col shadow-lg p-6 rounded-lg mx-auto max-w-md">
         {% csrf_token %}
-        <div class="mb-3">
-            <label for="promo_title" class="form-label">Judul Promo</label>
-            <input type="text" class="form-control" id="promo_title" name="promo_title" value="{{ promo.promo_title }}" required>
+        {% for field in form %}
+            <div class="flex flex-col w-full mb-4">
+                <label for="{{ field.id_for_label }}" class="mb-2 font-semibold text-gray-700">
+                    {{ field.label }}
+                </label>
+                <div class="w-full">
+                    {{ field }}
+                </div>
+                {% if field.help_text %}
+                    <p class="mt-1 text-sm text-gray-500">{{ field.help_text }}</p>
+                {% endif %}
+                {% for error in field.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <div class="button-group flex justify-center mt-4">
+            <button type="button" class="bg-yellow hover:bg-yellow-dark text-white font-bold py-2 px-4 mx-2" onclick="window.location.href='{% url 'promos:my_promos' %}'">Batal</button>
+            <button type="submit" class="bg-sage hover:bg-sage-dark text-white font-bold py-2 px-4 mx-2">Update Promo</button>
         </div>
-        
-        <div class="mb-3">
-            <label for="promo_description" class="form-label">Deskripsi Promo</label>
-            <textarea class="form-control" id="promo_description" name="promo_description" rows="3" required>{{ promo.promo_description }}</textarea>
-        </div>
-
-        <div class="mb-3">
-            <label for="batas_penggunaan" class="form-label">Berlaku Hingga</label>
-            <input type="text" class="form-control" id="batas_penggunaan" name="batas_penggunaan" value="{{ promo.batas_penggunaan }}" required>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Update Promo</button>
-        <a href="{% url 'promos:my_promos' %}" class="btn btn-secondary">Batal</a>
     </form>
 </div>
 
 <script>
-document.getElementById('updatePromoForm').addEventListener('submit', function(e) {
-    e.preventDefault();
+    document.getElementById('updatePromoForm').addEventListener('submit', function(event) {
+        event.preventDefault();  
 
-    const formData = new FormData(this);
-
-    fetch('', {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-CSRFToken': '{{ csrf_token }}'
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('Promo berhasil diupdate!');
-            window.location.href = "{% url 'promos:my_promos' %}";
-        } else {
-            alert('Gagal mengupdate promo');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Terjadi kesalahan saat mengupdate promo');
+        const formData = new FormData(this);
+        fetch('', {  
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Promo berhasil diupdate!');
+                window.location.href = "{% url 'promos:my_promos' %}";
+            } else {
+                alert('Gagal mengupdate promo: ' + JSON.stringify(data.errors));
+            }
+        })
+        .catch(error => console.error('Error:', error)); // Menangkap error
     });
-});
 </script>
 {% endblock %}

@@ -1,29 +1,36 @@
 {% extends 'base_navbar.html' %}
 
 {% block content %}
-<h1>My Promo</h1>
+<h1 class="text-3xl px-8 text-center"><strong>My Promo</strong></h1>
+<a href="{% url 'promos:add_promo' %}" class="text-center block mt-2 mx-auto bg-sage-dark text-white font-bold py-2 px-4 hover:bg-sage hover:text-white w-fit">
+    Tambah Promo Baru
+</a>
 
-<a href="{% url 'promos:add_promo' %}" class="btn btn-primary">Tambah Promo Baru</a>
-
-<hr>
 
 {% if promos %}
+<div class="bg-sage-dark p-6 my-6 m-4 w-full mx-auto flex flex-wrap justify-center gap-4">
     {% for promo in promos %}
-    <div class="promo-card">
-        <h3><strong>{{ promo.promo_title }}</strong></h3>
-        <p><strong>Resto:</strong> {{ promo.restaurant_name }}</p>
-        <p><strong>Deskripsi:</strong> {{ promo.promo_description }}</p>
-        <p><strong>Berlaku hingga:</strong> {{ promo.batas_penggunaan }}</p>
-        <div class="button-group">
-            <button onclick="window.location.href='{% url 'promos:update_promo' promo.id %}'" class="btn btn-warning btn-sm">Update</button>
-            <button onclick="deletePromo('{{ promo.id }}')" class="btn btn-danger btn-sm">Delete</button>
+    <div class="bg-white shadow-lg p-6 m-4 w-72 mx-auto">
+        <h3 class="text-2xl text-center">📌</h3>
+        <h3 class="text-2xl mt-4 font-semibold text-grey text-center"><strong>{{ promo.promo_title }}</strong></h3>
+        <p class="text-grey mt-2">{{ promo.promo_description }}</p>
+        <p class="text-sm text-grey mt-2">Berlaku hingga:{{ promo.batas_penggunaan|date:"Y-m-d" }}{% if not promo.batas_penggunaan %} (Tidak punya batas){% endif %}</p>
+        
+        <div class="button-group flex justify-center mt-4">
+            <button onclick="window.location.href='{% url 'promos:update_promo' promo.id %}'" class="bg-yellow hover:bg-yellow-dark text-black font-bold py-2 px-4 mx-2">
+                Update
+            </button>
+            <button onclick="deletePromo('{{ promo.id }}')" class="bg-red hover:bg-red-dark text-white font-bold py-2 px-4 mx-2">
+                Delete
+            </button>
         </div>
-        <hr>
     </div>
     {% endfor %}
+</div>
 {% else %}
-    <p>Belum ada promo yang kamu tambahkan!</p>
+    <p class="text-2xl my-6 mt-6 font-semibold text-sage-darker text-center"> Belum ada promo yang kamu tambahkan!</p>
 {% endif %}
+
 
 <script>
     function deletePromo(promoId) {
