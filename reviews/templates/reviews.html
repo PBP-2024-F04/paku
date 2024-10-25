@@ -19,65 +19,126 @@
     <div id="all-reviews" class="tab-content space-y-4">
         <h2 class="text-2xl font-semibold text-gray-700 mb-4">All Reviews</h2>
         {% if all_reviews %}
-            <ul class="space-y-4">
-                {% for review in all_reviews %}
-                    <li class="p-4 bg-white rounded-lg shadow-lg border border-gray-200 transition-transform transform hover:scale-105">
-                        <p class="text-gray-700">{{ review.comment }}</p>
-                        <p class="text-yellow-500 font-semibold">Rating: {{ review.rating }}</p>
-                        <div class="text-sm text-gray-500 mt-2">
-                            - by {{ review.user.username }} | {{ review.created_at|date:"F j, Y" }}
+        <ul class="space-y-4">
+            {% for review in all_reviews %}
+            <li
+                class="p-4 bg-white rounded-lg shadow-lg border border-gray-200 transition-transform transform hover:scale-105">
+                <!-- Product Card -->
+                <div class="mb-4">
+                    <a href="{% url 'products:view_product' review.product.pk %}" class="block hover:underline">
+                        <div class="bg-[#e7ecd7] p-4 rounded-lg">
+                            <h2 class="text-lg font-bold text-[#0F0F0F]">{{ review.product.product_name }}</h2>
+                            <p class="text-gray-600">{{ review.product.restaurant }}</p>
+                            <p class="text-green-500 font-semibold">Price: {{ review.product.price|floatformat:2 }}</p>
                         </div>
-                    </li>
-                {% endfor %}
-            </ul>
+                    </a>
+                </div>
+
+                <!-- Review Content -->
+                <p class="text-gray-700">{{ review.comment }}</p>
+
+                <!-- Star Rating Display -->
+                <div class="flex space-x-1 mt-2">
+                    {% for i in "12345" %}
+                    <svg class="w-5 h-5"
+                        fill="{% if forloop.counter <= review.rating %}#fbbf24{% else %}#d1d5db{% endif %}"
+                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2z">
+                        </path>
+                    </svg>
+                    {% endfor %}
+                </div>
+
+                <div class="text-sm text-gray-500 mt-2">
+                    - by {{ review.user.username }} | {{ review.created_at|date:"F j, Y" }}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
         {% else %}
-            <p class="text-gray-500">No reviews found.</p>
+        <p class="text-gray-500">No reviews found.</p>
         {% endif %}
     </div>
 
     <div id="my-reviews" class="tab-content hidden space-y-4">
         <h2 class="text-2xl font-semibold text-gray-700 mb-4">{{ user.foodieprofile.full_name }}'s Reviews</h2>
         {% if user.is_authenticated %}
-            {% if my_reviews %}
-                <ul class="space-y-4">
-                    {% for review in my_reviews %}
-                        <li class="p-4 bg-white rounded-lg shadow-lg border border-gray-200 transition-transform transform hover:scale-105">
-                            <p class="text-gray-700">{{ review.comment }}</p>
-                            <p class="text-yellow-500 font-semibold">Rating: {{ review.rating }}</p>
-                            <div class="text-sm text-gray-500 mt-2">
-                                - by {{ review.user.username }} | {{ review.created_at|date:"F j, Y" }}
-                            </div>
-                            <div class="mt-2 flex space-x-4">
-                                <a href="{% url 'reviews:edit_review' review.id %}" class="text-blue-500 hover:underline">Edit</a>
-                                <a href="{% url 'reviews:delete_review' review.id %}" class="text-red-500 hover:underline">Delete</a>
-                            </div>
-                        </li>
+        {% if my_reviews %}
+        <ul class="space-y-4">
+            {% for review in my_reviews %}
+            <li
+                class="p-4 bg-white rounded-lg shadow-lg border border-gray-200 transition-transform transform hover:scale-105">
+                <!-- Product Card -->
+                <div class="mb-4">
+                    <a href="{% url 'products:view_product' review.product.pk %}" class="block hover:underline">
+                        <div class="bg-[#e7ecd7] p-4 rounded-lg">
+                            <h2 class="text-lg font-bold text-[#0F0F0F]">{{ review.product.product_name }}</h2>
+                            <p class="text-gray-600">{{ review.product.restaurant }}</p>
+                            <p class="text-green-500 font-semibold">Price: {{ review.product.price|floatformat:2 }}</p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Review Content -->
+                <p class="text-gray-700">{{ review.comment }}</p>
+
+                <!-- Star Rating Display -->
+                <div class="flex space-x-1 mt-2">
+                    {% for i in "12345" %}
+                    <svg class="w-5 h-5"
+                        fill="{% if forloop.counter <= review.rating %}#fbbf24{% else %}#d1d5db{% endif %}"
+                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2z">
+                        </path>
+                    </svg>
                     {% endfor %}
-                </ul>
-            {% else %}
-                <p class="text-gray-500">You haven't posted any reviews yet.</p>
-                <a href="{% url 'products:main' %}">
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 transition duration-300 transform hover:scale-105">
-                        Yuk Jelajahi Kuliner Palu
-                    </button>
-                </a>
-            {% endif %}
+                </div>
+
+                <div class="text-sm text-gray-500 mt-2">
+                    - by {{ review.user.username }} | {{ review.created_at|date:"F j, Y" }}
+                </div>
+
+                <!-- Edit and Delete Icons -->
+                <div class="absolute top-4 right-4 flex space-x-2">
+                    <a href="{% url 'reviews:edit_review' review.id %}"
+                        class="text-gray-500 hover:text-[#798d48] transition duration-300">
+                        <span class="icon-edit w-5 h-5"></span>
+                    </a>
+                    <a href="{% url 'reviews:delete_review' review.id %}"
+                        class="text-gray-500 hover:text-[#e36c54] transition duration-300">
+                        <span class="icon-delete w-5 h-5"></span>
+                    </a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
         {% else %}
-            <p class="text-gray-500">You must be logged in to view your reviews.</p>
+        <p class="text-gray-500">You haven't posted any reviews yet.</p>
+        <a href="{% url 'products:main' %}">
+            <button
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 transition duration-300 transform hover:scale-105">
+                Yuk Jelajahi Kuliner Palu
+            </button>
+        </a>
+        {% endif %}
+        {% else %}
+        <p class="text-gray-500">You must be logged in to view your reviews.</p>
         {% endif %}
     </div>
 </div>
 
 <!-- Tailwind Tabs Switching Script -->
 <script>
-    document.getElementById('all-reviews-tab').addEventListener('click', function() {
+    document.getElementById('all-reviews-tab').addEventListener('click', function () {
         document.getElementById('all-reviews').classList.remove('hidden');
         document.getElementById('my-reviews').classList.add('hidden');
         this.classList.add('active');
         document.getElementById('my-reviews-tab').classList.remove('active');
     });
 
-    document.getElementById('my-reviews-tab').addEventListener('click', function() {
+    document.getElementById('my-reviews-tab').addEventListener('click', function () {
         document.getElementById('my-reviews').classList.remove('hidden');
         document.getElementById('all-reviews').classList.add('hidden');
         this.classList.add('active');
@@ -102,6 +163,64 @@
 
     .tab-button.active {
         border-bottom: 2px solid #b3c27d;
+    }
+
+    .icon-edit {
+        position: relative;
+    }
+
+    .icon-edit::before {
+        content: '\270E';
+        /* Unicode untuk ikon pensil */
+        font-size: 1.25rem;
+        /* Ukuran ikon */
+        color: white;
+        /* Warna ikon */
+        background-color: #798d48;
+        /* Warna latar belakang */
+        border-radius: 0.5rem;
+        /* Membuat sudut membulat */
+        padding: 0.5rem;
+        /* Jarak dalam tombol */
+    }
+
+    .icon-delete {
+        position: relative;
+    }
+
+    .icon-delete::before {
+        content: '\1F5D1';
+        /* Unicode untuk ikon tempat sampah */
+        font-size: 1.25rem;
+        /* Ukuran ikon */
+        color: white;
+        /* Warna ikon */
+        background-color: #e36c54;
+        /* Warna latar belakang */
+        border-radius: 0.5rem;
+        /* Membuat sudut membulat */
+        padding: 0.5rem;
+        /* Jarak dalam tombol */
+    }
+
+    .icon-edit,
+    .icon-delete {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        /* Lebar tombol */
+        height: 40px;
+        /* Tinggi tombol */
+        border-radius: 50%;
+        /* Membuat tombol berbentuk lingkaran */
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .icon-edit:hover,
+    .icon-delete:hover {
+        transform: scale(1.1);
+        /* Efek pembesaran saat hover */
     }
 </style>
 {% endblock content %}

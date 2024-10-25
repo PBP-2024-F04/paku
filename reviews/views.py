@@ -24,7 +24,7 @@ def main(request):
 def product_review(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     reviews = Review.objects.filter(product=product)
-    return render(request, 'product_review.html', {'product': product, 'reviews': reviews})
+    return render(request, 'product_review.html', {'product': product, 'reviews': reviews, 'star_range': range(1, 6)})
 
 # Create a new review
 @login_required(login_url='/accounts/login')
