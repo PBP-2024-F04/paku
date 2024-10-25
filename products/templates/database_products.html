@@ -28,18 +28,18 @@
       </a>
     </td>
     
-    {% if user.is_authenticated and user.role == 'Merchant' %}
-    <td>
-        <a href="{% url 'products:edit_product' product.pk %}">
+    {% if user.is_authenticated and user.role == 'Foodie' %}
+    <!-- <td>
+        <a href="{% url 'reviews:create_review' product.pk %}">
             <button>
-                Edit
+                Review
             </button>
         </a>
-    </td>
+    </td> -->
     <td>
-        <a href="{% url 'products:delete_product' product.pk %}">
+        <a href="{% url 'favorites:create_favorite' product.pk %}">
             <button>
-                Delete
+                Favorite
             </button>
         </a>
     </td>
@@ -49,12 +49,5 @@
 </table>
 {% endif %}
 
-<br />
-
-{% if user.is_authenticated and user.role == 'Merchant' %}
-<a href="{% url 'products:create_product' %}">
-  <button>Add New Product</button>
-</a>
-{% endif %}
 
 {% endblock content %}
