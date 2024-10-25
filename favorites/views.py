@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from products.models import Product
+from reviews.models import Review
 from .models import Favorite
 from .forms import FavoriteForm
 from accounts.models import User, FoodieProfile
@@ -33,7 +34,14 @@ def create_favorite(request, product_id):
         favorite.save() 
         return redirect('favorites:main')
     
-    context = {'form': form, 'product': product}
+    context = {
+        'form': form, 
+        'product': product,
+        'user': request.user,
+        'want_to_try': Favorite.objects.filter(foodie=request.user, category='want_to_try'),
+        'loving_it': Favorite.objects.filter(foodie=request.user, category='loving_it'),
+        'all_time_favorites': Favorite.objects.filter(foodie=request.user, category='all_time_favorites')
+    }
     return render(request, 'create_favorite.html', context)
 
 @login_required(login_url='/accounts/login')
@@ -75,4 +83,22 @@ def user_favorites(request, user_id):
         'loving_it': loving_it,
         'all_time_favorites': all_time_favorites,
     }
-    return render(request, 'favorites/profile_favorites.html', context)
+    return render(request, 'profile_favorites.html', context)
+
+@login_required(login_url='/accounts/login')
+def category_favorites(request, category_name):
+    valid_categories = {
+        'want_to_try': 'Want to Try',
+        'loving_it': 'Loving It',
+        'all_time_favorites': 'All Time Favorite'
+    }
+
+    if category_name not in valid_categories:
+        return render(request, 'category_favorites.html', {'favorites': [], 'error': 'Kategori tidak ditemukan.'})
+
+    favorites = Favorite.objects.filter(foodie=request.user, category=category_name)
+
+    return render(request, 'category_favorites.html', {
+        'favorites': favorites,
+        'category_name': valid_categories[category_name]
+    })

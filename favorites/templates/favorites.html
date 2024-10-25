@@ -2,132 +2,24 @@
 
 {% block content %}
 {% if user.role == 'Foodie' %}
-<h1>{{ user.foodieprofile.full_name }}'s Favorites</h1>
+<h1 class="text-3xl font-bold mb-6">{{ user.foodieprofile.full_name }}'s Favorites</h1>
 
-<h2>Want to Try</h2>
-{% if want_to_try %}
-<table>
-  <tr>
-    <th>Nama Produk</th>
-    <th>Asal Restoran</th>
-    <th>Harga</th>
-  </tr>
+<div class="flex justify-around mb-8">
+    <div class="w-1/3 bg-white hover:bg-yellow-light p-6 rounded-lg shadow-lg cursor-pointer transition-colors duration-300" onclick="location.href='{% url 'favorites:category_favorites' 'want_to_try' %}'">
+        <h2 class="text-xl font-bold">Want to Try</h2>
+        <p class="text-gray-700">{{ want_to_try|length }} Products</p>
+    </div>
+    
+    <div class="w-1/3 bg-white hover:bg-yellow-light p-6 rounded-lg shadow-lg cursor-pointer transition-colors duration-300" onclick="location.href='{% url 'favorites:category_favorites' 'loving_it' %}'">
+        <h2 class="text-xl font-bold">Loving It</h2>
+        <p class="text-gray-700">{{ loving_it|length }} Products</p>
+    </div>
+    
+    <div class="w-1/3 bg-white hover:bg-yellow-light p-6 rounded-lg shadow-lg cursor-pointer transition-colors duration-300" onclick="location.href='{% url 'favorites:category_favorites' 'all_time_favorites' %}'">
+        <h2 class="text-xl font-bold">All Time Favorite</h2>
+        <p class="text-gray-700">{{ all_time_favorites|length }} Products</p>
+    </div>
+</div>
 
-  {% for produk in want_to_try %}
-  <tr>
-    <td>{{produk.product.product_name}}</td>
-    <td>{{produk.product.restaurant}}</td>
-    <td>{{produk.product.price}}</td>
-    <td>
-      <a href="{% url 'favorites:edit_favorite' produk.pk %}">
-          <button>
-              Edit
-          </button>
-      </a>
-    </td>
-    <td>
-      <a href="{% url 'favorites:delete_favorite' produk.pk %}">
-          <button>
-              Delete
-          </button>
-      </a>
-    </td>
-  </tr>
-  {% endfor %}
-</table>
-
-{% else %}
-<p>Kamu belum punya kuliner favorit</p>
-<a href="{% url 'products:main' %}">
-  <button>
-      Yuk Jelajahi Kuliner Palu!
-  </button>
-</a>
 {% endif %}
-<br>
-
-<h2>Loving It</h2>
-{% if loving_it %}
-<table>
-  <tr>
-    <th>Nama Produk</th>
-    <th>Asal Restoran</th>
-    <th>Harga</th>
-  </tr>
-
-  {% for produk in loving_it %}
-  <tr>
-    <td>{{produk.product.product_name}}</td>
-    <td>{{produk.product.restaurant}}</td>
-    <td>{{produk.product.price}}</td>
-    <td>
-      <a href="{% url 'favorites:edit_favorite' produk.pk %}">
-          <button>
-              Edit
-          </button>
-      </a>
-    </td>
-    <td>
-      <a href="{% url 'favorites:delete_favorite' produk.pk %}">
-          <button>
-              Delete
-          </button>
-      </a>
-    </td>
-  </tr>
-  {% endfor %}
-</table>
-
-{% else %}
-<p>Kamu belum punya kuliner favorit</p>
-<a href="{% url 'products:main' %}">
-  <button>
-      Yuk Jelajahi Kuliner Palu!
-  </button>
-</a>
-{% endif %}
-<br>
-
-<h2>All Time Favorite</h2>
-{% if all_time_favorites %}
-<table>
-  <tr>
-    <th>Nama Produk</th>
-    <th>Asal Restoran</th>
-    <th>Harga</th>
-  </tr>
-
-  {% for produk in all_time_favorites %}
-  <tr>
-    <td>{{produk.product.product_name}}</td>
-    <td>{{produk.product.restaurant}}</td>
-    <td>{{produk.product.price}}</td>
-    <td>
-      <a href="{% url 'favorites:edit_favorite' produk.pk %}">
-          <button>
-              Edit
-          </button>
-      </a>
-    </td>
-    <td>
-      <a href="{% url 'favorites:delete_favorite' produk.pk %}">
-          <button>
-              Delete
-          </button>
-      </a>
-    </td>
-  </tr>
-  {% endfor %}
-</table>
-
-{% else %}
-<p>Kamu belum punya kuliner favorit</p>
-<a href="{% url 'products:main' %}">
-  <button>
-      Yuk Jelajahi Kuliner Palu!
-  </button>
-</a>
-{% endif %}
-{% endif %}
-
 {% endblock content %}
