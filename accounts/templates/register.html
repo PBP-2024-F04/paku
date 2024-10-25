@@ -1,5 +1,22 @@
-<h1>Register a New User</h1>
+{% extends 'very_base.html' %}
+{% load static %}
 
-<a href="{% url 'accounts:register_foodie' %}">Register a Foodie Account</a>
-&mdash;
-<a href="{% url 'accounts:register_merchant' %}">Register a Merchant Account</a>
+{% block content %}
+<main class="bg-[url({% static 'img/auth-bg.png' %})] bg-no-repeat bg-cover bg-right grid grid-cols-1 md:grid-cols-[70%_30%] xl:grid-cols-[60%_40%] w-full min-h-screen">
+  <div class="w-full h-full flex flex-col items-center justify-center bg-white pb-24 gap-8 px-2 md:rounded-r-3xl">
+    <div class="text-center">
+      <h1 class="mb-2 text-4xl sm:text-5xl xl:text-6xl font-bold text-moss-green">Create Account</h1>
+      <p class="max-sm:text-sm max-lg:max-w-xs">Buat akun PaKu dan mulai jelajahi Kuliner Palu!</p>
+    </div>
+
+    <div class="flex flex-col gap-2 text-center w-64">
+      <a href="{% url 'accounts:register_foodie' %}" class="bg-sage-dark text-white py-2">
+        Buat Akun Foodie
+      </a>
+      <a href="{% url 'accounts:register_merchant' %}" class="bg-sage-dark text-white py-2">
+        Buat Akun Merchant
+      </a>
+    </div>
+  </div>
+</main>
+{% endblock content %}
