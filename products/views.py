@@ -30,7 +30,7 @@ def view_products(request):
 # Show a specific product
 @login_required(login_url='/accounts/login')
 def view_product(request, id):
-    product = get_object_or_404(Product, pk=id, user=request.user)
+    product = get_object_or_404(Product, pk=id)
     return render(request, 'view_product.html', {'product': product})
 
 @login_required(login_url='/accounts/login')
