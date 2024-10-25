@@ -22,6 +22,7 @@
     <td>{{ product.price }}</td>
     <td>{{ product.description }}</td>
     <td>{{ product.category }}</td>
+    {% if user.is_authenticated and user.role == 'Foodie' %}
     <td>
         <a href="{% url 'reviews:create_review' product.pk %}">
             <button>
@@ -36,6 +37,7 @@
             </button>
         </a>
     </td>
+    {% endif %}
   </tr>
   {% endfor %}
 </table>
