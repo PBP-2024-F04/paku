@@ -22,14 +22,20 @@
     <td>{{ product.price }}</td>
     <td>{{ product.description }}</td>
     <td>{{ product.category }}</td>
-    {% if user.is_authenticated and user.role == 'Foodie' %}
     <td>
+      <a href="{% url 'products:view_product' product.pk %}">
+          View
+      </a>
+    </td>
+    
+    {% if user.is_authenticated and user.role == 'Foodie' %}
+    <!-- <td>
         <a href="{% url 'reviews:create_review' product.pk %}">
             <button>
                 Review
             </button>
         </a>
-    </td>
+    </td> -->
     <td>
         <a href="{% url 'favorites:create_favorite' product.pk %}">
             <button>
