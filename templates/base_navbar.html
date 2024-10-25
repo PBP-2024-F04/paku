@@ -9,12 +9,13 @@
 			<span class="font-bold">
 				<a class="py-1 px-6 border-r border-moss-green-darker" href="{% url 'timeline:main' %}">Timeline</a>
 				<a class="py-1 px-6 border-r border-moss-green-darker" href="{% url 'favorites:main' %}">Favorites</a>
+				<a class="py-1 px-6 border-r border-moss-green-darker" href="{% url 'promos:main' %}">Promos</a>
 				<a class="py-1 px-6" href="{% url 'reviews:main' %}">Reviews</a>
 			</span>
 		{% else %}
 			<span>
 				<a href="{% url 'products:main' %}">Products</a>
-				<a href="{% url 'promos:main' %}">Promos</a>
+				<a href="{% url 'promos:my_promos' %}">Promos</a>
 			</span>
 		{% endif %}
 	</div>
