@@ -31,7 +31,7 @@
     <button>Back to Products</button>
   </a>
   {% elif user.role == 'Foodie' %}
-  <a href="{% url 'reviews:create_review' product.pk %}">
+  <a href="{% url 'reviews:product_review' product.pk %}">
     <button>
         Review
     </button>
