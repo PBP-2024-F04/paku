@@ -12,10 +12,10 @@
     <form method="POST" class="px-5 flex flex-col gap-5">
       {% csrf_token %}
 
-      {% include "components/text_input.html" with field=form.username placeholder="Username" %}
-      {% include "components/text_input.html" with field=form.password1 type="password" placeholder="Password" %}
-      {% include "components/text_input.html" with field=form.password2 type="password" placeholder="Password Confirmation" %}
-      {% include "components/text_input.html" with field=merchant_form.restaurant_name placeholder="Restaurant Name" %}
+      {% include "components/text_input.html" with field=form.username placeholder="Username" icon="user" %}
+      {% include "components/text_input.html" with field=form.password1 type="password" placeholder="Password" icon="key-round" %}
+      {% include "components/text_input.html" with field=form.password2 type="password" placeholder="Password Confirmation" icon="key-round" %}
+      {% include "components/text_input.html" with field=merchant_form.restaurant_name placeholder="Restaurant Name" icon="chef-hat" %}
 
       <button type="submit" class="py-2 px-6 bg-sage-dark text-white mt-4">
         Sign In
