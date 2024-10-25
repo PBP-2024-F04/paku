@@ -7,19 +7,26 @@
 
 		{% if user.role == 'Foodie' %}
 			<span class="font-bold">
-				<a class="py-1 px-6 border-r border-moss-green-darker" href="{% url 'timeline:main' %}">Timeline</a>
-				<a class="py-1 px-6 border-r border-moss-green-darker" href="{% url 'favorites:main' %}">Favorites</a>
-				<a class="py-1 px-6 border-r border-moss-green-darker" href="{% url 'promos:main' %}">Promos</a>
-				<a class="py-1 px-6" href="{% url 'reviews:main' %}">Reviews</a>
+				<a class="py-1 px-6 border-r border-moss-green-darker timeline-nav" href="{% url 'timeline:main' %}">Timeline</a>
+				<a class="py-1 px-6 border-r border-moss-green-darker favorites-nav" href="{% url 'favorites:main' %}">Favorites</a>
+				<a class="py-1 px-6 border-r border-moss-green-darker promos-nav" href="{% url 'promos:main' %}">Promos</a>
+				<a class="py-1 px-6 reviews-nav" href="{% url 'reviews:main' %}">Reviews</a>
 			</span>
 		{% else %}
 			<span>
-				<a href="{% url 'products:main' %}">Products</a>
-				<a href="{% url 'promos:my_promos' %}">Promos</a>
+				<a class="products-nav" href="{% url 'products:main' %}">Products</a>
+				<a class="promos-nav" href="{% url 'promos:my_promos' %}">Promos</a>
 			</span>
 		{% endif %}
 	</div>
 </nav>
+
+<script>
+function highlightCurrentPath() {
+	if (window.location.pathname.includes('timeline')) {}
+}
+</script>
 {% endblock navbar %}
 
-{% block content %} {% endblock content %}
+{% block content %}
+{% endblock content %}
