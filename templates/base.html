@@ -12,9 +12,9 @@
 		{% block meta %} {% endblock meta %}
 	</head>
 
-	<body class="bg-yellow-light ">
-		<div class="relative top-0 left-1/2 transform -translate-x-1/2 w-[95%] max-w-screen-2xl">
-			{% block navbar %} {% endblock navbar %}
+	<body class="bg-yellow-light">
+		{% block navbar %} {% endblock navbar %}
+		<div class="relative top-24 left-1/2 transform -translate-x-1/2 w-[95%] px-2 max-w-screen-xl">
 			{% block content %} {% endblock content %}
 		</div>
 	</body>
