@@ -1,0 +1,15 @@
+{% extends 'base_navbar.html' %}
+
+{% block content %}
+<h1>Deleting Post</h1>
+
+<form method="POST">
+	{% csrf_token %}
+	<p>Are you sure you want to delete this post?</p>
+	<div>
+		<p>you wrote:</p>
+		<p>{{ post.text }}</p>
+	</div>
+	<button type="submit">Yes</button>
+</form>
+{% endblock content %}
