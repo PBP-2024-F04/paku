@@ -3,7 +3,7 @@
 {% block navbar %}
 <nav class="pt-3 fixed top-0 left-1/2 -translate-x-1/2 w-[95%] max-w-screen-2xl bg-yellow-light z-10">
 	<div class="px-10 py-4 border-y border-moss-green-darker flex flex-row items-center gap-5 bg-yellow-light">
-		<h1 "text-3xl font-bold inline">PaKu</h1>
+		<a href="{% url 'accounts:home' %}"><h1 "text-3xl font-bold inline">PaKu</h1></a>
 
 		{% if user.role == 'Foodie' %}
 			<span class="font-bold">

@@ -74,4 +74,7 @@ def register_merchant_page(request):
     })
 
 def home_page(request):
-    return render(request, 'home_foodie.html', {'user': request.user})
+    if request.user.role == 'Foodie':
+        return render(request, 'home_foodie.html', {'user': request.user})
+    else:
+        return render(request, 'home_merchant.html', {'user': request.user})
