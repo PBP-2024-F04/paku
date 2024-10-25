@@ -6,14 +6,14 @@
 
 <hr class="my-6">
 
-<div class="bg-sage-dark p-6 m-4 w-full mx-auto flex flex-wrap justify-center gap-4 min-h-[calc(2*10rem)]">  <!-- Sesuaikan min-height sesuai kebutuhan -->
+<div class="bg-sage-dark p-6 m-4 w-full mx-auto flex flex-wrap justify-center gap-4">  <!-- Sesuaikan min-height sesuai kebutuhan -->
     {% for promo in promos %}
         <div class="bg-white shadow-lg p-6 m-4 w-72 mx-auto">
             <h3 class="text-2xl text-center">📌</h3>
             <h3 class="text-2xl mt-4 font-semibold text-grey text-center"><strong>{{ promo.promo_title }}</strong></h3>
             <p class="text-peach text-center">di <strong> {{ promo.restaurant_name }} </strong></p>
             <p class="text-grey mt-2">{{ promo.promo_description }}</p>
-            <p class="text-sm text-grey mt-2">Berlaku hingga:{{ promo.batas_penggunaan|date:"Y-m-d" }}{% if not promo.batas_penggunaan %} (Tidak punya batas){% endif %}</p>
+            <p class="text-sm text-grey mt-2">Berlaku hingga: {{ promo.batas_penggunaan|date:"d-m-Y" }}{% if not promo.batas_penggunaan %} (Tidak punya batas){% endif %}</p>
         </div>
     {% empty %}
         <p>Tidak ada promo yang berlaku saat ini!</p>

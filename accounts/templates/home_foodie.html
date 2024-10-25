@@ -1,0 +1,15 @@
+{% extends 'base_navbar.html' %}
+
+{% block content %}
+<h1>Selamat Datang, {{ user.full_name }}</h1>
+<h3>Nikmati Beragam Cita Rasa Palu di Satu Tempat!</h3>
+
+<div class="p-6 m-4 w-full mx-auto flex flex-wrap justify-right gap-4">  <!-- Sesuaikan min-height sesuai kebutuhan -->
+    <div class="bg-white shadow-lg p-6 m-4 w-72 mx-auto">
+        <h3 class="text-2xl text-center">📌</h3>
+        <p class="text-grey mt-2">{{ promo.promo_description }}</p>
+        <button onclick="window.location.href='{% url 'product:update_promo' promo.id %}'" class="bg-white text-sage-dark hover:text-sage-dark-hover font-bold py-2 px-4 mx-2">Update</button>
+    </div>
+</div>
+
+{% endblock content %}

@@ -74,4 +74,4 @@ def register_merchant_page(request):
     })
 
 def home_page(request):
-    return render(request, 'home.html', {'user': request.user})
+    return render(request, 'home_foodie.html', {'user': request.user})
