@@ -2,6 +2,10 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from accounts.models import FoodieProfile, MerchantProfile, User
 
+class UserLoginForm(forms.Form):
+    username = forms.TextInput()
+    password = forms.TextInput()
+
 class UserRegistrationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
