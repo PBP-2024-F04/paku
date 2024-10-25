@@ -1,0 +1,10 @@
+<h1>Register</h1>
+
+<form method="POST">
+  {% csrf_token %}
+  {{ form.as_p }}
+  {{ merchant_form.as_p }}
+  <div>
+    <input type="submit" value="Register" />
+  </div>
+</form>

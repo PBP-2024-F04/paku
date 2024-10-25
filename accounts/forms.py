@@ -5,7 +5,7 @@ from accounts.models import FoodieProfile, MerchantProfile, User
 class UserRegistrationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ['username', 'password1', 'password2', 'role']
+        fields = ['username', 'password1', 'password2']
 
 class FoodieProfileForm(forms.ModelForm):
     class Meta:
