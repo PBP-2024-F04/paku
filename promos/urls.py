@@ -7,6 +7,6 @@ urlpatterns = [
     path('', main, name='main'),
     path('my_promos/', my_promos, name='my_promos'),
     path('add_promo/', add_promo, name='add_promo'),
-    path('update_promo/<int:promo_id>/', update_promo, name='update_promo'),
-    path('delete_promo/<int:promo_id>/', delete_promo, name='delete_promo'),
+    path('update_promo/<uuid:promo_id>/', update_promo, name='update_promo'),
+    path('delete_promo/<uuid:promo_id>/', delete_promo, name='delete_promo'),
 ]

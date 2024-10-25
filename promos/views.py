@@ -40,19 +40,37 @@ def update_promo(request, promo_id):
     promo = get_object_or_404(Promo, id=promo_id, user=request.user)  # Pastikan hanya merchant yang bisa mengupdate promo mereka
     if request.method == 'POST':
         promo.promo_title = request.POST.get('promo_title')
-        promo.restaurant_name = request.POST.get('restaurant_name')
         promo.promo_description = request.POST.get('promo_description')
         promo.batas_penggunaan = request.POST.get('batas_penggunaan')
         promo.save()
         return JsonResponse({'success': True})
+    return render(request, 'update_promo.html', {'promo': promo})
 
 @csrf_exempt
 @login_required(login_url='/accounts/login')
 def delete_promo(request, promo_id):
-    promo = get_object_or_404(Promo, id=promo_id, user=request.user)  # Pastikan hanya merchant yang bisa menghapus promo mereka
     if request.method == 'POST':
-        promo.delete()
-        return JsonResponse({'success': True})
+        try:
+            promo = Promo.objects.get(id=promo_id)
+            promo.delete()
+            return JsonResponse({
+                'status': 'success',
+                'message': 'Promo berhasil dihapus'
+            })
+        except Promo.DoesNotExist:
+            return JsonResponse({
+                'status': 'error',
+                'message': 'Promo tidak ditemukan'
+            }, status=404)
+        except Exception as e:
+            return JsonResponse({
+                'status': 'error',
+                'message': str(e)
+            }, status=500)
+    return JsonResponse({
+        'status': 'error',
+        'message': 'Method not allowed'
+    }, status=405)
 
 @csrf_exempt
 def get_promo(request, promo_id):

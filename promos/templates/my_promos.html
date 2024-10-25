@@ -7,50 +7,58 @@
 
 <hr>
 
-<!-- Loop through all promos -->
-{% for promo in promos %}
-<div class="promo-card">
-    <h3><strong>{{ promo.promo_title }}</strong></h3>
-    <p><strong>Resto:</strong> {{ promo.restaurant_name }}</p>
-    <p><strong>Deskripsi:</strong> {{ promo.promo_description }}</p>
-    <p><strong>Berlaku hingga:</strong> {{ promo.batas_penggunaan }}</p>
-
-    <!-- Buttons for editing and deleting promo -->
-    <button class="btn btn-warning" onclick="editPromo({{ promo.id }})">Edit</button>
-    <button class="btn btn-danger" onclick="deletePromo({{ promo.id }})">Hapus</button>
-
-    <hr>
-</div>
-{% empty %}
-<!-- Display this section if no promos are available -->
-<p>Belum ada promo yang kamu tambahkan!</p>
-{% endfor %}
+{% if promos %}
+    {% for promo in promos %}
+    <div class="promo-card">
+        <h3><strong>{{ promo.promo_title }}</strong></h3>
+        <p><strong>Resto:</strong> {{ promo.restaurant_name }}</p>
+        <p><strong>Deskripsi:</strong> {{ promo.promo_description }}</p>
+        <p><strong>Berlaku hingga:</strong> {{ promo.batas_penggunaan }}</p>
+        <div class="button-group">
+            <button onclick="window.location.href='{% url 'promos:update_promo' promo.id %}'" class="btn btn-warning btn-sm">Update</button>
+            <button onclick="deletePromo('{{ promo.id }}')" class="btn btn-danger btn-sm">Delete</button>
+        </div>
+        <hr>
+    </div>
+    {% endfor %}
+{% else %}
+    <p>Belum ada promo yang kamu tambahkan!</p>
+{% endif %}
 
 <script>
-    function editPromo(promoId) {
-        // Implement the edit functionality (e.g., redirect to edit page)
-        window.location.href = `/promos/edit_promo/${promoId}/`; // Pastikan URL untuk edit promo sesuai
-    }
-
     function deletePromo(promoId) {
         if (confirm('Apakah Anda yakin ingin menghapus promo ini?')) {
-            fetch(`/promos/delete_promo/${promoId}/`, {  // Pastikan URL diawali dengan promos/
+            fetch(`/promos/delete_promo/${promoId}/`, {
                 method: 'POST',
                 headers: {
-                    'X-CSRFToken': '{{ csrf_token }}', // Include CSRF token for security
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json',
                 }
             })
             .then(response => response.json())
             .then(data => {
-                if (data.success) {
+                if (data.status === 'success') {
                     alert('Promo berhasil dihapus!');
-                    location.reload(); // Reload the page to see the updated list
+                    window.location.reload();
                 } else {
-                    alert('Gagal menghapus promo: ' + data.error);
+                    alert('Gagal menghapus promo: ' + data.message);
                 }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan saat menghapus promo');
             });
         }
     }
 </script>
+
+<style>
+    .button-group {
+        margin-top: 10px;
+    }
+    .button-group .btn {
+        margin-right: 5px;
+    }
+</style>
 
 {% endblock %}
