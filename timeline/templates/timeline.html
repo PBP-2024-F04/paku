@@ -1,24 +1,31 @@
 {% extends 'base_navbar.html' %}
 
 {% block content %}
-<h1>Timeline Page</h1>
-<a href="{% url 'timeline:create_post' %}">[create post]</a>
+<main>
+	<div class="mb-5 text-center border-b border-moss-green-darker py-6">
+		<h1 class="text-5xl font-bold mb-4">My Timeline</h1>
+		<a class="px-4 py-2 bg-sage-dark text-white font-bold" href="{% url 'timeline:create_post' %}">
+			Create Post
+		</a>
+	</div>
 
-<hr>
-
-{% for post in posts %}
-<div>
-	<p><strong>{{ post.user.foodieprofile.full_name }}</strong> posted</p>
-	<p><em>{{ post.text }}</em></p>
-	<a href='{% url 'timeline:view_post' post.id %}'>[view]</a>
-
-	{% if post.user.id == user.id %}
-		&mdash; <a href='{% url 'timeline:edit_post' post.id %}'>[edit]</a>
-		&mdash; <a href='{% url 'timeline:delete_post' post.id %}'>[delete]</a>
-	{% endif %}
-</div>
-
-<hr>
-{% endfor %}
+	<div>
+		{% for post in posts %}
+		<div class="border px-6 py-4 border-moss-green-darker my-2">
+			<p>
+				<span>{{ post.user.foodieprofile.full_name }}</span>
+				<span class="text-peach">@{{ post.user.username }}</span>
+			</p>
+			<p>
+				{{ post.text }}
+			</p>
+			{% if post.user.id == user.id %}
+				<a class="text-peach" href='{% url 'timeline:edit_post' post.id %}'>[edit]</a>
+				&mdash; <a class="text-peach" href='{% url 'timeline:delete_post' post.id %}'>[delete]</a>
+			{% endif %}
+		</div>
+		{% endfor %}
+	</div>
+</main>
 
 {% endblock content %}

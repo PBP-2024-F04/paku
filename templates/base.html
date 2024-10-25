@@ -9,6 +9,11 @@
 		<script src="https://cdn.tailwindcss.com"></script>
 		<script src="{% static 'js/tailwind-config.js' %}"></script>
 		<link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+		<style type="text/tailwindcss">
+		* {
+			@apply text-moss-green-darker
+		}
+		</style>
 		{% block meta %} {% endblock meta %}
 	</head>
 
