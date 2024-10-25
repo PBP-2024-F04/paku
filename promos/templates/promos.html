@@ -1,12 +1,12 @@
 {% extends 'base_navbar.html' %}
 
 {% block content %}
-<h1 class="text-3xl px-8 text-center"><strong>Available Promos</strong></h1>
+<h1 class="text-4xl mt-8 px-8 text-center"><strong>Available Promos</strong></h1>
 <h4 class="text-lg mt-2 text-sage-dark text-center">Jangan lewatkan promo-promo berikut! Waktu terbatas!</h4>
 
 <hr class="my-6">
 
-<div class="bg-sage-dark p-6 m-4 w-full mx-auto flex flex-wrap justify-center gap-4">  <!-- Sesuaikan min-height sesuai kebutuhan -->
+<div class="bg-peach-dark-hover p-6 my-6 m-4 w-full mx-auto flex flex-wrap justify-center gap-4 border-32 border-peach-darker">
     {% for promo in promos %}
         <div class="bg-white shadow-lg p-6 m-4 w-72 mx-auto">
             <h3 class="text-2xl text-center">📌</h3>
@@ -19,5 +19,11 @@
         <p>Tidak ada promo yang berlaku saat ini!</p>
     {% endfor %}
 </div>
+
+<style>
+    .border-32 {
+        border-width: 32px; 
+    }
+</style>
 
 {% endblock %}
