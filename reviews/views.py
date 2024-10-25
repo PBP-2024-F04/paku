@@ -13,6 +13,10 @@ def main(request):
         my_reviews = Review.objects.filter(user=request.user)
     else:
         my_reviews = None
+
+    print("All Reviews:", all_reviews)
+    print("My Reviews:", my_reviews)
+
     
     return render(request, 'reviews.html', {'all_reviews': all_reviews, 'my_reviews': my_reviews})
 
