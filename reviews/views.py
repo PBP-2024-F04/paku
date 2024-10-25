@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import Review
 from products.models import Product
@@ -37,7 +37,9 @@ def create_review(request, product_id):
             review.product = product
             review.user = request.user
             review.save()
-            return redirect('reviews:product_review', product_id=product.id)
+            return JsonResponse({'success': True, 'review_id': review.id, 'message': 'Review created successfully!'})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
     else:
         form = ReviewForm()
 
@@ -51,13 +53,15 @@ def edit_review(request, review_id):
     review = get_object_or_404(Review, id=review_id)
     
     if request.user != review.user:
-        return redirect('reviews:main')  # Prevent editing if not the owner
+        return JsonResponse({'success': False, 'message': 'Unauthorized access.'}, status=403)  # Prevent editing if not the owner
     
     if request.method == 'POST':
         form = ReviewForm(request.POST, instance=review)
         if form.is_valid():
             form.save()
-            return redirect('reviews:product_review', product_id=review.product.id)  # Redirect to the product's reviews
+            return JsonResponse({'success': True, 'message': 'Review updated successfully!'})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
     else:
         form = ReviewForm(instance=review)
 
