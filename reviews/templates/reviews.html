@@ -36,7 +36,7 @@
     </div>
 
     <div id="my-reviews" class="tab-content hidden space-y-4">
-        <h2 class="text-2xl font-semibold text-gray-700 mb-4">My Reviews</h2>
+        <h2 class="text-2xl font-semibold text-gray-700 mb-4">{{ user.foodieprofile.full_name }}'s Reviews</h2>
         {% if user.is_authenticated %}
             {% if my_reviews %}
                 <ul class="space-y-4">
@@ -90,18 +90,18 @@
     .tab-button {
         padding: 0.5rem 1rem;
         font-weight: 600;
-        color: #3B82F6;
+        color: #b3c27d;
         border-bottom: 2px solid transparent;
         cursor: pointer;
         transition: border-bottom 0.3s;
     }
 
     .tab-button:hover {
-        border-bottom: 2px solid #3B82F6;
+        border-bottom: 2px solid #b3c27d;
     }
 
     .tab-button.active {
-        border-bottom: 2px solid #3B82F6;
+        border-bottom: 2px solid #b3c27d;
     }
 </style>
 {% endblock content %}
