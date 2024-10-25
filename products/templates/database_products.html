@@ -29,13 +29,13 @@
     </td>
     
     {% if user.is_authenticated and user.role == 'Foodie' %}
-    <td>
+    <!-- <td>
         <a href="{% url 'reviews:create_review' product.pk %}">
             <button>
                 Review
             </button>
         </a>
-    </td>
+    </td> -->
     <td>
         <a href="{% url 'favorites:create_favorite' product.pk %}">
             <button>

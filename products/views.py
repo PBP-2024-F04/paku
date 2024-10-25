@@ -42,7 +42,7 @@ def create_product(request):
         product.user = request.user
         product.save()
         messages.success(request, "Your product has been successfully created!")
-        return redirect('products:main')
+        return redirect('products:view_products')
 
     context = {'form': form}
     return render(request, "create_product.html", context)
