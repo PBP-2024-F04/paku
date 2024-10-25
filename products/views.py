@@ -30,7 +30,7 @@ def view_products(request):
 # Show a specific product
 @login_required(login_url='/accounts/login')
 def view_product(request, id):
-    product = get_object_or_404(Product, pk=id, user=request.user)
+    product = get_object_or_404(Product, pk=id)
     return render(request, 'view_product.html', {'product': product})
 
 @login_required(login_url='/accounts/login')
@@ -42,7 +42,7 @@ def create_product(request):
         product.user = request.user
         product.save()
         messages.success(request, "Your product has been successfully created!")
-        return redirect('products:main')
+        return redirect('products:view_products')
 
     context = {'form': form}
     return render(request, "create_product.html", context)
@@ -55,7 +55,7 @@ def edit_product(request, id):
     if form.is_valid() and request.method == "POST":
         form.save()
         messages.success(request, "Your product has been successfully updated!")
-        return redirect('products:main')
+        return redirect('products:view_products')
 
     context = {'form': form, 'product': product}
     return render(request, "edit_product.html", context)
@@ -65,4 +65,4 @@ def delete_product(request, id):
     product = get_object_or_404(Product, pk=id, user=request.user)
     product.delete()
     messages.success(request, "Your product has been successfully deleted!")
-    return redirect('products:main')
+    return redirect('products:view_products')

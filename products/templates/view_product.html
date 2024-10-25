@@ -26,7 +26,22 @@
     </tr>
   </table>
 
+  {% if user.role == 'Merchant' %}
   <a href="{% url 'products:view_products' %}">
     <button>Back to Products</button>
   </a>
+  {% elif user.role == 'Foodie' %}
+  <a href="{% url 'reviews:create_review' product.pk %}">
+    <button>
+        Review
+    </button>
+  </a>
+  <a href="{% url 'products:main' %}">
+    <button>Back to Products</button>
+  </a>
+  {% else %}
+  <a href="{% url 'products:main' %}">
+    <button>Back to Products</button>
+  </a>
+  {% endif %}
 {% endblock content %}

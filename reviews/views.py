@@ -13,6 +13,10 @@ def main(request):
         my_reviews = Review.objects.filter(user=request.user)
     else:
         my_reviews = None
+
+    print("All Reviews:", all_reviews)
+    print("My Reviews:", my_reviews)
+
     
     return render(request, 'reviews.html', {'all_reviews': all_reviews, 'my_reviews': my_reviews})
 
@@ -36,7 +40,10 @@ def create_review(request, product_id):
             return redirect('reviews:product_review', product_id=product.id)
     else:
         form = ReviewForm()
-    return render(request, 'create_review.html', {'form': form, 'product': product})
+
+    ratings = [1, 2, 3, 4, 5]
+    
+    return render(request, 'create_review.html', {'form': form, 'product': product, 'ratings': ratings})
 
 # Edit an existing review
 @login_required(login_url='/accounts/login')
@@ -53,8 +60,10 @@ def edit_review(request, review_id):
             return redirect('reviews:product_review', product_id=review.product.id)  # Redirect to the product's reviews
     else:
         form = ReviewForm(instance=review)
+
+    ratings = [1, 2, 3, 4, 5]
     
-    return render(request, 'create_review.html', {'form': form, 'product': review.product})
+    return render(request, 'create_review.html', {'form': form, 'product': review.product, 'ratings': ratings})
 
 # Delete a review
 @login_required(login_url='/accounts/login')
