@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect, render
-from .models import FoodieProfile, User
+from .models import FoodieProfile, MerchantProfile, User
 from .forms import FoodieProfileForm, MerchantProfileForm, UserRegistrationForm
 
 def login_page(request):
@@ -19,38 +19,57 @@ def login_page(request):
     return render(request, 'login.html')
 
 def register_page(request):
+    return render(request, 'register.html')
+
+def register_foodie_page(request):
     if request.method == "POST":
         form = UserRegistrationForm(request.POST)
+        foodie_form = FoodieProfileForm(request.POST)
 
         if form.is_valid():
-            user = form.save()
+            user = form.save(commit=False)
+            user.role = 'Foodie'
+            user.save()
 
-            if user.role == 'Foodie':
-                foodie_form = FoodieProfileForm(request.POST)
-
-                if foodie_form.is_valid():
-                    foodie: FoodieProfile = foodie_form.save(commit=False)
-                    foodie.user = user
-                    foodie.save()
-                
-            if user.role == 'Merchant':
-                merchant_form = MerchantProfileForm(request.POST)
-
-                if merchant_form.is_valid():
-                    merchant = merchant_form.save(commit=False)
-                    merchant.user = user
-                    merchant.save()
+            if foodie_form.is_valid():
+                foodie: FoodieProfile = foodie_form.save(commit=False)
+                foodie.user = user
+                foodie.save()
 
             messages.success(request, "Your account has been successfully created!")
             return redirect('accounts:login')
     
     form = UserRegistrationForm()
     foodie_form = FoodieProfileForm()
-    merchant_form = MerchantProfileForm()
 
-    return render(request, 'register.html', {
+    return render(request, 'register_foodie.html', {
         'form': form,
         'foodie_form': foodie_form,
+    })
+
+def register_merchant_page(request):
+    if request.method == "POST":
+        form = UserRegistrationForm(request.POST)
+        merchant_form = MerchantProfileForm(request.POST)
+
+        if form.is_valid():
+            user: User = form.save(commit=False)
+            user.role = 'Merchant'
+            user.save()
+
+            if merchant_form.is_valid():
+                merchant: MerchantProfile = merchant_form.save(commit=False)
+                merchant.user = user
+                merchant.save()
+
+            messages.success(request, "You account has been successfully created!")
+            return redirect('accounts:login')
+
+    form = UserRegistrationForm()
+    merchant_form = MerchantProfileForm()
+
+    return render(request, 'register_merchant.html', {
+        'form': form,
         'merchant_form': merchant_form,
     })
 
