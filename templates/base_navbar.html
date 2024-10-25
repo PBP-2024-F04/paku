@@ -5,27 +5,19 @@
 	<div class="px-10 py-4 border-y border-moss-green-darker flex flex-row items-center gap-5 bg-yellow-light">
 		<h1 class="text-3xl font-bold inline">PaKu</h1>
 
+		<span class="font-bold">
 		{% if user.role == 'Foodie' %}
-			<span class="font-bold">
-				<a class="py-1 px-6 border-r border-moss-green-darker timeline-nav" href="{% url 'timeline:main' %}">Timeline</a>
-				<a class="py-1 px-6 border-r border-moss-green-darker favorites-nav" href="{% url 'favorites:main' %}">Favorites</a>
-				<a class="py-1 px-6 border-r border-moss-green-darker promos-nav" href="{% url 'promos:main' %}">Promos</a>
-				<a class="py-1 px-6 reviews-nav" href="{% url 'reviews:main' %}">Reviews</a>
-			</span>
+			{% include 'components/navbar_link.html' with label="Timeline" keyword="timeline" href='timeline:main' %}
+			{% include 'components/navbar_link.html' with label="Favorites" keyword="favorites" href='favorites:main' %}
+			{% include 'components/navbar_link.html' with label="Promos" keyword="promos" href='promos:main' %}
+			{% include 'components/navbar_link.html' with label="Reviews" keyword="reviews" href='reviews:main' %}
 		{% else %}
-			<span>
-				<a class="products-nav" href="{% url 'products:main' %}">Products</a>
-				<a class="promos-nav" href="{% url 'promos:my_promos' %}">Promos</a>
-			</span>
+			{% include 'components/navbar_link.html' with label="Products" keyword="products" href='products:main' %}
+			{% include 'components/navbar_link.html' with label="Promos" keyword="promos" href='promos:main' %}
 		{% endif %}
+		</span>
 	</div>
 </nav>
-
-<script>
-function highlightCurrentPath() {
-	if (window.location.pathname.includes('timeline')) {}
-}
-</script>
 {% endblock navbar %}
 
 {% block content %}
