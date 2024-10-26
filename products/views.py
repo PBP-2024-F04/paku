@@ -17,7 +17,7 @@ def main(request):
 
 # Show all logged in merchant's products
 @login_required(login_url='/accounts/login')
-def view_products(request):
+def my_products(request):
     products = Product.objects.filter(user=request.user)
 
     context = {
@@ -70,7 +70,7 @@ def delete_product(request, id):
     product = get_object_or_404(Product, pk=id, user=request.user)
     product.delete()
     messages.success(request, "Your product has been successfully deleted!")
-    return redirect('products:view_products')
+    return redirect('products:my_products')
 
 # Show all categories
 def view_categories(request):
