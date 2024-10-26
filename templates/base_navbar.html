@@ -2,20 +2,22 @@
 
 {% block navbar %}
 <nav class="pt-3 fixed top-0 left-1/2 -translate-x-1/2 w-[95%] max-w-screen-2xl bg-yellow-light z-10">
-	<div class="px-10 py-4 border-y border-moss-green-darker flex flex-row items-center gap-5 bg-yellow-light">
+	<div class="px-4 md:px-10 py-4 border-y border-moss-green-darker flex flex-row items-center gap-5 bg-yellow-light">
 		<h1 class="text-3xl font-bold inline">PaKu</h1>
 
-		<span class="font-bold">
+		<div class="font-bold hidden lg:block">
 		{% if user.role == 'Foodie' %}
-			{% include 'components/navbar_link.html' with label="Timeline" keyword="timeline" href='timeline:main' %}
-			{% include 'components/navbar_link.html' with label="Favorites" keyword="favorites" href='favorites:main' %}
-			{% include 'components/navbar_link.html' with label="Promos" keyword="promos" href='promos:main' %}
-			{% include 'components/navbar_link.html' with label="Reviews" keyword="reviews" href='reviews:main' %}
+			{% include 'components/navbar_link.html' with label="Timeline" icon="chart-no-axes-gantt" keyword="timeline" href='timeline:main' %}
+			{% include 'components/navbar_link.html' with label="Favorites" icon="star" keyword="favorites" href='favorites:main' %}
+			{% include 'components/navbar_link.html' with label="Promos" icon="gem" keyword="promos" href='promos:main' %}
+			{% include 'components/navbar_link.html' with label="Reviews" icon="notebook-pen" keyword="reviews" href='reviews:main' %}
 		{% else %}
 			{% include 'components/navbar_link.html' with label="Products" keyword="products" href='products:main' %}
 			{% include 'components/navbar_link.html' with label="Promos" keyword="promos" href='promos:main' %}
 		{% endif %}
-		</span>
+		</div>
+
+		<i data-lucide="menu" class="lg:hidden"></i>
 	</div>
 </nav>
 {% endblock navbar %}
