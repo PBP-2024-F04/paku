@@ -13,7 +13,7 @@
     </div>
 
     <div class="p-6 space-y-6 -mt-6">
-        <form id="editProductForm" method="POST" class="space-y-6">
+        <form id="createProductForm" method="POST" class="space-y-6">
         {% csrf_token %}
         <div class="grid grid-cols-6 gap-6">
             {% for field in form %}
@@ -41,7 +41,7 @@
 </div>
 
 <script>
-    document.getElementById('ProductForm').addEventListener('submit', function(event) {
+    document.getElementById('createProductForm').addEventListener('submit', function(event) {
     event.preventDefault();  // Mencegah pengiriman form default
 
     const formData = new FormData(this);
