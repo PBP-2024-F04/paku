@@ -1,63 +1,68 @@
 {% extends 'base_navbar.html' %}
 
 {% block content %}
-<h1>Products Page</h1>
+<h1 class="text-3xl mt-4 text-center"><strong>My Products</strong></h1>
+<a href="{% url 'products:create_product' %}" class="text-center block mt-8 mx-auto bg-sage-dark text-white font-bold py-2 px-4 hover:bg-sage-darker hover:text-white w-fit">
+  Tambah Produk Baru
+</a>
 
 {% if user.role == 'Foodie' %}
 {% else %}
-{% if not products %}
-<p>{{ empty_message }}</p>
-{% else %}
-<table>
-  <tr>
-    <th>Product Name</th>
-    <th>Restaurant</th>
-    <th>Price</th>
-    <th>Description</th>
-    <th>Category</th>
-  </tr>
-
+  {% if not products %}
+    <p class="text-xl my-6 mt-6 font-semibold text-sage-darker text-center">{{ empty_message }}</p>
+  {% else %}
+  <div class="p-6 my-6 m-4 w-full mx-auto flex flex-wrap justify-center gap-6 p-4">
   {% for product in products %}
-  <tr>
-    <td>{{ product.product_name }}</td>
-    <td>{{ product.restaurant }}</td>
-    <td>{{ product.price }}</td>
-    <td>{{ product.description }}</td>
-    <td>{{ product.category }}</td>
-    <td>
-      <a href="{% url 'products:view_product' product.pk %}">
-          View
-      </a>
-    </td>
-    
-    {% if user.is_authenticated and user.role == 'Merchant' %}
-    <td>
-        <a href="{% url 'products:edit_product' product.pk %}">
-            <button>
-                Edit
-            </button>
-        </a>
-    </td>
-    <td>
-        <a href="{% url 'products:delete_product' product.pk %}">
-            <button>
-                Delete
-            </button>
-        </a>
-    </td>
-    {% endif %}
-  </tr>
+    <div class="relative bg-yellow-light-hover shadow-lg p-6 my-6 m-4 mx-auto w-80 flex flex-col justify-center gap-4">
+      <div class="absolute top-5 left-5 flex space-x-2 z-10 font-semibold text-sm">
+        <p>{{ product.category }}</p>
+      </div>
+      <div class="absolute top-3 right-3 flex space-x-2 z-10">
+        <button onclick="window.location.href='{% url 'products:edit_product' product.pk %}'" class="w-8 h-8 bg-yellow hover:bg-yellow-dark text-white rounded-full flex items-center justify-center focus:outline-none transition duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+          </svg>
+        </button>
+        <button onclick="deleteProduct('{{ product.pk }}')" class="w-8 h-8 bg-red hover:bg-red-dark text-white rounded-full flex items-center justify-center focus:outline-none transition duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <h3 class="text-2xl mt-4 font-semibold text-grey text-center"><strong>{{ product.product_name }}</strong></h3>
+      <p class="text-grey mt-2">{{ product.description }}</p>
+      <p class="text-sm text-grey mt-2">Harga: Rp {{ product.price }}</p>
+    </div>
   {% endfor %}
-</table>
-{% endif %}
+  </div>
+  {% endif %}
 {% endif %}
 
-<br />
-
-{% if user.is_authenticated and user.role == 'Merchant' %}
-<a href="{% url 'products:create_product' %}">
-  <button>Add New Product</button>
-</a>
-{% endif %}
+<script>
+  function deleteProduct(productId) {
+      if (confirm('Apakah Anda yakin ingin menghapus produk ini?')) {
+          fetch(`/products/${productId}/delete-product/`, {
+              method: 'POST',
+              headers: {
+                  'X-CSRFToken': '{{ csrf_token }}',
+                  'Content-Type': 'application/json',
+              }
+          })
+          .then(response => response.json())
+          .then(data => {
+              if (data.status === 'success') {
+                  alert('Produk berhasil dihapus!');
+                  window.location.reload();
+              } else {
+                  alert('Gagal menghapus produk: ' + data.message);
+              }
+          })
+          .catch(error => {
+              console.error('Error:', error);
+              alert('Terjadi kesalahan saat menghapus produk');
+          });
+      }
+  }
+</script>
 
 {% endblock content %}

@@ -1,6 +1,6 @@
-from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from products.forms import ProductForm
@@ -33,6 +33,7 @@ def view_product(request, id):
     product = get_object_or_404(Product, pk=id)
     return render(request, 'view_product.html', {'product': product})
 
+@csrf_exempt
 @login_required(login_url='/accounts/login')
 def create_product(request):
     if request.method == "POST":
@@ -49,6 +50,7 @@ def create_product(request):
     context = {'form': form}
     return render(request, "create_product.html", context)
 
+@csrf_exempt
 @login_required(login_url='/accounts/login')
 def edit_product(request, id):
     product = get_object_or_404(Product, pk=id, user=request.user)
@@ -65,12 +67,15 @@ def edit_product(request, id):
     context = {'form': form, 'product': product}
     return render(request, "edit_product.html", context)
 
+@csrf_exempt
 @login_required(login_url='/accounts/login')
 def delete_product(request, id):
-    product = get_object_or_404(Product, pk=id, user=request.user)
-    product.delete()
-    messages.success(request, "Your product has been successfully deleted!")
-    return redirect('products:my_products')
+    if request.method == 'POST':
+        product = get_object_or_404(Product, pk=id)
+        product.delete()
+        return JsonResponse({"status": "success"})
+    else:
+        return JsonResponse({"status": "error", "message": "Invalid request method"}, status=400)
 
 # Show all categories
 def view_categories(request):
