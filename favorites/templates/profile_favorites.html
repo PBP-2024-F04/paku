@@ -1,0 +1,79 @@
+{% extends 'base_navbar.html' %}
+
+{% block content %}
+{% if user.role == 'Foodie' %}
+<h1>{{ profile_user.foodieprofile.full_name }}'s Favorites</h1>
+
+{% if not want_to_try and not loving_it and not all_time_favorites %}
+<p>{{ profile_user.foodieprofile.full_name }} belum punya kuliner favorit.</p>
+{% else %}
+
+<h2>Want to Try</h2>
+{% if want_to_try %}
+<table>
+    <tr>
+      <th>Nama Produk</th>
+      <th>Asal Restoran</th>
+      <th>Harga</th>
+    </tr>
+  
+    {% for produk in want_to_try %}
+    <tr>
+      <td>{{produk.product.product_name}}</td>
+      <td>{{produk.product.restaurant}}</td>
+      <td>{{produk.product.price}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+{% else %}
+<p>Tidak ada kuliner yang ingin dicoba.</p>
+{% endif %}
+<br>
+
+<h2>Loving It</h2>
+{% if loving_it %}
+<table>
+    <tr>
+      <th>Nama Produk</th>
+      <th>Asal Restoran</th>
+      <th>Harga</th>
+    </tr>
+  
+    {% for produk in loving_it %}
+    <tr>
+      <td>{{produk.product.product_name}}</td>
+      <td>{{produk.product.restaurant}}</td>
+      <td>{{produk.product.price}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+{% else %}
+<p>Tidak ada kuliner yang disukai saat ini.</p>
+{% endif %}
+<br>
+
+<h2>All Time Favorite</h2>
+{% if all_time_favorites %}
+<table>
+    <tr>
+      <th>Nama Produk</th>
+      <th>Asal Restoran</th>
+      <th>Harga</th>
+    </tr>
+  
+    {% for produk in all_time_favorites %}
+    <tr>
+      <td>{{produk.product.product_name}}</td>
+      <td>{{produk.product.restaurant}}</td>
+      <td>{{produk.product.price}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+{% else %}
+<p>{{ profile_user.foodieprofile.full_name }} belum memiliki All Time Favorite.</p>
+{% endif %}
+<br>
+{% endif %}
+{% endif %}
+
+{% endblock content %}

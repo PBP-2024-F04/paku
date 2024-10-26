@@ -1,0 +1,74 @@
+{% extends 'base_navbar.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="container mx-auto py-12">
+    <h1 class="text-4xl font-bold mb-8 text-center text-gray-800">Write a Review</h1>
+    <p class="text-center text-gray-500 mb-10">Share your experience with this product</p>
+
+    <form method="post" class="bg-white shadow-lg rounded-xl px-10 py-8 mb-6 max-w-lg mx-auto border border-gray-200">
+        {% csrf_token %}
+
+        <!-- Rating Field -->
+        <div class="mb-6">
+            <label for="id_rating" class="block text-lg font-semibold text-gray-700 mb-2">Rating</label>
+            <div class="flex space-x-2 text-gray-400" id="star-container">
+                {% for i in ratings %}
+                    <label>
+                        <input type="radio" name="rating" value="{{ i }}" class="hidden rating-input" {% if form.rating.value|stringformat:"s" == i|stringformat:"s" %}checked{% endif %}>
+                        <svg class="w-8 h-8 cursor-pointer star-icon {% if form.rating.value|stringformat:"s" == i|stringformat:"s" %}text-yellow-400{% endif %}" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2z"></path>
+                        </svg>
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Comment Field -->
+        <div class="mb-6">
+            <label for="id_comment" class="block text-lg font-semibold text-gray-700 mb-2">Your Review</label>
+            <textarea name="comment" id="id_comment" rows="5" class="w-full p-4 text-gray-700 bg-gray-100 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none resize-none" placeholder="Share your thoughts...">{{ form.comment.value }}</textarea>
+        </div>
+
+        <!-- Submit and Cancel Buttons -->
+        <div class="flex items-center justify-between">
+            <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition duration-200">
+                Submit Review
+            </button>
+            <a href="{% url 'reviews:product_review' product.id %}" class="text-blue-500 hover:underline font-semibold">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const stars = document.querySelectorAll(".star-icon");
+        const inputs = document.querySelectorAll(".rating-input");
+
+        // Function to update star colors based on the selected rating
+        function updateStarColors() {
+            const selectedRating = [...inputs].findIndex(input => input.checked);
+            stars.forEach((star, i) => {
+                star.style.color = i <= selectedRating ? "#fee086" : "gray";
+            });
+        }
+
+        // Initialize stars based on the saved rating
+        updateStarColors();
+
+        // Add click event to each star
+        stars.forEach((star, index) => {
+            star.addEventListener("click", () => {
+                // Set the color of all stars up to the clicked star
+                stars.forEach((s, i) => {
+                    s.style.color = i <= index ? "#fee086" : "gray";
+                });
+                // Update the radio input value
+                inputs[index].checked = true;
+            });
+        });
+    });
+</script>
+
+{% endblock content %}
