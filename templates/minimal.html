@@ -7,12 +7,11 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 		<script src="https://unpkg.com/lucide@latest"></script>
-		<script defer>lucide.createIcons()</script>
 		<script src="https://cdn.tailwindcss.com"></script>
 		<script src="{% static 'js/tailwind-config.js' %}"></script>
 		<link rel="stylesheet" href="{% static 'css/styles.css' %}" />
 		<style type="text/tailwindcss">
-		* {
+		body {
 			@apply text-moss-green-darker
 		}
 		</style>
@@ -21,5 +20,6 @@
 
 	<body class="bg-yellow-light">
 		{% block body %} {% endblock body %}
+		<script>lucide.createIcons()</script>
 	</body>
 </html>
