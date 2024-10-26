@@ -1,0 +1,46 @@
+{% extends 'base_navbar.html' %}
+
+{% block content %}
+<h1 class="text-3xl mt-4 text-center"><strong>Selamat Datang, {{ user.foodieprofile.full_name }}</strong></h1>
+<h3 class="text-lg mt-2 text-sage-dark text-center">Nikmati Beragam Cita Rasa Palu di Satu Tempat!</h3>
+
+<div class="p-2 m-4 w-full mx-auto flex flex-wrap justify-center">
+    <div class="bg-sage-dark shadow-lg p-6 m-4 w-80 flex flex-col">
+        <h3 class="text-5xl text-center">🍔</h3>
+        <p class="text-lg text-white mt-8">Jelajahi beragam produk kuliner khas Palu yang menggugah selera—temukan makanan favorit Anda hari ini!</p>
+        <div class="flex justify-center mt-auto">
+            <button onclick="window.location.href='{% url 'products:main' %}'" class="text-xl bg-white text-sage-dark hover:text-sage-dark-hover font-bold py-4 px-8 mx-2 mt-8">Products</button>
+        </div>
+    </div>
+    <div class="bg-peach-dark shadow-lg p-6 m-4 w-80 flex flex-col">
+        <h3 class="text-5xl text-center">👥</h3>
+        <p class="text-lg text-white mt-8">Gabung dalam obrolan kuliner! Tanyakan, diskusikan, dan berbagi pengalaman dengan sesama pencinta makanan di Paku Kuliner.</p>
+        <div class="flex justify-center mt-auto">
+            <button onclick="window.location.href='{% url 'timeline:main' %}'" class="text-xl bg-white text-peach-dark hover:text-peach-dark-hover font-bold py-4 px-8 mx-2 mt-8">Timeline</button>
+        </div>
+    </div>
+    <div class="bg-moss-green-dark shadow-lg p-6 m-4 w-80 flex flex-col">
+        <h3 class="text-5xl text-center">⭐️</h3>
+        <p class="text-lg text-white mt-8">Bagikan pengalaman Anda! Berikan ulasan dan rating pada produk yang Anda coba, bantu orang lain menemukan kuliner terbaik.</p>
+        <div class="flex justify-center mt-auto">
+            <button onclick="window.location.href='{% url 'reviews:main' %}'" class="text-xl bg-white text-moss-green-dark hover:text-moss-green-dark-hover font-bold py-4 px-8 mx-2 mt-8">Review</button>
+        </div>
+    </div>
+    <div class="bg-transparent p-6 m-4 w-80 flex flex-col"></div>
+    <div class="bg-yellow-dark shadow-lg p-6 m-4 w-80 flex flex-col">
+        <h3 class="text-5xl text-center">💓</h3>
+        <p class="text-lg text-white mt-8">Tandai produk favorit Anda! Gunakan label untuk menyimpan memori dan memudahkan pencarian kuliner berikutnya.</p>
+        <div class="flex justify-center mt-auto">
+            <button onclick="window.location.href='{% url 'favorites:main' %}'" class="text-xl bg-white text-yellow-dark hover:text-yellow-dark-hover font-bold py-4 px-8 mx-2 mt-8">Favorites</button>
+        </div>
+    </div>
+    <div class="bg-red-dark shadow-lg p-6 m-4 w-80 flex flex-col">
+        <h3 class="text-5xl text-center">🏷️</h3>
+        <p class="text-lg text-white mt-8">Jangan lewatkan! Cek promo menarik dari restoran lokal dan nikmati hidangan lezat dengan harga spesial.</p>
+        <div class="flex justify-center mt-auto">
+            <button onclick="window.location.href='{% url 'promos:main' %}'" class="text-xl bg-white text-red-dark hover:text-red-dark-hover font-bold py-4 px-8 mx-2 mt-8">Promos</button>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

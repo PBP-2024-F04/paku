@@ -1,0 +1,32 @@
+{% load static %}
+
+<div class="w-full bg-white-light">
+  <div class="w-full pl-3 border border-moss-green-darker flex flex-row items-center">
+    {% if icon %}
+    <label for="{{ field.id_for_label }}" class="text-sage-dark">
+      <i data-lucide="{{ icon }}"></i>
+    </label>
+    {% endif %}
+
+    <input
+      id="{{ field.id_for_label }}"
+      name="{{ field.html_name }}"
+      type="{{ type|default:"text" }}"
+      required
+      class="pl-2 pr-4 py-2 flex-grow bg-white-light outline-none"
+      placeholder="{{ placeholder }}"
+    >
+  </div>
+
+  {% if field.errors %}
+  <div class="mt-1 border border-red bg-red text-white px-4 py-2">
+    {{ field.errors }}
+  </div>
+  {% endif %}
+
+  {% if field.help_text %}
+  <div class="bg-white border-mossgreen bgmoss-green-light px-2 py-1">
+    {{ field.help_text }}
+  </div>
+  {% endif %}
+</div>

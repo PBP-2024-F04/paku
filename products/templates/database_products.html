@@ -1,0 +1,52 @@
+{% extends 'base_navbar.html' %}
+
+{% block content %}
+<h1>
+  {% if category_name %}
+    Products in {{ category_name }}
+  {% else %}
+    Products Page
+  {% endif %}
+</h1>
+
+{% if not products %}
+<p>{{ empty_message }}</p>
+{% else %}
+<table>
+  <tr>
+    <th>Product Name</th>
+    <th>Restaurant</th>
+    <th>Price</th>
+    <th>Description</th>
+    <th>Category</th>
+  </tr>
+
+  {% for product in products %}
+  <tr>
+    <td>{{ product.product_name }}</td>
+    <td>{{ product.restaurant }}</td>
+    <td>{{ product.price }}</td>
+    <td>{{ product.description }}</td>
+    <td>{{ product.category }}</td>
+    <td>
+      <a href="{% url 'products:view_product' product.pk %}">
+          View
+      </a>
+    </td>
+    
+    {% if user.is_authenticated and user.role == 'Foodie' %}
+    <td>
+        <a href="{% url 'favorites:create_favorite' product.pk %}">
+            <button>
+                Favorite
+            </button>
+        </a>
+    </td>
+    {% endif %}
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+
+{% endblock content %}

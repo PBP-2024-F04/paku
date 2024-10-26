@@ -1,0 +1,47 @@
+{% extends 'base_navbar.html' %}
+
+{% block content %}
+  <h1>Product Details</h1>
+
+  <table>
+    <tr>
+      <th>Product Name</th>
+      <td>{{ product.product_name }}</td>
+    </tr>
+    <tr>
+      <th>Restaurant</th>
+      <td>{{ product.restaurant }}</td>
+    </tr>
+    <tr>
+      <th>Price</th>
+      <td>{{ product.price }}</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td>{{ product.description }}</td>
+    </tr>
+    <tr>
+      <th>Category</th>
+      <td>{{ product.category }}</td>
+    </tr>
+  </table>
+
+  {% if user.role == 'Merchant' %}
+  <a href="{% url 'products:my_products' %}">
+    <button>Back to Products</button>
+  </a>
+  {% elif user.role == 'Foodie' %}
+  <a href="{% url 'reviews:product_review' product.pk %}">
+    <button>
+        Review
+    </button>
+  </a>
+  <a href="{% url 'products:main' %}">
+    <button>Back to Products</button>
+  </a>
+  {% else %}
+  <a href="{% url 'products:main' %}">
+    <button>Back to Products</button>
+  </a>
+  {% endif %}
+{% endblock content %}

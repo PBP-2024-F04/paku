@@ -1,0 +1,1002 @@
+[
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Nasi Katombo Bakar Sambel Terasi Extra Pedas",
+      "restaurant": "Dapur Ikan Katombo Dan Mujair Extra Pedas, S Parman",
+      "price": 30000,
+      "description": "Nasi katombo 2 ekor",
+      "category": "Seafood"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Katombo Bakar 2 Ekor + Dabu-dabu Iris",
+      "restaurant": "Dapur Ikan Katombo Dan Mujair Extra Pedas, S Parman",
+      "price": 25000,
+      "description": "Menu Katombo Bakar 2 ekor Dabu Dabu Iris",
+      "category": "Seafood"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Katombo Masak Kuah Asam",
+      "restaurant": "Dapur Ikan Katombo Dan Mujair Extra Pedas, S Parman",
+      "price": 25000,
+      "description": "Menu kuah asam katombo",
+      "category": "Seafood"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Menu Mujair Woku Ikan 1 Ekor",
+      "restaurant": "Dapur Ikan Katombo Dan Mujair Extra Pedas, S Parman",
+      "price": 45000,
+      "description": "Menu Mujair Woku Spesial Extra Pedas",
+      "category": "Seafood"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Nasi Ayam Goreng Bumbu Kecap Pedas",
+      "restaurant": "Dapur Ikan Katombo Dan Mujair Extra Pedas, S Parman",
+      "price": 30000,
+      "description": "Nasi Ayam Goreng Bumbu Sambel Kecap Extra Pedas",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Menu Katombo Woku 2 Ekor Extra Pedas",
+      "restaurant": "Dapur Ikan Katombo Dan Mujair Extra Pedas, S Parman",
+      "price": 45000,
+      "description": "Menu Spesial Katombo Woku Ikan 2 Ekor Extra Pedas",
+      "category": "Seafood"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Kerupuk",
+      "restaurant": "Dapur Ikan Katombo Dan Mujair Extra Pedas, S Parman",
+      "price": 4000,
+      "description": "Kerupuk enak dan garing",
+      "category": "Snacks"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Alpukat Kocok Taro",
+      "restaurant": "Alpukat Kocok Buron, Palu barat/baru/wahid hasyim",
+      "price": 15000,
+      "description": "Alpukat+cincau+Taro+milo",
+      "category": "Beverages"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Alpukat Kocok Cappuccino",
+      "restaurant": "Alpukat Kocok Buron, Palu barat/baru/wahid hasyim",
+      "price": 15000,
+      "description": "Alpukat+cincau+cappuccino+milo",
+      "category": "Beverages"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Alpucok Original",
+      "restaurant": "Alpukat Kocok Buron, Palu barat/baru/wahid hasyim",
+      "price": 17000,
+      "description": "Alpukat+fla+milo",
+      "category": "Beverages"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Es Cincau Greentea",
+      "restaurant": "Alpukat Kocok Buron, Palu barat/baru/wahid hasyim",
+      "price": 12000,
+      "description": "Cincau+greentea+milo",
+      "category": "Beverages"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Es Cincau Redvelvet",
+      "restaurant": "Alpukat Kocok Buron, Palu barat/baru/wahid hasyim",
+      "price": 12000,
+      "description": "Cincau+redvelvet+milo",
+      "category": "Beverages"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Vanila Regal",
+      "restaurant": "Alpukat Kocok Buron, Palu barat/baru/wahid hasyim",
+      "price": 13000,
+      "description": "Vanila+Regal",
+      "category": "Beverages"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Es Coklat",
+      "restaurant": "Alpukat Kocok Buron, Palu barat/baru/wahid hasyim",
+      "price": 10000,
+      "description": "Es coklat",
+      "category": "Beverages"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Lumpia Goreng (Isi 5 Biji)",
+      "restaurant": "Lumpia Phoenix Palu, Malonda",
+      "price": 43000,
+      "description": "Kulit Lumpia Yang Renyah Dengan Isian Campuran Rebung Dan Bengkuang. Dijamin Enak!",
+      "category": "Snacks"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Bakso Goreng (Isi 8 Biji)",
+      "restaurant": "Lumpia Phoenix Palu, Malonda",
+      "price": 49000,
+      "description": "Bakso Dengan Campuran Ayam Dan Udang. Dijamin Nagih!",
+      "category": "Snacks"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Lumpia Frozen",
+      "restaurant": "Lumpia Phoenix Palu, Malonda",
+      "price": 42000,
+      "description": "Isi 5 biji. lumpia frozen untuk stock cemilan dirumah anda. tinggal langsung goreng deh",
+      "category": "Snacks"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Bakso Goreng Frozen",
+      "restaurant": "Lumpia Phoenix Palu, Malonda",
+      "price": 48000,
+      "description": "Isi 8biji. cocok untuk stock cemilan dirumah anda!",
+      "category": "Snacks"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Robar Asin Beef",
+      "restaurant": "MShealthy, Palu Selatan",
+      "price": 44000,
+      "description": "Roti Bakar + Beef + Cheese + Sayur + Telur + Pastry Puff",
+      "category": "Snacks"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Roti Kukus Asin Beef Mozarella",
+      "restaurant": "MShealthy, Palu Selatan",
+      "price": 40000,
+      "description": "Roti Kukus + Beef + Cheese + Sayur + Telur + Mozarella",
+      "category": "Snacks"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Uta Dada",
+      "restaurant": "WARUNG UTA DADA MAMAH RIZAL",
+      "price": 18000,
+      "description": "Seporsi hidangannya ini terdiri dari sepotong ayam kampung bersama potongan dua buah ketupat dan kuah santan berwarna kekuningan yang disajikan diatas mangkok ceper. Saat diseruput kuahnya sendiri terasa gurih dan pedas, disantap bersama daging ayam dan ketupatnya yang empuk terasa makin mantap.",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Nasi Ayam Penyet",
+      "restaurant": "WARUNG SAMBAL HIJAU MAS BRO",
+      "price": 22000,
+      "description": "Sepotong ayam goreng yang ditemani sayur kol goreng, daun ubi, irisan timun dan kemangi. Di piring-piring terpisah kemudian diberikan olahan sambal ijo, nasi putih serta semangkuk kuah sop.",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Bakso Dobel",
+      "restaurant": "WARUNG MH",
+      "price": 28000,
+      "description": "Satu porsi bakso dobel menghadirkan perpaduan unik bakso urat dan bakso tenes, dilengkapi bakso kecil, sayuran, mie kuning, dan bihun. Disajikan dengan kuah kaldu panas yang kaya rasa, hidangan ini semakin sempurna dengan tambahan perasan jeruk nipis, sambal, saus, dan kecap manis sesuai selera.",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Nasi Goreng",
+      "restaurant": "NASGOR 66",
+      "price": 18000,
+      "description": "Nasi goreng dengan olahan nasi bertekstur hambur yang digoreng bersama telur dan bumbu dengan campuran potongan sawi, kol, kecap, saos serta sambal yang bisa direquest pedasnya. Sebagai lauknya ada ayam suwir, telur dadar/mata sapi, serta irisan timun dan kerupuk.",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Kapurung",
+      "restaurant": "KAPURUNG HJ IRA",
+      "price": 20000,
+      "description": "Hidangan kapurung yang baru saja dibuat disajikan dengan semangkuk hangat kuah kacang. Bulatan sagu kenyal berpadu sempurna dengan potongan ikan ekor kuning segar dan aneka sayuran seperti bayam, terong, dan jantung pisang. Tingkat kepedasan dapat disesuaikan dengan selera, dan tersedia pula lauk pendamping seperti perkedel atau ikan goreng.",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Nasi Ikan Bandeng Bakar",
+      "restaurant": "DEPOT SETIA KAWAN",
+      "price": 24000,
+      "description": "Sepotong bandeng bakar yang menggugah selera terpampang di atas piring. Ikan segar yang dipanggang hingga sempurna mengeluarkan aroma harum yang mengundang selera. Kulitnya yang renyah membungkus daging putih lembut yang berpadu sempurna dengan manis, asin, dan sedikit pedasnya sambal oles. Disajikan bersama sambal kacang yang kaya rempah, sambal dabu-dabu yang segar, dan semangkuk sup hangat, hidangan ini adalah perpaduan sempurna antara cita rasa laut yang segar dan bumbu-bumbu tradisional.",
+      "category": "Seafood"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Nasi Bakar",
+      "restaurant": "Nasi Bakar Nae",
+      "price": 15000,
+      "description": "Nasi bakar yang disajikan dalam kemasan daun pisang ini menawarkan cita rasa yang autentik. Nasi pulen yang dibumbui dengan rempah-rempah pilihan dibungkus rapat, menghasilkan aroma yang menggugah selera. Isiannya pun beragam, mulai dari suwiran ayam atau ikan yang lembut, potongan kacang panjang yang renyah, daun kemangi yang harum, hingga orek tempe yang gurih. Perpaduan rasa manis, gurih, dan sedikit pedas menciptakan harmoni cita rasa yang sempurna.",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Putu",
+      "restaurant": "Warung Mama Man",
+      "price": 2000,
+      "description": "Putu disini baru dicetak sesaat di pesan, dimana olahan beras pulut dibentuk menggunakan pencetak yang lalu digilingkan ke atas parutan kelapa bercampur garam. Menemani bersantap diberikan sambal duo tomat yang gurih.",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Nasi Bebek Dada",
+      "restaurant": "Bakso & Bebek Penyet Mas Gibran",
+      "price": 32000,
+      "description": "Memesan seporsi bebek + nasi, sepotong bebek goreng berbumbu disajikan lengkap bersama dua macam sambal; yakni sambal merah dan hitam, gak ketinggalan sepotong tahu dan tempe, lalapan terong, timun, kemangi serta setangkup nasi putih bertopping bawang goreng turut menemani hidangannya.",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Bakso Tenes",
+      "restaurant": "Bakso Handayani",
+      "price": 20000,
+      "description": "Seporsi bakso tenesnya sendiri menyajikan bakso-bakso yang kenyal dan empuk, mulai dari sebutir bakso berisi telur, sebutir bakso urat, beberapa bakso kecil, tahu, mie kuning dan laksa yang direndam kuah beningnya nan gurih.",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Nasi Goreng Goraka",
+      "restaurant": "Nasi Goreng Naik Kelas",
+      "price": 15000,
+      "description": "Memesan nasgor goraka, gilingan jahe kemudian dimasak bersama rica (bisa request pedas), sawi, bumbu dan rempah, serta tambahan kecap manis dan saos sambal yang kemudian disajikan bersama telur dadar, acar timun dan kerupuk. Rasanya tentu saja gurih dan pedas, dengan wangi aromatic yang menggoda selera.",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Bakso",
+      "restaurant": "Bakso Viral Mami Ratu",
+      "price": 25000,
+      "description": "Bebas ambil sendiri, selain ada tiga pilihan bakso: bakso sapi, bakso ayam dan bakso ikan, tersedia juga aneka pendamping mulai dari mie kuning, bihun, kol, tahu, keripuk pangsit, hingga pilihan rasa kuah original dan tomyum.",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Es Teller",
+      "restaurant": "Bakso Viral Mami Ratu",
+      "price": 10000,
+      "description": "Es teller disajikan dengan isian cincau, pepaya, nata decoco, jelly, selasih hingga alpukat yang berpadu olahan susu dan bisa ditambahkan ice cream.",
+      "category": "Beverages"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Sate Ayam Kuah Gulai",
+      "restaurant": "RADJA SATE ID MAS AJI",
+      "price": 15000,
+      "description": "Seporsinya sate ayamnya sendiri menyajikan tujuh tusuk sate ayam bersiram saos kacang manis gurih, ditemani semangkuk kecil kuah gulai santan yang berlimpah bawang goreng, daun bawang, serta tidak ketinggalan sepiring nasi putih (bisa juga pakai lontong).",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Coto Makassar",
+      "restaurant": "COTO DAENG TARANG",
+      "price": 25000,
+      "description": "Cotonya sendiri menyajikan potongan daging dan jeroan sapi yang terendam kuah encer berwarna cokelat yang berlimpah daun bawang, bawang goreng serta ditemani tiga buah ketupat.",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "KAPURUNG UDANG KOMPLIT",
+      "restaurant": "RUMAH KAPURUNG PLW",
+      "price": 30000,
+      "description": "Bulatan sagunya bercampur kuah kacang dengan aneka sayuran yang jenisnya menyesuikan lauk yang digunakan. Sebagai contoh kapurung lauk udang ini memakai sayur kacang panjang, pisang muda dan jagung. Sementara untuk lauk lain, sayurannya akan berbeda lagi. Tambahan ‘komplit’ di menunya sendiri berarti include sepiring perkedel jagung yang digoreng dadakan.",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Paket Katombo Bakar",
+      "restaurant": "Katombo Jaya",
+      "price": 20000,
+      "description": "Sepaketnya terdiri dari dua ekor ikan yang dibakar dadakan, kemudian disiram rica dabu-dabu dan disajikan bersama tambahan rica minyak, kuah santan labu siam dan sepiring nasi putih. Tekstur ikannya sendiri terasa lembut saat digigit dengan tingkat kematangan yang pas. Disantap bersama rica dabu-dabu yang segar dan rica minyak.",
+      "category": "Seafood"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Bubur Manado Komplit",
+      "restaurant": "Dapoer Sehat Palu",
+      "price": 25000,
+      "description": "Menunya sendiri ada bubur manado, midal dan mie cakalang. Oh ya menemani disediakan juga sesisir pisang kecil-kecil yang pas menemanimu bersantap sambil bercengkerama dengan oma yang tinggal disini.",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Nasi Bandeng Bakar",
+      "restaurant": "WM Mama Salam",
+      "price": 20000,
+      "description": "Ikan Bandeng berukuran cukup besar yang sudah dibersihkan tulang besarnya ini, lalu dibakar dengan base mentega, sebelum dioles lagi dengan sambal manis pedas dengan after taste jahe yang segar. Menemani ada rica dabu-dabu dan rica minyak yang memberi sensasi asam segar serta pedas asin yang jamin bikin nagih.",
+      "category": "Seafood"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Binte Pulut",
+      "restaurant": "RM Simore",
+      "price": 15000,
+      "description": "Kuahnya yang panas dan kental, biji jagung pulut yang petjah di mulut, serta suwiran ikan dan bawang gorengnya melimpahnya enak memang disantap kala cuaca mendung dan hujan.",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Healthy Bibimbab",
+      "restaurant": "Bandar Salad by Bsuperfood, Palu Selatan",
+      "price": 66000,
+      "description": "Low calorie , only 400kcal. Kongbab Rice, Fresh Veggies, with extra proteins beef bulgogi, egg, and mushroom.",
+      "category": "Snacks"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Simple Kebab",
+      "restaurant": "Bandar Salad by Bsuperfood, Palu Selatan",
+      "price": 29700,
+      "description": "254 kkal Simple Kebab: Telur, Tortilla, Smoke Beef, Selada Mozarella Cheese. Rasakan sensasi pasar malam Eropa tanpa pergi jauh-jauh.",
+      "category": "Snacks"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Bread Omeletto",
+      "restaurant": "Bandar Salad by Bsuperfood, Palu Selatan",
+      "price": 23800,
+      "description": "161 Kkal Sarapan dengan Omelete, Roti Gandum Panggang, dan Simple Salad Membuat Anda Serasa Dihotel Bintang 5",
+      "category": "Snacks"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Roti Gandum Panggang Srikaya",
+      "restaurant": "Bandar Salad by Bsuperfood, Palu Selatan",
+      "price": 25000,
+      "description": "Roti Panggang Selai Srikaya",
+      "category": "Snacks"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Paket Daging Tuna Bakar",
+      "restaurant": "Rm.olamita",
+      "price": 59612,
+      "description": "Nasi+ Daging Tuna+ Cah Kangkung+sambal Iloni,dabu dabu,sambal bawang",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Paket Nasi Sate Tuna",
+      "restaurant": "Rm.olamita",
+      "price": 48125,
+      "description": "Nasi+4 Tusuk Sate+sayur+sambal Dabu Dabu,sambal Bawang",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Paket Tuna Geprek",
+      "restaurant": "Rm.olamita",
+      "price": 41250,
+      "description": "Nasi + Tuna Geprek + Cah Kangkung + Sambal Bawang",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Paket Nasi Katombo Bakar",
+      "restaurant": "Rm.olamita",
+      "price": 48125,
+      "description": "Nasi+2 Ekor Katombo+cah Kangkung+Dabu Dabu+sambal Bawang",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Paket Sate Taichan",
+      "restaurant": "Rm.olamita",
+      "price": 41250,
+      "description": "Nasi+4 Tusuk Sate+Cah Kangkung+sambal Taichan",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Coto Ayam Maros",
+      "restaurant": "Coto Ayam Jo, Siranindi Palu Barat",
+      "price": 25000,
+      "description": "Kuah Coto Maros, Lontong, Potongan Ayam, Daun Sup, Bawang Goreng, Jeruk Nipis, Rica, Saos Sambal, Kecap",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Martabak Mie Telur",
+      "restaurant": "Coto Ayam Jo, Siranindi Palu Barat",
+      "price": 25000,
+      "description": "Campuran Mie Goreng + Telur",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "OG BURGER",
+      "restaurant": "Baked Bloom, Tatura Utara",
+      "price": 38000,
+      "description": "Roti homemade, Homemade patty daging sapi cincang, caramelized onions, selada dan irisan tomat Dengan Saus Klasik Pedas Ala Burger Bloom.",
+      "category": "Western"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "CHEESE BURGER",
+      "restaurant": "Baked Bloom, Tatura Utara",
+      "price": 41000,
+      "description": "Roti homemade, Homemade patty daging sapi cincang, caramelized onions, selada dan irisan tomat Dengan Saus klasik Pedas Dan Saus Keju Lumer Ala Burger",
+      "category": "Western"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Cheesy Fries",
+      "restaurant": "Baked Bloom, Tatura Utara",
+      "price": 28000,
+      "description": "Kentang Goreng Dengan Saus Keju Lumer Dan Taburan Smoked Beef.",
+      "category": "Western"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Bitterballen",
+      "restaurant": "Baked Bloom, Tatura Utara",
+      "price": 25000,
+      "description": "Kroket Daging sapi Creamy nan Gurih khas Belanda.",
+      "category": "Western"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Steak And Grill Beef",
+      "restaurant": "Eat Steak Palu, Setia Budi",
+      "price": 31250,
+      "description": "Potongan Daging Sapi Dengab Resapan Bumbu Yang Khas Di Sajikan Dengan Sayuran Sehat Cocok Untuk Kamu Yang Diet",
+      "category": "Western"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Beef Burger Cheese",
+      "restaurant": "Eat Steak Palu, Setia Budi",
+      "price": 18750,
+      "description": "Burger Dengan Potongan Daging Dan Keju Slice",
+      "category": "Western"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Kebab",
+      "restaurant": "Eat Steak Palu, Setia Budi",
+      "price": 18750,
+      "description": "Kebab Dengan Isian Daging Yang Lezat",
+      "category": "Western"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Soto Banjar Asli Khas BANJAR",
+      "restaurant": "Soto Banjar MM Kori",
+      "price": 30000,
+      "description": "Ketupat+ayam+telur+perkedel+kuah Rempah2 Asli Banjar,rasa Kada Menahan Pang",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Nasi Kuning Ayam",
+      "restaurant": "Soto Banjar MM Kori",
+      "price": 20000,
+      "description": "Nasi Kuning+ayam+sambal Goreng Tempe+serundeng",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Mie Kwang Tung",
+      "restaurant": "House of Wok",
+      "price": 77500,
+      "description": "Mie goreng dengan caisim goreng ala Ujung Pandang",
+      "category": "Chinese"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Steak Koe",
+      "restaurant": "Steak Koe",
+      "price": 46500,
+      "description": "Daging sapi lokal dengan kematangan yang tepat disertai buncis, wortel, kentang dan saos spesial.",
+      "category": "Western"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Kaledo Stereo",
+      "restaurant": "Kaledo Stereo",
+      "price": 60000,
+      "description": "Makanan khas Sulawesi Tengah yang terbuat dari tulang sumsum sapi dan daging yang direbus dalam kuah bening.",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Ikan Woku Belanga",
+      "restaurant": "RM Raja Kuring",
+      "price": 100000,
+      "description": "Satu ekor ikan yang dimasak bersama 17 macam bumbu dan berbagai jenis daun hingga menghasilkan kuah asam pedas dan segar.",
+      "category": "Seafood"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Pangsit Mie Campur Besar",
+      "restaurant": "Pangsit Mie Malei",
+      "price": 66000,
+      "description": "Mie khas Palu dengan char siu, tore dan ayam",
+      "category": "Noodles"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Binte Ubi",
+      "restaurant": "Cafe Binte",
+      "price": 15000,
+      "description": "Makanan khas Gorontalo yang terbuat dari jagung yang disiram dengan kuah dengan sentuhan ikan dan ubi sebagai pelengkap.",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Palumara Badan",
+      "restaurant": "Warung Makan Pangkep Padaidi",
+      "price": 76250,
+      "description": "Hidangan khas Makassar dan Palu yang terbuat dari ikan dan kuah dengan cita rasa asam dan pedas berkuah kental.",
+      "category": "Seafood"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Ice Teh Tarik",
+      "restaurant": "My Kopi-O!",
+      "price": 25410,
+      "description": "Minuman manis berupa campuran teh dan susu",
+      "category": "Beverages"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Sebelah Double Decker Burger",
+      "restaurant": "Cafe Sebelah",
+      "price": 54500,
+      "description": "Burger yang memiliki dua tingkat patty khas Cafe Sebelah",
+      "category": "Western"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Nasi Goreng Seafood",
+      "restaurant": "Depot 88",
+      "price": 25000,
+      "description": "Makanan yang terbuat dari nasi putih yang digoreng dengan bumbu-bumbu dan bahan tambahan serta seafood.",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Coto Maros",
+      "restaurant": "Coto Asli Maros \"Bang Yadi",
+      "price": 15000,
+      "description": "Makanan berkuah yang isinya daging dan jeroan sapi yang direbus sampai empuk",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "I Fu Mie",
+      "restaurant": "House of Wok",
+      "price": 80000,
+      "description": "Mie yang telah direbus lalu digoreng sampai garing berbentuk sarang dan disajikan dengan disiram dengan saus kental.",
+      "category": "Chinese"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Mie Hokkian Goreng",
+      "restaurant": "House of Wok",
+      "price": 77500,
+      "description": "Mie kuning bertekstur super tebal yang dimasak bersama kecap manis, bakso, dan udang.",
+      "category": "Chinese"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Ikan Asam Manis",
+      "restaurant": "RM Raja Kuring",
+      "price": 135000,
+      "description": "Ikan Kakap goreng tepung dan disiram dengan saos asam manis",
+      "category": "Seafood"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Capcay Goreng Seafood",
+      "restaurant": "RM Raja Kuring",
+      "price": 78000,
+      "description": "Menu dengan banyak macam sayuran yang dimasak dengan cara digoreng tumis ditambah dengan seafood.",
+      "category": "Chinese"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Capcay Goreng",
+      "restaurant": "Warung Makan Pangkep Padaidi",
+      "price": 35000,
+      "description": "Menu dengan banyak macam sayuran yang dimasak dengan cara digoreng tumis.",
+      "category": "Chinese"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Cappuccino with Caramel",
+      "restaurant": "My Kopi-O!",
+      "price": 36960,
+      "description": "Minuman kopi yang terdiri dari espresso, susu steam dan foam susu serta diberi sentuhan caramel.",
+      "category": "Beverages"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Mochaccino",
+      "restaurant": "My Kopi-O!",
+      "price": 33495,
+      "description": "Minuman kopi yang merupakan variasi dari cappuccino dengan tambahan cokelat.",
+      "category": "Beverages"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Spaghetti Smoked Beef Carbonara",
+      "restaurant": "My Kopi-O!",
+      "price": 54054,
+      "description": "Spaghetti yang terbuat dari saus telur, keju, dan daging smoked beef.",
+      "category": "Noodles"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Fish and Chips Tartar Sauce",
+      "restaurant": "My Kopi-O!",
+      "price": 57519,
+      "description": "Ikan filet berbalut tepung dan kentang goreng dengan saus tartar.",
+      "category": "Western"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Palumara Mujair",
+      "restaurant": "Katombo & Mujair Bakar 18, Wl Resto",
+      "price": 35000,
+      "description": "Sup ikan khas Palu dengan rasa pedas dan asam.",
+      "category": "Seafood"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Sate Tuna Rica + Dabu Dabu",
+      "restaurant": "Katombo & Mujair Bakar 18, Wl Resto",
+      "price": 35000,
+      "description": "Sate tuna 3 tusuk ukuran jumbo dengan bumbu rica, dilengkapi sambel dabu-dabu.",
+      "category": "Seafood"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Nasi Ayam Geprek Rica",
+      "restaurant": "Katombo & Mujair Bakar 18, Wl Resto",
+      "price": 35000,
+      "description": "Nasi dengan ayam dan sambal rica khas, dilengkapi dengan timun.",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Putu Cangkir",
+      "restaurant": "Katombo & Mujair Bakar 18, Wl Resto",
+      "price": 13500,
+      "description": "Camilan khas Sulawesi dengan bahan dasar beras ketan.",
+      "category": "Snacks"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Kapurung Ikan",
+      "restaurant": "Rumah Kapurung Palu",
+      "price": 25750,
+      "description": "Makanan tradisional yang terbuat dari sagu dengan lauk ikan dan campuran sayuran seperti jagung, kacang panjang dan bayam.",
+      "category": "Seafood"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Kapurung Ayam",
+      "restaurant": "Rumah Kapurung Palu",
+      "price": 31750,
+      "description": "Makanan tradisional yang terbuat dari sagu dengan lauk ayam dan campuran sayuran seperti jantung pisang, kacang panjang dan bayam.",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Binte",
+      "restaurant": "Kedai Binte Perdos",
+      "price": 20000,
+      "description": "Sup jagung manis khas Sulawesi disajikan dengan ikan suwir, daun bawang, daun sup, dan bawang goreng.",
+      "category": "Seafood"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Kue Tetu",
+      "restaurant": "Rumah Kue Matami",
+      "price": 5000,
+      "description": "Kue khas Sulawesi dengan bahan utama santan dan gula merah yang disajikan dalam cetakan daun pisang.",
+      "category": "Snacks"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Saraba Original",
+      "restaurant": "Saraba STMJ",
+      "price": 11000,
+      "description": "Minuman hangat khas Sulawesi dari jahemerah, gula aren dan rempah-rempah.",
+      "category": "Beverages"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Mie Garing Sulawesi",
+      "restaurant": "Mie Garing Sulawesi Cabang Palu",
+      "price": 56600,
+      "description": "Mie renyah dipadukan dengan kuah gurih yang terdiri dari campuran daging sapi dan sayuran.",
+      "category": "Noodles"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Mie Giling Kuah Cakalang",
+      "restaurant": "Warung Mie Cakalang Plw",
+      "price": 23750,
+      "description": "Mie berkuah disajikan dengan tumisan ikan cakalang.",
+      "category": "Noodles"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Nasi Bakar Ayam",
+      "restaurant": "Nasi Bakar Savory",
+      "price": 20000,
+      "description": "Nasi bakar yang terdiri dari nasi rempah dicampur dengan ayam masak bumbu dan dibungkus daun pisang.",
+      "category": "Indonesian"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Beef Burger With Fries",
+      "restaurant": "Big Mouth Burger & Coffee",
+      "price": 46000,
+      "description": "Burger dengan patty daging yang gurih dan sayuran, disajikan bersama kentang goreng.",
+      "category": "Western"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Choconut Coffee",
+      "restaurant": "Big Mouth Burger & Coffee",
+      "price": 26000,
+      "description": "Espresso dengan kelapa dan susu.",
+      "category": "Beverages"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Pepperoni Pizza",
+      "restaurant": "Basra Pizza Club",
+      "price": 98000,
+      "description": "Pizza klasik andalan Basra Pizza Club dengan topping irisan pepperoni yang gurih dan sedikit pedas.",
+      "category": "Western"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Es Kopi Gula Aren",
+      "restaurant": "Kopi A'robi",
+      "price": 31666,
+      "description": "Es kopi dengan campuran manisnya gula aren dari kedai kopi terkenal asli dari Palu",
+      "category": "Beverages"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Es Pisang Ijo Toping Kacang",
+      "restaurant": "Es Pisang Ijo Ananda",
+      "price": 13000,
+      "description": "Minuman menyegarkan khas Makassar yang terdiri dari pisang, es serut, sirup manis, dan santan.",
+      "category": "Beverages"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Es Tape Ketan Spesial",
+      "restaurant": "YAKU Dessert & Snack",
+      "price": 30000,
+      "description": "Es tape ketan dengan tambahan topping kelapa, nangka, cincau, dan sirup yang manis.",
+      "category": "Beverages"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Es Kacang Merah Manado Special (Es Brenebon)",
+      "restaurant": "YAKU Dessert & Snack",
+      "price": 30000,
+      "description": "Kacang Merah, Alpukat, Kelapa Dengan Es Serut Serta Siraman Saus Coklat Dan Taburan Nougat Kacang.",
+      "category": "Beverages"
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "product_name": "Choco Mochi",
+      "restaurant": "YAKU Dessert & Snack",
+      "price": 27000,
+      "description": "Pudding telur+mochi+chocolate ice cream+fresh milk",
+      "category": "Snacks"
+    }
+  }
+]
