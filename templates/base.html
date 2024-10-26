@@ -6,6 +6,7 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+		<script src="https://unpkg.com/lucide@latest"></script>
 		<script src="https://cdn.tailwindcss.com"></script>
 		<script src="{% static 'js/tailwind-config.js' %}"></script>
 		<link rel="stylesheet" href="{% static 'css/styles.css' %}" />
@@ -15,8 +16,13 @@
 
 	<body class="bg-yellow-light">
 		{% block navbar %} {% endblock navbar %}
+
 		<div class="relative left-1/2 transform -translate-x-1/2 w-[95%] px-2 max-w-screen-xl">
 			{% block content %} {% endblock content %}
 		</div>
+
+		<script>
+			lucide.createIcons();
+		</script>
 	</body>
 </html>
