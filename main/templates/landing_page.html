@@ -1,7 +1,7 @@
-{% extends 'very_base.html' %}
+{% extends 'minimal.html' %}
 {% load static %}
 
-{% block content %}
+{% block body %}
 <main class="overflow-x-hidden">
 	<div class="bg-[url({% static 'img/auth-bg.jpg' %})] bg-fixed h-screen w-screen bg-cover grid place-items-center">
 		<div class="absolute top-10 right-10">
@@ -50,4 +50,4 @@
 		<img src="{% static 'img/landing-2.png' %}" class="hidden md:block object-fill justify-self-end" />
 	</div>
 </main>
-{% endblock content %}
+{% endblock body %}
