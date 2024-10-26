@@ -10,10 +10,11 @@ from products.models import Product
 def main(request):
     dataset_products = Product.objects.filter(user__isnull=True)
     user_products = Product.objects.filter(user__isnull=False)
-
     products = dataset_products.union(user_products)
     
-    return render(request, 'database_products.html', {'products': products})
+    categories = Product.objects.values_list('category', flat=True).distinct()
+    
+    return render(request, 'database_products.html', {'products': products, 'categories': categories,})
 
 # Show all logged in merchant's products
 @login_required(login_url='/accounts/login')

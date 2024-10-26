@@ -11,9 +11,9 @@
   {% if not products %}
     <p class="text-xl my-6 mt-6 font-semibold text-sage-darker text-center">{{ empty_message }}</p>
   {% else %}
-  <div class="p-6 my-6 m-4 w-full mx-auto flex flex-wrap justify-center gap-6 p-4">
+    <div class="p-6 my-6 m-4 w-full mx-auto flex flex-wrap justify-center gap-6 p-4">
   {% for product in products %}
-    <div class="relative bg-yellow-light-hover shadow-lg p-6 my-6 m-4 mx-auto w-80 flex flex-col justify-center gap-4">
+    <div class="relative bg-yellow-light-hover shadow-lg p-6 my-6 m-4 mx-auto w-80 flex flex-col justify-center gap-4 transform duration-500 hover:shadow-2xl cursor-pointer hover:-translate-y-1">
       <div class="absolute top-5 left-5 flex space-x-2 z-10 font-semibold text-sm">
         <p>{{ product.category }}</p>
       </div>
@@ -41,7 +41,7 @@
 <script>
   function deleteProduct(productId) {
       if (confirm('Apakah Anda yakin ingin menghapus produk ini?')) {
-          fetch(`/products/${productId}/delete-product/`, {
+          fetch(`/products/me/${productId}/delete-product/`, {
               method: 'POST',
               headers: {
                   'X-CSRFToken': '{{ csrf_token }}',
