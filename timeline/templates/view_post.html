@@ -1,20 +1,23 @@
 {% extends 'base_navbar.html' %}
 
 {% block content %}
-<div>
-  <p><strong>{{ post.user.foodieprofile.full_name }}</strong> wrote:</p>
+<div class="sticky top-24 px-4 py-2 border border-moss-green-darker bg-white">
+  <div>
+    <span>{{ post.user.foodieprofile.full_name }}</span>
+    <span class="text-peach">@{{ post.user.username }}</span>
+  </div>
   <p>{{ post.text }}</p>
 </div>
 
-<hr>
+<main>
+  <div id="comment-container" class="mt-4 mb-8">
+  </div>
 
-<div id="comment-container">
-</div>
-
-<form id="comment-form">
-  <input type="text" name="text" autocomplete="off" />
-  <button type="submit">Create Comment</button>
-</form>
+  <form class="flex flex-row gap-2 sticky bottom-6" id="comment-form">
+    <input type="text" class="focus:outline-none px-2.5 flex-grow bg-white-light border border-moss-green-darker" placeholder="Berikan komentarmu" />
+    <button class="bg-sage-dark text-white py-2 px-4">Comment</button>
+  </form>
+</main>
 
 <script>
 function getComments() {

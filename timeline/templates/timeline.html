@@ -17,17 +17,25 @@
 	<div>
 		{% for post in posts %}
 		<div class="border px-6 py-4 border-moss-green-darker my-2">
-			<p>
-				<span>{{ post.user.foodieprofile.full_name }}</span>
-				<span class="text-peach">@{{ post.user.username }}</span>
-			</p>
-			<p>
-				{{ post.text }}
-			</p>
-			{% if post.user.id == user.id %}
-				<a class="text-peach" href='{% url 'timeline:edit_post' post.id %}'>[edit]</a>
-				&mdash; <a class="text-peach" href='{% url 'timeline:delete_post' post.id %}'>[delete]</a>
-			{% endif %}
+			<div class="flex flex-row justify-around">
+				<div>
+					<span>{{ post.user.foodieprofile.full_name }}</span>
+					<span class="text-peach">@{{ post.user.username }}</span>
+				</div>
+				<div class="inline ml-auto">
+					{% if post.user.id == user.id %}
+					<a class="text-peach" href='{% url 'timeline:edit_post' post.id %}'>
+						<i data-lucide="pencil-line" class="inline" width="18"></i>
+					</a>
+					<a class="text-peach" href='{% url 'timeline:delete_post' post.id %}'>
+						<i data-lucide="trash" class="inline" width="18"></i>
+					</a>
+					{% endif %}
+				</div>
+			</div>
+			<a class="break-words" href="{% url 'timeline:view_post' post.id %}">
+				{{ post.text|linebreaksbr }}
+			</a>
 		</div>
 		{% endfor %}
 	</div>
