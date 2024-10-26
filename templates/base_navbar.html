@@ -7,6 +7,7 @@
 
 		<span class="font-bold">
 		{% if user.role == 'Foodie' %}
+			{% include 'components/navbar_link.html' with label="Products" keyword="products" href='products:main' %}
 			{% include 'components/navbar_link.html' with label="Timeline" keyword="timeline" href='timeline:main' %}
 			{% include 'components/navbar_link.html' with label="Favorites" keyword="favorites" href='favorites:main' %}
 			{% include 'components/navbar_link.html' with label="Promos" keyword="promos" href='promos:main' %}
