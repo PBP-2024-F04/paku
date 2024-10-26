@@ -1,19 +1,59 @@
 {% extends 'base_navbar.html' %}
 
 {% block content %}
-<h1>Edit Product</h1>
+<div class="container mx-auto px-4 py-8 mt-16 max-w-xl">
+    <h2 class="text-3xl text-center font-bold">Edit Product</h2>
 
-<form method="POST">
-    {% csrf_token %}
-    <table>
-        {{ form.as_table }}
-        <tr>
-            <td></td>
-            <td>
-                <input type="submit" value="Edit Product"/>
-            </td>
-        </tr>
-    </table>
-</form>
+    <form id="editProductForm" class="bg-white shadow-md rounded-lg p-6 form-style">
+        <form method="POST" class="space-y-6">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="flex flex-col">
+                    <label for="{{ field.id_for_label }}" class="mb-2 font-semibold text-gray-700">
+                        {{ field.label }}
+                    </label>
+                    <div class="w-full">
+                        {{ field }}
+                    </div>
+                    {% if field.help_text %}
+                        <p class="mt-1 text-sm text-gray-500">{{ field.help_text }}</p>
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <div class="flex justify-center mt-6">
+                <button type="submit" class="bg-moss-green hover:bg-moss-green-dark text-white font-bold py-2 px-4 mx-2">Edit</button>
+            </div>
+        </form>
+    </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('editProductForm').addEventListener('submit', function(event) {
+        event.preventDefault();  
+
+        const formData = new FormData(this);
+        fetch('', {  
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Product berhasil diupdate!');
+                window.location.href = "{% url 'products:my_products' %}";
+            } else {
+                alert('Gagal mengupdate product: ' + JSON.stringify(data.errors));
+            }
+        })
+        .catch(error => console.error('Error:', error)); // Menangkap error
+    });
+</script>
 
 {% endblock %}

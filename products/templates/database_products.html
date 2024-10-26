@@ -1,7 +1,13 @@
 {% extends 'base_navbar.html' %}
 
 {% block content %}
-<h1>Products Page</h1>
+<h1>
+  {% if category_name %}
+    Products in {{ category_name }}
+  {% else %}
+    Products Page
+  {% endif %}
+</h1>
 
 {% if not products %}
 <p>{{ empty_message }}</p>
@@ -29,13 +35,6 @@
     </td>
     
     {% if user.is_authenticated and user.role == 'Foodie' %}
-    <!-- <td>
-        <a href="{% url 'reviews:create_review' product.pk %}">
-            <button>
-                Review
-            </button>
-        </a>
-    </td> -->
     <td>
         <a href="{% url 'favorites:create_favorite' product.pk %}">
             <button>
