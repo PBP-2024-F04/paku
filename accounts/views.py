@@ -1,28 +1,46 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from .models import FoodieProfile, MerchantProfile, User
 from .forms import FoodieProfileForm, MerchantProfileForm, UserLoginForm, UserRegistrationForm
 
 def login_page(request):
-    if request.method == "POST":
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
+    if not request.user.is_anonymous:
+        return redirect('accounts:home')
 
-        if user is not None:
-            login(request, user)
-            return redirect('accounts:home')
-        else:
-            messages.error(request, "Username or Password does not match")
+    if request.method == "POST":
+        form = UserLoginForm(request.POST)
+
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+                login(request, user)
+                return redirect('accounts:home')
+
+        messages.error(request, "Username or Password does not match")
 
     form = UserLoginForm()
     return render(request, 'login.html', {'form': form})
 
+def logout_user(request):
+    logout(request)
+    return redirect('main:landing')
+
 def register_page(request):
+    if not request.user.is_anonymous:
+        return redirect('accounts:home')
+
     return render(request, 'register.html')
 
 def register_foodie_page(request):
+    if not request.user.is_anonymous:
+        return redirect('accounts:home')
+
     form = UserRegistrationForm()
     foodie_form = FoodieProfileForm()
 
@@ -48,6 +66,9 @@ def register_foodie_page(request):
     })
 
 def register_merchant_page(request):
+    if not request.user.is_anonymous:
+        return redirect('accounts:home')
+
     form = UserRegistrationForm()
     merchant_form = MerchantProfileForm()
 
@@ -72,6 +93,7 @@ def register_merchant_page(request):
         'merchant_form': merchant_form,
     })
 
+@login_required(login_url='/accounts/login')
 def home_page(request):
     if request.user.role == 'Foodie':
         return render(request, 'home_foodie.html', {'user': request.user})
