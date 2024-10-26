@@ -23,7 +23,7 @@
             </div>
         {% endfor %}
         <div class="button-group flex justify-center mt-4">
-          <button type="button" class="bg-yellow hover:bg-yellow-dark text-white font-bold py-2 px-4 mx-2" onclick="window.location.href='{% url 'products:view_products' %}'">Batal</button>
+          <button type="button" class="bg-yellow hover:bg-yellow-dark text-white font-bold py-2 px-4 mx-2" onclick="window.location.href='{% url 'products:my_products' %}'">Batal</button>
           <button type="submit" class="bg-moss-green hover:bg-moss-green-dark text-white font-bold py-2 px-4 mx-2">Add</button>
         </div>
     </form>
@@ -45,7 +45,7 @@
     .then(data => {
         if (data.success) {
             alert('Product berhasil ditambahkan!');
-            window.location.href = "{% url 'products:view_products' %}";  // Halaman produk milik pengguna
+            window.location.href = "{% url 'products:my_products' %}";  // Halaman produk milik pengguna
         } else {
             alert('Gagal menambahkan produk: ' + JSON.stringify(data.errors));
         }

@@ -47,7 +47,7 @@
         .then(data => {
             if (data.success) {
                 alert('Product berhasil diupdate!');
-                window.location.href = "{% url 'products:view_products' %}";
+                window.location.href = "{% url 'products:my_products' %}";
             } else {
                 alert('Gagal mengupdate product: ' + JSON.stringify(data.errors));
             }
