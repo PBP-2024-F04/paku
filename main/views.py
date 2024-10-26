@@ -1,4 +1,4 @@
-from django.shortcuts import redirect
+from django.shortcuts import render
 
 def main(request):
-    return redirect('accounts:login')
+    return render(request, 'landing_page.html')

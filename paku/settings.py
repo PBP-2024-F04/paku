@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'promos',
     'reviews',
     'timeline',
+    'main'
 ]
 
 MIDDLEWARE = [

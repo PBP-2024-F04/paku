@@ -1,7 +1,8 @@
 {% extends 'base_navbar.html' %}
 
 {% block content %}
-<h1>Edit "{{ product.product_name }}"'s Favorite Level</h1>
+{% if user.role == 'Foodie' %}
+<h1>Edit Favorite Level</h1>
 
 <form method="POST">
     {% csrf_token %}
@@ -15,4 +16,5 @@
         </tr>
     </table>
 </form>
+{% endif %}
 {% endblock content %}
