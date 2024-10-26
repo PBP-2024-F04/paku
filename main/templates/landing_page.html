@@ -3,7 +3,7 @@
 
 {% block content %}
 <main class="overflow-x-hidden">
-	<div class="bg-[url({% static 'img/auth-bg.jpg' %})] h-screen w-screen bg-cover grid place-items-center">
+	<div class="bg-[url({% static 'img/auth-bg.jpg' %})] bg-fixed h-screen w-screen bg-cover grid place-items-center">
 		<div class="absolute top-10 right-10">
 			<a class="bg-white text-white-darker px-6 py-3 text-xl rounded-full mr-4" href="{% url 'accounts:register' %}">Register</a>
 			<a class="bg-moss-green text-white px-6 py-3 text-xl rounded-full" href="{% url 'accounts:login' %}">Login</a>
