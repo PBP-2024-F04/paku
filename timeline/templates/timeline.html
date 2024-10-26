@@ -4,12 +4,15 @@
 <main>
 	<div class="mb-5 text-center border-b border-moss-green-darker py-4">
 		<h1 class="text-5xl font-bold mb-4">My Timeline</h1>
+		<a class="px-4 py-2 bg-sage-dark text-white font-bold" href="{% url 'timeline:create_post' %}">
+			Create Post
+		</a>
 	</div>
 
-	<form class="flex flex-row gap-2 mb-5">
-		<input type="text" class="focus:outline-none px-2.5 flex-grow bg-white-light border border-moss-green-darker" placeholder="Apa yang ada di pikiranmu?" />
-		<button class="bg-sage-dark text-white py-2 px-4">Post</button>
-	</form>
+	<!-- <form class="flex flex-row gap-2 mb-5"> -->
+	<!-- 	<input type="text" class="focus:outline-none px-2.5 flex-grow bg-white-light border border-moss-green-darker" placeholder="Apa yang ada di pikiranmu?" /> -->
+	<!-- 	<button class="bg-sage-dark text-white py-2 px-4">Post</button> -->
+	<!-- </form> -->
 
 	<div>
 		{% for post in posts %}
