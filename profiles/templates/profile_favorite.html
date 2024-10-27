@@ -1,0 +1,12 @@
+{% extends 'profile_base.html' %}
+
+{% block main %}
+  <main>
+    {% for favorite in favorites %}
+    <div class="border px-6 py-4 border-moss-green-darker my-2">
+      <h1 class="text-lg">{{ favorite.product.product_name }} &mdash; {{ favorite.product.restaurant }}</h1>
+      <p>{{ favorite.category }}</p>
+    </div>
+    {% endfor %}
+  </main>
+{% endblock main %}
