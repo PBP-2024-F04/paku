@@ -17,8 +17,8 @@ def main(request):
     user_products = Product.objects.filter(user__isnull=False)
 
     if query:
-        dataset_products = dataset_products.filter(Q(product_name__icontains=query) | Q(description__icontains=query))
-        user_products = user_products.filter(Q(product_name__icontains=query) | Q(description__icontains=query))
+        dataset_products = dataset_products.filter(Q(product_name__icontains=query))
+        user_products = user_products.filter(Q(product_name__icontains=query))
     
     if category:
         dataset_products = dataset_products.filter(category__icontains=category)

@@ -1,12 +1,12 @@
 {% if request.user.role == 'Foodie' %}
-	{% include 'components/navbar_link.html' with label="Products" icon="salad" keyword="products" href='products:main' %}
-	{% include 'components/navbar_link.html' with label="Timeline" icon="chart-no-axes-gantt" keyword="timeline" href='timeline:main' %}
-	{% include 'components/navbar_link.html' with label="Favorites" icon="star" keyword="favorites" href='favorites:main' %}
-	{% include 'components/navbar_link.html' with label="Promos" icon="tag" keyword="promos" href='promos:main' %}
-	{% include 'components/navbar_link.html' with label="Reviews" icon="notebook-pen" keyword="reviews" href='reviews:main' %}
+	{% include 'components/navbar_link.html' with label="Products" icon="salad" href='products:main' %}
+	{% include 'components/navbar_link.html' with label="Timeline" icon="chart-no-axes-gantt" href='timeline:main' %}
+	{% include 'components/navbar_link.html' with label="Favorites" icon="star" href='favorites:main' %}
+	{% include 'components/navbar_link.html' with label="Promos" icon="tag" href='promos:main' %}
+	{% include 'components/navbar_link.html' with label="Reviews" icon="notebook-pen" href='reviews:main' %}
 {% else %}
-	{% include 'components/navbar_link.html' with label="Products" icon="salad" keyword="products" href='products:my_products' %}
-	{% include 'components/navbar_link.html' with label="Timeline" icon="chart-no-axes-gantt" keyword="timeline" href='timeline:main' %}
-	{% include 'components/navbar_link.html' with label="Promos" icon="tag" keyword="promos" href='promos:my_promos' %}
-	{% include 'components/navbar_link.html' with label="Reviews" icon="notebook-pen" keyword="reviews" href='reviews:main' %}
+	{% include 'components/navbar_link.html' with label="Products" icon="salad" href='products:my_products' %}
+	{% include 'components/navbar_link.html' with label="Timeline" icon="chart-no-axes-gantt" href='timeline:main' %}
+	{% include 'components/navbar_link.html' with label="Promos" icon="tag" href='promos:my_promos' %}
+	{% include 'components/navbar_link.html' with label="Reviews" icon="notebook-pen" href='reviews:main' %}
 {% endif %}

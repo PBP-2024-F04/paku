@@ -12,7 +12,9 @@
   <div>
     <i data-lucide="corner-down-right" class="inline" width="16"></i>
     <span>{{ comment.user.foodieprofile.full_name }}</span>
-    <span class="text-peach">@{{ comment.user.username }}</span>
+    <a class="text-peach" href="{% url 'profiles:profile_posts' comment.user.username %}">
+      @{{ comment.user.username }}
+    </a>
   </div>
   <p>{{ comment.text }}</p>
 </div>
