@@ -4,7 +4,10 @@
   <main>
     {% for product in products %}
     <div class="border px-6 py-4 border-moss-green-darker my-2">
-      <h1 class="text-lg">{{ product.product_name }} &mdash; {{ product.restaurant }}</h1>
+      <h1 class="text-lg">
+        <strong>{{ product.product_name }}</strong>
+        &mdash; {{ product.restaurant }}
+      </h1>
       <p>Rp{{ product.price }}</p>
       <p class="break-words">
         {{ product.description|linebreaksbr }}

@@ -4,8 +4,12 @@
   <main>
     {% for favorite in favorites %}
     <div class="border px-6 py-4 border-moss-green-darker my-2">
-      <h1 class="text-lg">{{ favorite.product.product_name }} &mdash; {{ favorite.product.restaurant }}</h1>
-      <p>{{ favorite.category }}</p>
+      <h1 class="text-md hover:underline">
+        <a href="{% url 'products:view_product' favorite.product.id %}">
+          <strong>{{ favorite.product.product_name }}</strong>
+          &mdash; {{ favorite.product.restaurant }}
+        </a>
+      </h1>
     </div>
     {% endfor %}
   </main>

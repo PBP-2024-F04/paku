@@ -1,8 +1,6 @@
 <a
   href="{% url href user.username %}"
-  class="text-center"
+  class="text-center font-medium text-lg {% if request.resolver_match.view_name == href %}text-moss-green{% endif %}"
 >
-  <h6 class="font-medium text-xl {% if request.resolver_match.view_name == href %}text-moss-green{% endif %}">
-    {{ label }}
-  </h6>
+  {{ label }}
 </a>
