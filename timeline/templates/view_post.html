@@ -11,8 +11,25 @@
 
   <div class="px-6 py-4 border border-moss-green-darker bg-white">
     <div>
-      <strong>{{ post.user.foodieprofile.full_name }}</strong>
+      <strong>
+        {% if post.user.role == "Foodie" %}
+          {{ post.user.foodieprofile.full_name }}
+        {% else %}
+          {{ post.user.merchantprofile.restaurant_name }}
+        {% endif %}
+      </strong>
+
       <span class="text-peach">@{{ post.user.username }}</span>
+
+      {% if post.user.role == "Foodie" %}
+        <i data-lucide="utensils-crossed" class="text-peach-dark inline mb-1" height="14"></i>
+      {% else %}
+        <i data-lucide="chef-hat" class="text-peach-dark inline mb-1" height="14"></i>
+      {% endif %}
+
+      {% if post.is_edited %}
+        <small class="text-peach-dark">&mdash; edited</small>
+      {% endif %}
     </div>
     <p class="break-words">
       {{ post.text|linebreaksbr }}
@@ -43,6 +60,14 @@
   <i data-lucide="trash" class="inline" width="18"></i>
 </aside>
 
+<aside id="utensils-crossed" hidden>
+  <i data-lucide="utensils-crossed" class="text-peach-dark inline mb-1" width="14"></i>
+</aside>
+
+<aside id="chef-hat" hidden>
+  <i data-lucide="chef-hat" class="text-peach-dark inline mb-1" width="14"></i>
+</aside>
+
 <script>
 function getComments() {
   return fetch("{% url 'timeline:get_comments' post.id %}").then(res => res.json());
@@ -65,8 +90,13 @@ async function refreshComments() {
                 $('<div></div>')
                   .html('<strong class="max-w-full text-ellipsis"></strong> <span></span>')
                   .prepend($('#corner-down-right').html())
-                  .find('strong').text(comment.user_fullname).end()
-                  .find('span').text(`@${comment.username}`).addClass('text-peach').end()
+                  .append(comment.user_role == 'Foodie' ? $('#utensils-crossed').html() : $('#chef-hat').html())
+                  .find('strong')
+                    .text(comment.displayname)
+                    .end()
+                  .find('span')
+                    .text(`@${comment.username}`)
+                    .addClass('text-peach').end()
                   .addClass('min-w-0 overflow-hidden')
                   .append(
                     comment.is_edited

@@ -14,8 +14,24 @@
 		<div class="border px-6 py-4 border-moss-green-darker my-2">
 			<div class="flex flex-row justify-around">
 				<div>
-					<strong>{{ post.user.foodieprofile.full_name }}</strong>
-					<span class="text-peach">@{{ post.user.username }}</span>
+					<strong>
+						{% if post.user.role == "Foodie" %}
+							{{ post.user.foodieprofile.full_name }}
+						{% else %}
+							{{ post.user.merchantprofile.restaurant_name }}
+						{% endif %}
+					</strong>
+
+					<span class="text-peach">
+						@{{ post.user.username }}
+					</span>
+
+					{% if post.user.role == "Foodie" %}
+						<i data-lucide="utensils-crossed" class="text-peach-dark inline mb-1" height="14"></i>
+					{% else %}
+						<i data-lucide="chef-hat" class="text-peach-dark inline mb-1" height="14"></i>
+					{% endif %}
+
 					{% if post.is_edited %}
 						<small class="text-peach-dark">&mdash; edited</small>
 					{% endif %}

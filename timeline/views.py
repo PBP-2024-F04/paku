@@ -81,7 +81,8 @@ def get_comments(_, post_id):
             'id': comment.id,
             'text': comment.text,
             'username': comment.user.username,
-            'user_fullname': comment.user.foodieprofile.full_name,
+            'displayname': comment.user.foodieprofile.full_name if comment.user.role == 'Foodie' else comment.user.merchantprofile.restaurant_name,
+            'user_role': comment.user.role,
             'user_id': comment.user.id,
             'is_edited': comment.is_edited,
         }
