@@ -1,5 +1,5 @@
 <a
-	class="py-1 px-6 [&:not(:last-child)]:border-r border-moss-green-darker {% if keyword in request.path %}text-moss-green{% endif %}"
+	class="py-1 px-6 [&:not(:last-child)]:border-r border-moss-green-darker {% if request.resolver_match.view_name == href %}text-moss-green{% endif %}"
 	href="{% url href %}"
 >
 	{% if icon %}<i data-lucide="{{ icon }}" class="inline mr-1 mb-0.5" stroke-width="2px" width="20px" height="auto"></i>{% endif %}
