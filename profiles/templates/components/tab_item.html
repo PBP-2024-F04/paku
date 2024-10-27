@@ -2,7 +2,7 @@
   href="{% url href user.username %}"
   class="text-center"
 >
-  <h6 class="font-medium text-xl {% if keyword in request.path %}text-moss-green{% endif %}">
+  <h6 class="font-medium text-xl {% if request.resolver_match.view_name == href %}text-moss-green{% endif %}">
     {{ label }}
   </h6>
 </a>
