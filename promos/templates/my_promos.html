@@ -2,37 +2,57 @@
 
 {% block content %}
 <h1 class="text-4xl mt-8 px-8 text-center"><strong>My Promo</strong></h1>
+<h4 class="text-lg mt-2 text-sage-dark text-center">Tambahkan promo menarik untuk menarik perhatian calon pelanggan!</h4>
 <a href="{% url 'promos:add_promo' %}" class="text-center block mt-8 mx-auto bg-sage-dark text-white font-bold py-2 px-4 hover:bg-sage hover:text-white w-fit">
     Tambah Promo Baru
 </a>
 
-
-{% if promos %}
-<div class="bg-peach-dark-hover p-6 my-6 m-4 w-full mx-auto flex flex-wrap justify-center gap-4 border-32 border-peach-darker">
-    {% for promo in promos %}
-    <div class="bg-white shadow-lg p-6 m-4 w-72 flex flex-col">
-        <h3 class="text-2xl text-center">📌</h3>
-        <h3 class="text-2xl mt-4 font-semibold text-grey text-center"><strong>{{ promo.promo_title }}</strong></h3>
-        <p class="text-grey mt-2">{{ promo.promo_description }}</p>
-        <p class="text-sm text-grey mt-2">Berlaku hingga: {{ promo.batas_penggunaan|date:"d-m-Y" }}{% if not promo.batas_penggunaan %} (Tidak punya batas){% endif %}</p>
-        
-        <div class="button-group flex justify-center mt-auto">
-            <button onclick="window.location.href='{% url 'promos:update_promo' promo.id %}'" class="bg-yellow hover:bg-yellow-dark text-black font-bold py-2 px-4 mx-2">
-                Update
-            </button>
-            <button onclick="deletePromo('{{ promo.id }}')" class="bg-red hover:bg-red-dark text-white font-bold py-2 px-4 mx-2">
-                Delete
-            </button>
-        </div>
-    </div>
-    {% endfor %}
+<div id="promo-container" 
+    class="p-6 my-6 m-4 w-full mx-auto flex flex-wrap justify-center gap-4 border-32 border-peach-darker"
+    style="background-image: url('/static/image/wooden-texture.jpg'); background-size: cover; background-position: center;">
+    <p id="no-promo-message" class="text-2xl my-6 mt-6 font-semibold text-white text-center"> Belum ada promo yang kamu tambahkan!</p>
 </div>
-{% else %}
-    <p class="text-2xl my-6 mt-6 font-semibold text-sage-darker text-center"> Belum ada promo yang kamu tambahkan!</p>
-{% endif %}
-
 
 <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        fetchPromos();
+    });
+
+    function fetchPromos() {
+        fetch("{% url 'promos:my_promo_list_json' %}")
+            .then(response => response.json())
+            .then(data => {
+                const promoContainer = document.querySelector("#promo-container");
+                const noPromoMessage = document.querySelector("#no-promo-message");
+                promoContainer.innerHTML = "";
+
+                if (data.length > 0) {
+                    noPromoMessage.style.display = "none";
+                    data.forEach(promo => {
+                        promoContainer.innerHTML += `
+                            <div class="bg-white shadow-lg p-6 m-4 w-72 flex flex-col">
+                                <h3 class="text-2xl text-center">📌</h3>
+                                <h3 class="text-2xl mt-4 font-semibold text-grey text-center"><strong>${promo.promo_title}</strong></h3>
+                                <p class="text-grey mt-2">${promo.promo_description}</p>
+                                <p class="text-sm text-grey mt-2">Berlaku hingga: ${promo.batas_penggunaan ? promo.batas_penggunaan : '(Tidak punya batas)'}</p>
+                                
+                                <div class="button-group flex justify-center mt-auto">
+                                    <a href="/promos/update_promo/${promo.id}/" class="bg-yellow hover:bg-yellow-dark text-black font-bold py-2 px-4 mx-2 text-center inline-block">
+                                        Update
+                                    </a>
+                                    <a href="javascript:void(0);" onclick="deletePromo('${promo.id}')" class="bg-red hover:bg-red-dark text-white font-bold py-2 px-4 mx-2 text-center inline-block">
+                                        Delete
+                                    </a>
+                                </div>
+                            </div>`;
+                    });
+                } else {
+                    noPromoMessage.style.display = "block";
+                }
+            })
+            .catch(error => console.error('Error fetching promos:', error));
+    }
+
     function deletePromo(promoId) {
         if (confirm('Apakah Anda yakin ingin menghapus promo ini?')) {
             fetch(`/promos/delete_promo/${promoId}/`, {
@@ -45,10 +65,11 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                    alert('Promo berhasil dihapus!');
-                    window.location.reload();
+                    alert('Promo berhasil dihapus!');  
+                    // Memuat ulang halaman setelah menghapus promo
+                    location.reload();  
                 } else {
-                    alert('Gagal menghapus promo: ' + data.message);
+                    alert('Gagal menghapus promo: ' + data.message);  
                 }
             })
             .catch(error => {
@@ -57,14 +78,12 @@
             });
         }
     }
+    
 </script>
 
 <style>
     .button-group {
         margin-top: 10px;
-    }
-    .button-group .btn {
-        margin-right: 5px;
     }
     .border-32 {
         border-width: 32px; 

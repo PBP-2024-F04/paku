@@ -6,18 +6,11 @@
 
 <hr class="my-6">
 
-<div class="bg-peach-dark-hover p-6 my-6 m-4 w-full mx-auto flex flex-wrap justify-center gap-4 border-32 border-peach-darker">
-    {% for promo in promos %}
-        <div class="bg-white shadow-lg p-6 m-4 w-72 mx-auto">
-            <h3 class="text-2xl text-center">📌</h3>
-            <h3 class="text-2xl mt-4 font-semibold text-grey text-center"><strong>{{ promo.promo_title }}</strong></h3>
-            <p class="text-peach text-center">di <strong> {{ promo.restaurant_name }} </strong></p>
-            <p class="text-grey mt-2">{{ promo.promo_description }}</p>
-            <p class="text-sm text-grey mt-2">Berlaku hingga: {{ promo.batas_penggunaan|date:"d-m-Y" }}{% if not promo.batas_penggunaan %} (Tidak punya batas){% endif %}</p>
-        </div>
-    {% empty %}
-        <p>Tidak ada promo yang berlaku saat ini!</p>
-    {% endfor %}
+<div id="promo-container" 
+    class="p-6 my-6 m-4 w-full mx-auto flex flex-wrap justify-center gap-4 border-32 border-peach-darker"
+    style="background-image: url('/static/image/wooden-texture.jpg'); background-size: cover; background-position: center;">
+    <p id="loading-message" class="text-center text-white">Memuat promo...</p>
+    <p id="no-promo-message" style="display: none; text-white">Tidak ada promo yang berlaku saat ini!</p>
 </div>
 
 <style>
@@ -25,5 +18,56 @@
         border-width: 32px; 
     }
 </style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        fetchPromos();
+    });
+    
+    function fetchPromos() {
+        const promoContainer = document.querySelector("#promo-container");
+        const loadingMessage = document.querySelector("#loading-message");
+        const noPromoMessage = document.querySelector("#no-promo-message");
+        
+        fetch("{% url 'promos:promo_list_json' %}")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                loadingMessage.style.display = "none";
+                promoContainer.innerHTML = ""; 
+                
+                if (data.length > 0) {
+                    noPromoMessage.style.display = "none";
+                    data.forEach(promo => {
+                        const batasText = promo.batas_penggunaan 
+                            ? `Berlaku hingga: ${promo.batas_penggunaan}` 
+                            : 'Tidak punya batas';
+                            
+                        promoContainer.innerHTML += `
+                            <div class="bg-white shadow-lg p-6 m-4 w-72 mx-auto">
+                                <h3 class="text-2xl text-center">📌</h3>
+                                <h3 class="text-2xl mt-4 font-semibold text-grey text-center">
+                                    <strong>${promo.promo_title}</strong>
+                                </h3>
+                                <p class="text-peach text-center">di <strong>${promo.restaurant_name}</strong></p>
+                                <p class="text-grey mt-2">${promo.promo_description}</p>
+                                <p class="text-sm text-grey mt-2">${batasText}</p>
+                            </div>`;
+                    });
+                } else {
+                    noPromoMessage.style.display = "block";
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching promos:', error);
+                loadingMessage.style.display = "none";
+                promoContainer.innerHTML = '<p class="text-red-500">Terjadi kesalahan saat memuat promo.</p>';
+            });
+    }
+</script>
 
 {% endblock %}

@@ -13,7 +13,7 @@
                     {{ field.label }}
                 </label>
                 <div class="w-full">
-                    {{ field }}  <!-- Field dengan kelas w-full sudah diatur di form Django -->
+                    {{ field }}  
                 </div>
                 {% if field.help_text %}
                     <p class="mt-1 text-sm text-gray-500">{{ field.help_text }}</p>
@@ -32,10 +32,10 @@
 
 <script>
     document.getElementById('addPromoForm').addEventListener('submit', function(event) {
-        event.preventDefault();  // Mencegah pengiriman form default
+        event.preventDefault();  
 
         const formData = new FormData(this);
-        fetch('{% url "promos:add_promo" %}', {  // Gunakan URL name untuk memastikan konsistensi
+        fetch('{% url "promos:add_promo" %}', {  
             method: 'POST',
             body: formData,
             headers: {
@@ -46,12 +46,12 @@
         .then(data => {
             if (data.success) {
                 alert('Promo berhasil ditambahkan!');
-                window.location.href = '{% url "promos:my_promos" %}';  // Arahkan ke My Promos
+                window.location.href = '{% url "promos:my_promos" %}';  
             } else {
                 alert('Gagal menambahkan promo: ' + JSON.stringify(data.errors));
             }
         })
-        .catch(error => console.error('Error:', error)); // Menangkap error
+        .catch(error => console.error('Error:', error)); 
     });
 </script>
 
