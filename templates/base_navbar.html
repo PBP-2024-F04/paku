@@ -6,16 +6,7 @@
     <a href="{% url 'accounts:home' %}"><h1 class="text-3xl font-bold inline">PaKu</h1></a>
 
     <div class="font-bold hidden xl:block">
-      {% if user.role == 'Foodie' %}
-        {% include 'components/navbar_link.html' with label="Products" icon="salad" keyword="products" href='products:main' %}
-        {% include 'components/navbar_link.html' with label="Timeline" icon="chart-no-axes-gantt" keyword="timeline" href='timeline:main' %}
-        {% include 'components/navbar_link.html' with label="Favorites" icon="star" keyword="favorites" href='favorites:main' %}
-        {% include 'components/navbar_link.html' with label="Promos" icon="gem" keyword="promos" href='promos:main' %}
-        {% include 'components/navbar_link.html' with label="Reviews" icon="notebook-pen" keyword="reviews" href='reviews:main' %}
-      {% else %}
-        {% include 'components/navbar_link.html' with label="Products" keyword="products" href='products:my_products' %}
-        {% include 'components/navbar_link.html' with label="Promos" keyword="promos" href='promos:my_promos' %}
-      {% endif %}
+      {% include 'components/navbar_links.html' %}
     </div>
 
     <div class="ml-auto">
@@ -37,16 +28,7 @@
   </div>
 
   <div class="flex flex-col gap-2">
-    {% if user.role == 'Foodie' %}
-      {% include 'components/navbar_link.html' with label="Products" icon="salad" keyword="products" href='products:main' %}
-      {% include 'components/navbar_link.html' with label="Timeline" icon="chart-no-axes-gantt" keyword="timeline" href='timeline:main' %}
-      {% include 'components/navbar_link.html' with label="Favorites" icon="star" keyword="favorites" href='favorites:main' %}
-      {% include 'components/navbar_link.html' with label="Promos" icon="gem" keyword="promos" href='promos:main' %}
-      {% include 'components/navbar_link.html' with label="Reviews" icon="notebook-pen" keyword="reviews" href='reviews:main' %}
-    {% else %}
-      {% include 'components/navbar_link.html' with label="Products" keyword="products" href='products:my_products' %}
-      {% include 'components/navbar_link.html' with label="Promos" keyword="promos" href='promos:my_promos' %}
-    {% endif %}
+    {% include 'components/navbar_links.html' %}
     <a class="bg-red text-white py-2 px-4 mt-6 text-center" href="{% url 'accounts:logout' %}">
       Logout
     </a>
