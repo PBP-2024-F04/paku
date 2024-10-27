@@ -4,7 +4,7 @@ from products.models import Product
 from .models import Favorite
 from .forms import FavoriteForm
 from accounts.models import User
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
@@ -21,6 +21,9 @@ def main(request):
 
 @login_required(login_url='/accounts/login')
 def create_favorite(request, product_id):
+    if request.user.role == User.Role.MERCHANT:
+        return HttpResponseForbidden()
+    
     product = get_object_or_404(Product, pk=product_id)
     existing_favorite = Favorite.objects.filter(foodie=request.user, product=product).first()
 
@@ -48,6 +51,8 @@ def create_favorite(request, product_id):
 
 @login_required(login_url='/accounts/login')
 def edit_favorite(request, favorite_id):
+    if request.user.role == User.Role.MERCHANT:
+        return HttpResponseForbidden()
     favorite = get_object_or_404(Favorite, pk=favorite_id)
     form = FavoriteForm(request.POST or None, instance=favorite)
 
@@ -68,6 +73,8 @@ def edit_favorite(request, favorite_id):
 
 @login_required(login_url='/accounts/login')
 def delete_favorite(request, favorite_id):
+    if request.user.role == User.Role.MERCHANT:
+        return HttpResponseForbidden()
     favorite = get_object_or_404(Favorite, pk=favorite_id) 
 
     if favorite.foodie != request.user:
@@ -78,6 +85,8 @@ def delete_favorite(request, favorite_id):
 
 @login_required(login_url='/accounts/login')
 def category_favorites(request, category_name):
+    if request.user.role == User.Role.MERCHANT:
+        return HttpResponseForbidden()
     valid_categories = {
         'want_to_try': 'Want to Try',
         'loving_it': 'Loving It',
@@ -104,6 +113,8 @@ def search_results(request):
 @csrf_exempt
 @require_POST
 def create_favorite_ajax(request, product_id):
+    if request.user.role == User.Role.MERCHANT:
+        return HttpResponseForbidden()
     product = get_object_or_404(Product, pk=product_id) 
 
     user = request.user
