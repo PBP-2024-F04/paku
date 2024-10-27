@@ -35,6 +35,7 @@
         {% endif %}
     </div>
 
+    {% if user.role == 'Foodie' %}
     <!-- Add Review Button -->
     <div class="text-center mt-8">
         <a href="{% url 'reviews:create_review' product.id %}" 

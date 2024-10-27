@@ -5,20 +5,31 @@ from .models import Review
 from products.models import Product
 from .forms import ReviewForm
 
-# Show all reviews + My reviews
+# show main review
 def main(request):
     all_reviews = Review.objects.all()
     
     if request.user.is_authenticated:
         my_reviews = Review.objects.filter(user=request.user)
+        
+        if request.user.role == 'Merchant':
+            merchant_products = Product.objects.filter(owner=request.user)
+            merchant_reviews = Review.objects.filter(product__in=merchant_products)
+        else:
+            merchant_reviews = None
     else:
         my_reviews = None
+        merchant_reviews = None
 
     print("All Reviews:", all_reviews)
     print("My Reviews:", my_reviews)
-
+    print("Merchant Reviews:", merchant_reviews)
     
-    return render(request, 'reviews.html', {'all_reviews': all_reviews, 'my_reviews': my_reviews})
+    return render(request, 'reviews.html', {
+        'all_reviews': all_reviews,
+        'my_reviews': my_reviews,
+        'merchant_reviews': merchant_reviews,
+    })
 
 # Show reviews for a specific product
 def product_review(request, product_id):
