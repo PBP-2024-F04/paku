@@ -8,16 +8,16 @@
     <h1 class="text-3xl mt-4 text-center"><strong>All Products</strong></h1>
     <!-- Dropdown Kategori -->
     <div class="text-center mt-4">
-      <label for="category-select" class="text-lg font-semibold">Lihat Produk per Kategori!</label>
+      <label for="category-select" class="text-lg text-moss-green font-semibold">Lihat Produk per Kategori!</label>
       <div class="relative inline-block w-64 mt-2">
-        <select id="category-select" class="appearance-none w-60 p-2 bg-sage-light text-gray-800 font-medium border border-sage-dark rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-sage transition duration-300 ease-in-out hover:bg-sage-dark hover:text-white" onchange="navigateToCategory()"">
+        <select id="category-select" class="appearance-none w-60 p-2 bg-moss-green-light text-white-darker font-medium border border-moss-green rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-moss-green transition duration-300 ease-in-out hover:bg-moss-green hover:text-white" onchange="navigateToCategory()"">
           <option value="" class="text-gray-500">-- Pilih Kategori --</option>
           {% for category in categories %}
             <option value="{% url 'products:products_by_category' category_name=category %}">{{ category|title }}</option>
           {% endfor %}
         </select>
         <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-          <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5 text-white-darker" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
           </svg>
         </span>
@@ -27,7 +27,7 @@
 </h1>
 
 {% if not products %}
-  <p class="text-xl my-6 mt-6 font-semibold text-sage-darker text-center">{{ empty_message }}</p>
+  <p class="text-xl my-6 mt-6 font-semibold text-moss-green-dark text-center">{{ empty_message }}</p>
 {% else %}
   <div class="p-6 my-6 m-4 w-full mx-auto flex flex-wrap justify-center gap-6 p-4">
     {% for product in products %}
@@ -69,8 +69,8 @@
   }
 
   #category-select option:hover {
-    color: #ffffff; /* Warna teks saat dihover */
-    background-color: sage-light-active; /* Ganti dengan warna sage-light-active Anda */
+    color: white;
+    background-color: moss-green-light-hover;
   }
 </style>
 
