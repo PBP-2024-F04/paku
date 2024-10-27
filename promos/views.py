@@ -42,7 +42,7 @@ def update_promo(request, promo_id):
         form = PromoForm(request.POST, instance=promo)
         if form.is_valid():
             form.save()
-            return JsonResponse({'success': True})
+            return JsonResponse({'success': True, 'message': 'Promo berhasil diperbarui.'})
         else:
             return JsonResponse({'success': False, 'errors': form.errors})
     else:
@@ -54,26 +54,12 @@ def update_promo(request, promo_id):
 def delete_promo(request, promo_id):
     if request.method == 'POST':
         try:
-            promo = Promo.objects.get(id=promo_id)
+            promo = get_object_or_404(Promo, id=promo_id, user=request.user)  # Pastikan hanya merchant yang bisa menghapus promo mereka
             promo.delete()
-            return JsonResponse({
-                'status': 'success',
-                'message': 'Promo berhasil dihapus'
-            })
+            return JsonResponse({'status': 'success', 'message': 'Promo berhasil dihapus!'})
         except Promo.DoesNotExist:
-            return JsonResponse({
-                'status': 'error',
-                'message': 'Promo tidak ditemukan'
-            }, status=404)
-        except Exception as e:
-            return JsonResponse({
-                'status': 'error',
-                'message': str(e)
-            }, status=500)
-    return JsonResponse({
-        'status': 'error',
-        'message': 'Method not allowed'
-    }, status=405)
+            return JsonResponse({'status': 'error', 'message': 'Promo tidak ditemukan.'})
+    return JsonResponse({'status': 'error', 'message': 'Permintaan tidak valid.'})
 
 @csrf_exempt
 def get_promo(request, promo_id):
@@ -85,3 +71,25 @@ def get_promo(request, promo_id):
         'promo_description': promo.promo_description,
         'batas_penggunaan': promo.batas_penggunaan,
     })
+    
+def promo_list_json(request):
+    promos = Promo.objects.all()
+    data = [{
+        'id': promo.id,
+        'promo_title': promo.promo_title,
+        'restaurant_name': promo.restaurant_name,
+        'promo_description': promo.promo_description,
+        'batas_penggunaan': promo.batas_penggunaan.strftime('%d-%m-%Y') if promo.batas_penggunaan else "Tidak punya batas"
+    } for promo in promos]
+    return JsonResponse(data, safe=False)
+
+def my_promo_list_json(request):
+    promos = Promo.objects.filter(user=request.user) 
+    data = [{
+        'id': promo.id,
+        'promo_title': promo.promo_title,
+        'restaurant_name': promo.restaurant_name,
+        'promo_description': promo.promo_description,
+        'batas_penggunaan': promo.batas_penggunaan.strftime('%d-%m-%Y') if promo.batas_penggunaan else "Tidak punya batas"
+    } for promo in promos]
+    return JsonResponse(data, safe=False)
