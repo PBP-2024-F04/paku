@@ -3,8 +3,8 @@ from django.contrib.auth.forms import UserCreationForm
 from accounts.models import FoodieProfile, MerchantProfile, User
 
 class UserLoginForm(forms.Form):
-    username = forms.TextInput()
-    password = forms.TextInput()
+    username = forms.CharField(required=True)
+    password = forms.CharField(required=True)
 
 class UserRegistrationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
