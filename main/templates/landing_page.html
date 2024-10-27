@@ -5,8 +5,12 @@
 <main class="overflow-x-hidden">
 	<div class="bg-[url({% static 'img/auth-bg.jpg' %})] bg-fixed h-screen w-screen bg-cover grid place-items-center">
 		<div class="absolute top-10 right-10">
-			<a class="bg-white text-white-darker hover:bg-white-hover active:bg-white-active px-6 py-3 text-xl mr-4" href="{% url 'accounts:register' %}">Register</a>
-			<a class="bg-moss-green text-white hover:bg-moss-green-hover active:bg-moss-green-active px-6 py-3 text-xl" href="{% url 'accounts:login' %}">Login</a>
+			{% if request.user.is_anonymous %}
+				<a class="bg-white text-white-darker hover:bg-white-hover active:bg-white-active px-6 py-3 text-xl mr-4" href="{% url 'accounts:register' %}">Register</a>
+				<a class="bg-moss-green text-white hover:bg-moss-green-hover active:bg-moss-green-active px-6 py-3 text-xl" href="{% url 'accounts:login' %}">Login</a>
+			{% else %}
+				<a class="bg-moss-green text-white hover:bg-moss-green-hover active:bg-moss-green-active px-6 py-3 text-xl" href="{% url 'accounts:login' %}">Masuk</a>
+			{% endif %}
 		</div>
 		<h1 class="text-yellow-light-active mx-12 text-center text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] font-extrabold mb-24">Palu Kuliner</h1>
 	</div>
