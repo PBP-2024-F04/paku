@@ -1,0 +1,59 @@
+{% extends 'base_navbar.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-3xl text-center font-bold">Tambah Promo Baru</h2>
+    <h4 class="text-lg mt-2 text-sage-dark text-center">Silakan isi informasi promo yang ingin Anda tambahkan.</h4>
+
+    <form id="addPromoForm" class="bg-white flex flex-col shadow-lg p-6 rounded-lg mx-auto max-w-md">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="flex flex-col w-full mb-4">
+                <label for="{{ field.id_for_label }}" class="mb-2 font-semibold text-gray-700">
+                    {{ field.label }}
+                </label>
+                <div class="w-full">
+                    {{ field }}  
+                </div>
+                {% if field.help_text %}
+                    <p class="mt-1 text-sm text-gray-500">{{ field.help_text }}</p>
+                {% endif %}
+                {% for error in field.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <div class="button-group flex justify-center mt-4">
+            <button type="button" class="bg-yellow hover:bg-yellow-dark text-white font-bold py-2 px-4 mx-2" onclick="window.location.href='{% url 'promos:my_promos' %}'">Batal</button>
+            <button type="submit" class="bg-sage hover:bg-sage-dark text-white font-bold py-2 px-4 mx-2">Tambah Promo</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.getElementById('addPromoForm').addEventListener('submit', function(event) {
+        event.preventDefault();  
+
+        const formData = new FormData(this);
+        fetch('{% url "promos:add_promo" %}', {  
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Promo berhasil ditambahkan!');
+                window.location.href = '{% url "promos:my_promos" %}';  
+            } else {
+                alert('Gagal menambahkan promo: ' + JSON.stringify(data.errors));
+            }
+        })
+        .catch(error => console.error('Error:', error)); 
+    });
+</script>
+
+
+{% endblock %}

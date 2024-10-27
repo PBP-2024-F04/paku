@@ -1,0 +1,53 @@
+{% extends 'minimal.html' %}
+{% load static %}
+
+{% block body %}
+<main class="overflow-x-hidden">
+	<div class="bg-[url({% static 'img/auth-bg.jpg' %})] bg-fixed h-screen w-screen bg-cover grid place-items-center">
+		<div class="absolute top-10 right-10">
+			<a class="bg-white text-white-darker hover:bg-white-hover active:bg-white-active px-6 py-3 text-xl mr-4" href="{% url 'accounts:register' %}">Register</a>
+			<a class="bg-moss-green text-white hover:bg-moss-green-hover active:bg-moss-green-active px-6 py-3 text-xl" href="{% url 'accounts:login' %}">Login</a>
+		</div>
+		<h1 class="text-yellow-light-active mx-12 text-center text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] font-extrabold mb-24">Palu Kuliner</h1>
+	</div>
+	<div class="grid grid-cols-1 md:grid-cols-3 max-w-screen-lg lg:max-w-screen-xl mx-auto static py-6 md:relative md:-top-20 gap-y-2 gap-x-6 lg:gap-x-12 font-bold px-6">
+		<div class="bg-moss-green-dark border-2 border-white-light roundedxl text-white px-4 py-4 text-center">
+			<p class="text-5xl">1000+</p>
+			<p class="text-xl">Pilihan Makanan</p>
+		</div>
+		<div class="bg-moss-green-dark border-2 border-white-light roundedxl text-white px-4 py-4 text-center">
+			<p class="text-5xl">300+</p>
+			<p class="text-xl">Merchant Lokal</p>
+		</div>
+		<div class="bg-moss-green-dark border-2 border-white-light roundedxl text-white px-4 py-4 text-center">
+			<p class="text-5xl">100+</p>
+			<p class="text-xl">Ulasan Harian</p>
+		</div>
+	</div>
+	<div class="grid grid-cols-1 md:grid-cols-3 max-w-screen-xl mx-auto gap-x-6 px-6 mb-6">
+		<img src="{% static 'img/landing-1.png' %}" class="hidden md:block object-fill" />
+		<div class="col-span-2 md:col-span-2 border-y-2 border-l-2 border-white-darker p-6 text-moss-green-dark text-center flex flex-col justify-center gap-2">
+			<h1 class="text-2xl lg:text-3xl font-extrabold">Jelajahi Kuliner Autentik Palu dengan Mudah!</h1>
+			<p class="text-lg lg:text-xl font-medium">“ PaKu adalah platform interaktif yang memudahkan Anda menemukan dan menikmati ragam kuliner khas Palu. Temukan rekomendasi terbaik dari komunitas pecinta kuliner, bagikan pengalaman Anda, dan simpan makanan favorit untuk dicoba di lain waktu. Semua dalam satu aplikasi! ”</p>
+		</div>
+	</div>
+	<div class="grid grid-cols-1 md:grid-cols-3 max-w-screen-xl mx-auto gap-x-6 px-6 mb-6">
+		<div class="col-span-2 md:col-span-2 border-y-2 border-r-2 border-white-darker p-6 text-moss-green-dark flex flex-col gap-2">
+			<h1 class="text-2xl lg:text-3xl font-extrabold text-center">Fitur Utama PaKu</h1>
+			<div class="flex flex-row items-start gap-4">
+				<i data-lucide="search" class="flex-shrink-0"></i>
+				<p class="text-md lg:text-xl font-medium">Explore Kuliner Lokal: Temukan makanan yang Anda inginkan dengan cepat menggunakan filter kategori dan search bar.</p>
+			</div>
+			<div class="flex flex-row items-start gap-4">
+				<i data-lucide="heart" class="flex-shrink-0"></i>
+				<p class="text-md lg:text-xl font-medium">Favoritkan Makanan: Simpan makanan favorit Anda dengan berbagai tag untuk referensi cepat di masa depan.</p>
+			</div>
+			<div class="flex flex-row items-start gap-4">
+				<i data-lucide="message-circle" class="flex-shrink-0"></i>
+				<p class="text-md lg:text-xl font-medium">Rekomendasi dari Komunitas: Akses ulasan dan rating dari komunitas PaKu untuk menemukan makanan yang tepat.</p>
+			</div>
+		</div>
+		<img src="{% static 'img/landing-2.png' %}" class="hidden md:block object-fill justify-self-end" />
+	</div>
+</main>
+{% endblock body %}

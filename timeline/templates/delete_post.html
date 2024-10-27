@@ -1,0 +1,24 @@
+{% extends 'base_navbar.html' %}
+
+{% block content %}
+<div class="flex flex-row border-moss-green-darker border-b gap-2 items-center">
+  <a href="{% url 'timeline:main' %}">
+    <i data-lucide="arrow-left"></i>
+  </a>
+  <h1 class="text-3xl font-bold text-center py-4">Delete Post</h1>
+</div>
+
+<div class="sticky top-24 px-4 py-2 border-x border-b border-moss-green-darker bg-white">
+  <div>
+    <strong>{{ post.user.foodieprofile.full_name }}</strong>
+    <span class="text-peach">@{{ post.user.username }}</span>
+  </div>
+  <p>{{ post.text }}</p>
+</div>
+
+<form method="POST" class="mt-4">
+  {% csrf_token %}
+
+  <button type="submit" class="bg-sage-dark text-white px-4 py-2 font-bold">Yes, delete this post</button>
+</form>
+{% endblock content %}

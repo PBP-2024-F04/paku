@@ -1,0 +1,58 @@
+{% extends 'base_navbar.html' %}
+
+{% block content %}
+<main class="pb-12">
+	<div class="mb-5 text-center border-b border-moss-green-darker py-4">
+		<h1 class="text-5xl font-bold mb-4">My Timeline</h1>
+		<a class="px-4 py-2 bg-sage-dark text-white font-bold" href="{% url 'timeline:create_post' %}">
+			Create Post
+		</a>
+	</div>
+
+	<div>
+		{% for post in posts %}
+		<div class="border px-6 py-4 border-moss-green-darker my-2">
+			<div class="flex flex-row justify-around">
+				<div>
+					<strong>
+						{% if post.user.role == "Foodie" %}
+							{{ post.user.foodieprofile.full_name }}
+						{% else %}
+							{{ post.user.merchantprofile.restaurant_name }}
+						{% endif %}
+					</strong>
+
+					<span class="text-peach">
+						@{{ post.user.username }}
+					</span>
+
+					{% if post.user.role == "Foodie" %}
+						<i data-lucide="utensils-crossed" class="text-peach-dark inline mb-1" height="14"></i>
+					{% else %}
+						<i data-lucide="chef-hat" class="text-peach-dark inline mb-1" height="14"></i>
+					{% endif %}
+
+					{% if post.is_edited %}
+						<small class="text-peach-dark">&mdash; edited</small>
+					{% endif %}
+				</div>
+				<div class="inline ml-auto">
+					{% if post.user.id == user.id %}
+					<a class="text-peach" href='{% url 'timeline:edit_post' post.id %}'>
+						<i data-lucide="pencil-line" class="inline" width="18"></i>
+					</a>
+					<a class="text-peach" href='{% url 'timeline:delete_post' post.id %}'>
+						<i data-lucide="trash" class="inline" width="18"></i>
+					</a>
+					{% endif %}
+				</div>
+			</div>
+			<a class="break-words" href="{% url 'timeline:view_post' post.id %}">
+				{{ post.text|linebreaksbr }}
+			</a>
+		</div>
+		{% endfor %}
+	</div>
+</main>
+
+{% endblock content %}

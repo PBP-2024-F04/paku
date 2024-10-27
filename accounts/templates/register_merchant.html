@@ -1,0 +1,33 @@
+{% extends 'minimal.html' %}
+{% load static %}
+
+{% block body %}
+<main class="bg-[url({% static 'img/auth-bg.jpg' %})] bg-no-repeat bg-cover bg-right grid grid-cols-1 md:grid-cols-[70%_30%] xl:grid-cols-[60%_40%] w-full min-h-screen">
+  <div class="w-full h-full flex flex-col items-center justify-center bg-white pt-12 pb-24 gap-8 px-2 md:rounded-r-3xl">
+    <div class="text-center">
+      <h1 class="mb-2 text-4xl sm:text-5xl xl:text-6xl font-bold text-moss-green">Create Merchant Account</h1>
+      <p class="max-sm:text-sm max-lg:max-w-xs">Buat akun PaKu dan mulai jelajahi Kuliner Palu!</p>
+    </div>
+
+    <form method="POST" class="px-5 flex flex-col gap-5">
+      {% csrf_token %}
+
+      {% include "components/text_input.html" with field=form.username placeholder="Username" icon="user" %}
+      {% include "components/text_input.html" with field=form.password1 type="password" placeholder="Password" icon="key-round" %}
+      {% include "components/text_input.html" with field=form.password2 type="password" placeholder="Password Confirmation" icon="key-round" %}
+      {% include "components/text_input.html" with field=merchant_form.restaurant_name placeholder="Restaurant Name" icon="chef-hat" %}
+
+      <button type="submit" class="py-2 px-6 bg-sage-dark text-white mt-4">
+        Create Account
+      </button>
+    </form>
+
+    <p>
+      Sudah punya akun?
+      <a href="{% url 'accounts:login' %}" class="hover:underline text-sage-dark">
+        Login.
+      </a>
+    </p>
+  </div>
+</main>
+{% endblock body %}

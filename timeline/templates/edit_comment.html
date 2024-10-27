@@ -1,0 +1,22 @@
+{% extends 'base_navbar.html' %}
+
+{% block content %}
+<div class="flex flex-row border-moss-green-darker border-b gap-2 items-center">
+  <a href="{% url 'timeline:view_post' comment.post.id %}">
+    <i data-lucide="arrow-left"></i>
+  </a>
+  <h1 class="text-3xl font-bold text-center py-4">Edit Comment</h1>
+</div>
+
+<form method="POST" class="mt-2 text-center">
+  {% csrf_token %}
+
+  <textarea
+    name="text"
+    class="border border-moss-green-darker w-full px-4 py-2 outline-none"
+    rows="10"
+  >{{ form.text.value }}</textarea>
+
+  <button type="submit" class="bg-sage-dark text-white px-6 py-2 font-bold">Edit</button>
+</form>
+{% endblock content %}

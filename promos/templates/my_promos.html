@@ -1,0 +1,110 @@
+{% extends 'base_navbar.html' %}
+
+{% block content %}
+<h1 class="text-4xl mt-8 px-8 text-center"><strong>My Promo</strong></h1>
+<h4 class="text-lg mt-2 text-sage-dark text-center">Tambahkan promo menarik untuk menarik perhatian calon pelanggan!</h4>
+<a href="{% url 'promos:add_promo' %}" class="text-center block mt-8 mx-auto bg-sage-dark text-white font-bold py-2 px-4 hover:bg-sage hover:text-white w-fit">
+    Tambah Promo Baru
+</a>
+
+<div id="promo-container" 
+    class="p-6 my-6 m-4 w-full mx-auto flex flex-wrap justify-center gap-4 border-32 border-peach-darker"
+    style="background-image: url('/static/img/wooden-texture.jpg'); background-size: cover; background-position: center;">
+    <p id="loading-message" class="text-2xl my-6 mt-6 font-semibold text-white text-center">Memuat promo...</p>
+    <p id="no-promo-message" class="text-2xl my-6 mt-6 font-semibold text-white text-center" style="display: none;">Belum ada promo yang kamu tambahkan!</p>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Pastikan no-promo-message tersembunyi saat awal loading
+        document.querySelector("#no-promo-message").style.display = "none";
+        fetchPromos();
+    });
+
+    function fetchPromos() {
+        const loadingMessage = document.querySelector("#loading-message");
+        const noPromoMessage = document.querySelector("#no-promo-message");
+        const promoContainer = document.querySelector("#promo-container");
+        
+        // Reset container dan tampilkan loading message
+        promoContainer.innerHTML = loadingMessage.outerHTML + noPromoMessage.outerHTML;
+        document.querySelector("#loading-message").style.display = "block";
+        document.querySelector("#no-promo-message").style.display = "none";
+
+        fetch("{% url 'promos:my_promo_list_json' %}")
+            .then(response => response.json())
+            .then(data => {
+                // Reset container lagi untuk menampilkan data
+                promoContainer.innerHTML = loadingMessage.outerHTML + noPromoMessage.outerHTML;
+                
+                // Sembunyikan loading message
+                document.querySelector("#loading-message").style.display = "none";
+
+                if (data.length > 0) {
+                    document.querySelector("#no-promo-message").style.display = "none";
+                    data.forEach(promo => {
+                        promoContainer.innerHTML += `
+                            <div class="bg-white shadow-lg p-6 m-4 w-72 flex flex-col">
+                                <h3 class="text-2xl text-center">📌</h3>
+                                <h3 class="text-2xl mt-4 font-semibold text-grey text-center"><strong>${promo.promo_title}</strong></h3>
+                                <p class="text-grey mt-2">${promo.promo_description}</p>
+                                <p class="text-sm text-grey mt-2">Berlaku hingga: ${promo.batas_penggunaan ? promo.batas_penggunaan : '(Tidak punya batas)'}</p>
+                                
+                                <div class="button-group flex justify-center mt-auto">
+                                    <a href="/promos/update_promo/${promo.id}/" class="bg-yellow hover:bg-yellow-dark text-black font-bold py-2 px-4 mx-2 text-center inline-block">
+                                        Update
+                                    </a>
+                                    <a href="javascript:void(0);" onclick="deletePromo('${promo.id}')" class="bg-red hover:bg-red-dark text-white font-bold py-2 px-4 mx-2 text-center inline-block">
+                                        Delete
+                                    </a>
+                                </div>
+                            </div>`;
+                    });
+                } else {
+                    document.querySelector("#no-promo-message").style.display = "block";
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching promos:', error);
+                document.querySelector("#loading-message").style.display = "none";
+                document.querySelector("#no-promo-message").style.display = "block";
+            });
+    }
+
+    function deletePromo(promoId) {
+        if (confirm('Apakah Anda yakin ingin menghapus promo ini?')) {
+            fetch(`/promos/delete_promo/${promoId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('Promo berhasil dihapus!');  
+                    location.reload();  
+                } else {
+                    alert('Gagal menghapus promo: ' + data.message);  
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan saat menghapus promo');
+            });
+        }
+    }
+    
+</script>
+
+<style>
+    .button-group {
+        margin-top: 10px;
+    }
+    .border-32 {
+        border-width: 32px; 
+    }
+</style>
+
+{% endblock %}

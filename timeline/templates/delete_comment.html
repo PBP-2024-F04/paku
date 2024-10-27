@@ -1,0 +1,25 @@
+{% extends 'base_navbar.html' %}
+
+{% block content %}
+<div class="flex flex-row gap-2 items-center">
+  <a href="{% url 'timeline:view_post' comment.post.id %}">
+    <i data-lucide="arrow-left"></i>
+  </a>
+  <h1 class="text-3xl font-bold text-center py-4">Delete Comment</h1>
+</div>
+
+<div class="sticky top-24 px-4 py-2 border border-white-dark bg-white">
+  <div>
+    <i data-lucide="corner-down-right" class="inline" width="16"></i>
+    <span>{{ comment.user.foodieprofile.full_name }}</span>
+    <span class="text-peach">@{{ comment.user.username }}</span>
+  </div>
+  <p>{{ comment.text }}</p>
+</div>
+
+<form method="POST" class="mt-4">
+  {% csrf_token %}
+
+  <button type="submit" class="bg-sage-dark text-white px-4 py-2 font-bold">Yes, delete this comment</button>
+</form>
+{% endblock content %}

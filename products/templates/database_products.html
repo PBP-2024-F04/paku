@@ -1,0 +1,65 @@
+{% extends 'base_navbar.html' %}
+
+{% block content %}
+<h1 class="text-4xl mt-4 text-center">
+  <strong>{% if category_name %}Products in {{ category_name }}{% else %}All Products{% endif %}</strong>
+</h1>
+
+<div class="text-center mt-6">
+  <form action="" method="get" class="flex justify-center mb-4">
+    <input type="text" name="q" value="{{ query }}" placeholder="Cari produk..." class="border border-gray-300 rounded-lg py-2 px-4 w-1/2 focus:outline-none focus:ring-2 focus:ring-moss-green transition duration-300">
+    <button type="submit" class="ml-2 px-4 py-2 bg-moss-green text-white font-semibold rounded-lg hover:bg-moss-green-dark transition duration-300">Search</button>
+  </form>
+  
+  <div class="flex flex-wrap justify-center gap-2 mt-4">
+    <a href="{% url 'products:main' %}" class="chip {% if not category_name %}chip-selected{% endif %} px-4 py-2 rounded-full font-medium text-sm hover:bg-moss-green text-moss-green hover:text-white transition duration-300">All</a>
+    {% for category in categories %}
+      <a href="?category={{ category }}" class="chip {% if category_name == category %}chip-selected{% endif %} px-4 py-2 rounded-full font-medium text-sm hover:bg-moss-green text-moss-green hover:text-white transition duration-300">
+        {{ category|title }}
+      </a>
+    {% endfor %}
+  </div>
+</div>
+
+{% if not products %}
+  <p class="text-xl my-6 mt-6 font-semibold text-moss-green-dark text-center">{{ empty_message }}</p>
+{% else %}
+  <div class="p-6 my-6 m-4 w-full mx-auto flex flex-wrap justify-center gap-6 p-4">
+    {% for product in products %}
+      <div onclick="window.location.href='{% url 'products:view_product' product.pk %}'" class="product-card shadow-lg p-6 w-80 flex flex-col justify-center gap-4 rounded-lg cursor-pointer transform transition duration-500 hover:shadow-2xl hover:-translate-y-1">
+        <div class="absolute top-5 left-5 flex space-x-2 z-10 font-semibold text-sm">
+          <p>{{ product.category }}</p>
+        </div>
+        {% if user.is_authenticated and user.role == 'Foodie' %}
+          <div class="absolute top-3 right-3 flex space-x-2 z-10">
+            <button onclick="event.stopPropagation(); window.location.href='{% url 'favorites:create_favorite' product.pk %}'" class="w-8 h-8 bg-red hover:bg-red-dark text-white rounded-full flex items-center justify-center focus:outline-none transition duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" stroke="white" fill="white" width="16px" viewBox="0 0 64 64">
+                <path d="M45.5 4A18.53 18.53 0 0 0 32 9.86 18.5 18.5 0 0 0 0 22.5C0 40.92 29.71 59 31 59.71a2 2 0 0 0 2.06 0C34.29 59 64 40.92 64 22.5A18.52 18.52 0 0 0 45.5 4ZM32 55.64C26.83 52.34 4 36.92 4 22.5a14.5 14.5 0 0 1 26.36-8.33 2 2 0 0 0 3.27 0A14.5 14.5 0 0 1 60 22.5c0 14.41-22.83 29.83-28 33.14Z"
+                  data-original="#000000"></path>
+              </svg>
+            </button>
+          </div>
+        {% endif %}
+        <h3 class="text-2xl mt-4 font-semibold text-grey text-center product-name-spacing"><strong>{{ product.product_name }}</strong></h3>
+        <p class="text-peach text-center"><strong>{{ product.restaurant }}</strong></p>
+        <p class="text-grey mt-2">Harga: Rp{{ product.price }},00</p>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<style>
+  .product-name-spacing {
+    margin-top: 2rem;
+  }
+  .chip-selected {
+    background-color: #61713a;
+    color: white !important;
+  }
+  .product-card {
+    position: relative;
+    transition: box-shadow 0.3s, transform 0.3s;
+  }
+</style>
+
+{% endblock content %}

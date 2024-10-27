@@ -1,0 +1,377 @@
+{% extends 'base_navbar.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mx-auto py-8 px-4">
+
+    {% if user.role == 'Foodie' %}
+    <h1 class="text-4xl font-bold mb-6 text-gray-800 text-center">Product Reviews</h1>
+
+    <!-- Tabs Navigation -->
+    <div class="flex justify-center space-x-4 mb-6">
+        <button id="all-reviews-tab" class="tab-button active">
+            All Reviews
+        </button>
+        <button id="my-reviews-tab" class="tab-button">
+            My Reviews
+        </button>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="w-1/4 p-4">
+        <div class="mb-6">
+            <label for="star-filter" class="block text-gray-700 font-semibold mb-2">Filter by Rating:</label>
+            <div class="relative">
+                <select id="star-filter"
+                    class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    <option value="all">All Ratings</option>
+                    <option value="5">5 Stars</option>
+                    <option value="4">4 Stars</option>
+                    <option value="3">3 Stars</option>
+                    <option value="2">2 Stars</option>
+                    <option value="1">1 Star</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <path d="M10 12l-6-6h12l-6 6z" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab Content -->
+    <div id="all-reviews" class="tab-content space-y-4">
+        <h2 class="text-2xl font-semibold text-gray-700 mb-4">All Reviews</h2>
+        {% if all_reviews %}
+        <ul class="space-y-4">
+            {% for review in all_reviews %}
+            <li
+                class="p-4 bg-white rounded-lg shadow-lg border border-gray-200 transition-transform transform hover:scale-105">
+                <!-- Product Card -->
+                <div class="mb-4">
+                    <a href="{% url 'products:view_product' review.product.pk %}" class="block hover:underline">
+                        <div class="bg-[#e7ecd7] p-4 rounded-lg shadow-lg">
+                            <h2 class="text-lg font-bold text-[#0F0F0F]">{{ review.product.product_name }}</h2>
+                            <p class="text-gray-700">{{ review.product.restaurant }}</p>
+                            <p class="text-green-600 font-semibold">Price: {{ review.product.price|floatformat:2 }}</p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Review Content -->
+                <p class="text-gray-700">{{ review.comment }}</p>
+
+                <!-- Star Rating Display -->
+                <div class="flex space-x-1 mt-2">
+                    {% for i in "12345" %}
+                    <svg class="w-5 h-5"
+                        fill="{% if forloop.counter <= review.rating %}#fbbf24{% else %}#d1d5db{% endif %}"
+                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2z">
+                        </path>
+                    </svg>
+                    {% endfor %}
+                </div>
+
+                <div class="text-sm text-gray-500 mt-2">
+                    - by {{ review.user.username }} | {{ review.created_at|date:"F j, Y" }}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-gray-500">No reviews found.</p>
+        {% endif %}
+    </div>
+
+    <div id="my-reviews" class="tab-content hidden space-y-4">
+        <h2 class="text-2xl font-semibold text-gray-700 mb-4">{{ user.foodieprofile.full_name }}'s Reviews</h2>
+        {% if user.is_authenticated %}
+        {% if my_reviews %}
+        <ul class="space-y-4">
+            {% for review in my_reviews %}
+            <li
+                class="p-4 bg-white rounded-lg shadow-lg border border-gray-200 transition-transform transform hover:scale-105">
+                <!-- Product Card -->
+                <div class="mb-4">
+                    <a href="{% url 'products:view_product' review.product.pk %}" class="block hover:underline">
+                        <div class="bg-[#e7ecd7] p-4 rounded-lg shadow-lg">
+                            <h2 class="text-lg font-bold text-[#0F0F0F]">{{ review.product.product_name }}</h2>
+                            <p class="text-gray-700">{{ review.product.restaurant }}</p>
+                            <p class="text-green-600 font-semibold">Price: {{ review.product.price|floatformat:2 }}</p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Review Content -->
+                <p class="text-gray-700">{{ review.comment }}</p>
+
+                <!-- Star Rating Display -->
+                <div class="flex space-x-1 mt-2">
+                    {% for i in "12345" %}
+                    <svg class="w-5 h-5"
+                        fill="{% if forloop.counter <= review.rating %}#fbbf24{% else %}#d1d5db{% endif %}"
+                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2z">
+                        </path>
+                    </svg>
+                    {% endfor %}
+                </div>
+
+                <div class="text-sm text-gray-500 mt-2">
+                    - by {{ review.user.username }} | {{ review.created_at|date:"F j, Y" }}
+                </div>
+
+                <!-- Edit and Delete Icons -->
+                <div class="absolute top-4 right-4 flex space-x-2">
+                    <a href="{% url 'reviews:edit_review' review.id %}"
+                        class="text-gray-500 hover:text-[#798d48] transition duration-300">
+                        <span class="icon-edit w-5 h-5"></span>
+                    </a>
+                    <a href="{% url 'reviews:delete_review' review.id %}"
+                        class="text-gray-500 hover:text-[#e36c54] transition duration-300">
+                        <span class="icon-delete w-5 h-5"></span>
+                    </a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-gray-500">You haven't posted any reviews yet.</p>
+        <a href="{% url 'products:main' %}">
+            <button
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 transition duration-300 transform hover:scale-105">
+                Yuk Jelajahi Kuliner Palu
+            </button>
+        </a>
+        {% endif %}
+        {% else %}
+        <p class="text-gray-500">You must be logged in to view your reviews.</p>
+        {% endif %}
+    </div>
+
+    {% elif user.role == 'Merchant' %}
+    <h1 class="text-4xl font-bold mb-6 text-gray-800 text-center">{{ user.merchantprofile.restaurant_name }}'s Product
+        Reviews</h1>
+    <div class="space-y-4">
+        {% if user.is_authenticated %}
+        {% if merchant_reviews %}
+        <ul class="space-y-4">
+            {% for review in merchant_reviews %}
+            <li
+                class="p-4 bg-white rounded-lg shadow-lg border border-gray-200 transition-transform transform hover:scale-105">
+                <!-- Product Card -->
+                <div class="mb-4">
+                    <a href="{% url 'products:view_product' review.product.pk %}" class="block hover:underline">
+                        <div class="bg-[#e7ecd7] p-4 rounded-lg shadow-lg">
+                            <h2 class="text-lg font-bold text-[#0F0F0F]">{{ review.product.product_name }}</h2>
+                            <p class="text-gray-700">{{ review.product.restaurant }}</p>
+                            <p class="text-green-600 font-semibold">Price: {{ review.product.price|floatformat:2 }}</p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Review Content -->
+                <p class="text-gray-700">{{ review.comment }}</p>
+
+                <!-- Star Rating Display -->
+                <div class="flex space-x-1 mt-2">
+                    {% for i in "12345" %}
+                    <svg class="w-5 h-5"
+                        fill="{% if forloop.counter <= review.rating %}#fbbf24{% else %}#d1d5db{% endif %}"
+                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2z">
+                        </path>
+                    </svg>
+                    {% endfor %}
+                </div>
+
+                <div class="text-sm text-gray-500 mt-2">
+                    - by {{ review.user.username }} | {{ review.created_at|date:"F j, Y" }}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-gray-500">No reviews found for your products.</p>
+        {% endif %}
+        {% else %}
+        <p class="text-gray-500">You must be logged in to view your product reviews.</p>
+        {% endif %}
+    </div>
+    {% endif %}
+
+</div>
+
+<!-- Tailwind Tabs Switching Script -->
+<script>
+    // Event listener for tab switching
+    document.getElementById('all-reviews-tab').addEventListener('click', function () {
+        document.getElementById('all-reviews').classList.remove('hidden');
+        document.getElementById('my-reviews').classList.add('hidden');
+        this.classList.add('active');
+        document.getElementById('my-reviews-tab').classList.remove('active');
+    });
+
+    document.getElementById('my-reviews-tab').addEventListener('click', function () {
+        document.getElementById('my-reviews').classList.remove('hidden');
+        document.getElementById('all-reviews').classList.add('hidden');
+        this.classList.add('active');
+        document.getElementById('all-reviews-tab').classList.remove('active');
+    });
+
+    // Event listener for star rating filter
+    document.getElementById('star-filter').addEventListener('change', function () {
+        const selectedRating = this.value;
+
+        // Apply filter to both All Reviews and My Reviews sections
+        const allReviews = document.querySelectorAll('#all-reviews li'); // Select all review items in All Reviews
+        const myReviews = document.querySelectorAll('#my-reviews li'); // Select all review items in My Reviews
+
+        const applyFilter = (reviews) => {
+            reviews.forEach(review => {
+                const rating = review.querySelectorAll('svg[fill="#fbbf24"]').length; // Count filled stars
+
+                if (selectedRating === 'all' || rating == selectedRating) {
+                    review.style.display = 'block'; // Show the review
+                } else {
+                    review.style.display = 'none'; // Hide the review
+                }
+            });
+        };
+
+        // Apply the filter to both sections
+        applyFilter(allReviews);
+        applyFilter(myReviews);
+    });
+
+</script>
+
+<style>
+    .tab-button {
+        padding: 0.5rem 1rem;
+        font-weight: 600;
+        color: #b77456;
+        border-bottom: 2px solid transparent;
+        cursor: pointer;
+        transition: border-bottom 0.3s;
+    }
+
+    .tab-button:hover {
+        border-bottom: 2px solid #B77456;
+    }
+
+    .tab-button.active {
+        border-bottom: 2px solid #B77456;
+    }
+
+    .icon-edit {
+        position: relative;
+    }
+
+    .icon-edit::before {
+        content: '\270E';
+        font-size: 1.25rem;
+        color: white;
+        background-color: #798d48;
+        border-radius: 0.5rem;
+        padding: 0.5rem;
+    }
+
+    .icon-delete {
+        position: relative;
+    }
+
+    .icon-delete::before {
+        content: '\1F5D1';
+        font-size: 1.25rem;
+        color: white;
+        background-color: #e36c54;
+        border-radius: 0.5rem;
+        padding: 0.5rem;
+    }
+
+    .icon-edit,
+    .icon-delete {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .icon-edit:hover,
+    .icon-delete:hover {
+        transform: scale(1.1);
+    }
+
+    /* Dropdown Styling */
+    select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        transition: all 0.3s ease;
+    }
+
+    select:focus {
+        box-shadow: 0 0 10px rgba(66, 153, 225, 0.5);
+        border-color: #63b3ed;
+    }
+
+    /* Filter Section Styles */
+    .filter-section {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* SVG Arrow for Dropdown */
+    .pointer-events-none svg {
+        transition: transform 0.3s ease;
+    }
+
+    select:focus~.pointer-events-none svg {
+        transform: rotate(180deg);
+    }
+
+    /* Product Card Styles */
+    .product-card {
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .product-card:hover {
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .text-lg {
+        font-size: 1.125rem;
+    }
+
+    .text-gray-700 {
+        color: #4B5563;
+    }
+
+    .text-green-600 {
+        color: #4CAF50;
+    }
+
+    .hover\:underline:hover {
+        text-decoration: underline;
+    }
+
+    a:hover .product-card {
+        transform: scale(1.05);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+</style>
+
+{% include 'footer.html' %}
+
+{% endblock content %}
