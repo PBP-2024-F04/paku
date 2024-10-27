@@ -1,19 +1,40 @@
-from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from products.forms import ProductForm
 from products.models import Product
+from django.db.models import Q
 
 # Show all products from database
 def main(request):
+    query = request.GET.get('q', '')
+    category = request.GET.get('category', '')
+
     dataset_products = Product.objects.filter(user__isnull=True)
     user_products = Product.objects.filter(user__isnull=False)
 
-    products = dataset_products.union(user_products)
+    if query:
+        dataset_products = dataset_products.filter(Q(product_name__icontains=query) | Q(description__icontains=query))
+        user_products = user_products.filter(Q(product_name__icontains=query) | Q(description__icontains=query))
     
-    return render(request, 'database_products.html', {'products': products})
+    if category:
+        dataset_products = dataset_products.filter(category__icontains=category)
+        user_products = user_products.filter(category__icontains=category)
+
+    products = dataset_products.union(user_products)
+    categories = Product.objects.values_list('category', flat=True).distinct()
+
+    context = {
+        'products': products,
+        'categories': categories,
+        'query': query,
+        'category_name': category,
+        'empty_message': "Tidak ada produk yang sesuai dengan pencarian atau kategori." if not products else "",
+    }
+
+    return render(request, 'database_products.html', context)
 
 # Show all logged in merchant's products
 @login_required(login_url='/accounts/login')
@@ -22,7 +43,7 @@ def my_products(request):
 
     context = {
         'products': products,
-        'empty_message': 'You dont have any products yet. Please create a new product.',
+        'empty_message': 'Anda belum memiliki produk. Silakan tambahkan produk baru.',
     }
 
     return render(request, 'products.html', context)
@@ -33,6 +54,7 @@ def view_product(request, id):
     product = get_object_or_404(Product, pk=id)
     return render(request, 'view_product.html', {'product': product})
 
+@csrf_exempt
 @login_required(login_url='/accounts/login')
 def create_product(request):
     if request.method == "POST":
@@ -49,6 +71,7 @@ def create_product(request):
     context = {'form': form}
     return render(request, "create_product.html", context)
 
+@csrf_exempt
 @login_required(login_url='/accounts/login')
 def edit_product(request, id):
     product = get_object_or_404(Product, pk=id, user=request.user)
@@ -65,23 +88,12 @@ def edit_product(request, id):
     context = {'form': form, 'product': product}
     return render(request, "edit_product.html", context)
 
+@csrf_exempt
 @login_required(login_url='/accounts/login')
 def delete_product(request, id):
-    product = get_object_or_404(Product, pk=id, user=request.user)
-    product.delete()
-    messages.success(request, "Your product has been successfully deleted!")
-    return redirect('products:my_products')
-
-# Show all categories
-def view_categories(request):
-    categories = Product.objects.values_list('category', flat=True).distinct()
-    return render(request, 'view_categories.html', {'categories': categories})
-
-# Show products by category
-def products_by_category(request, category_name):
-    products = Product.objects.filter(category=category_name)
-    context = {
-        'products': products,
-        'category_name': category_name
-    }
-    return render(request, 'database_products.html', context)
+    if request.method == 'POST':
+        product = get_object_or_404(Product, pk=id)
+        product.delete()
+        return JsonResponse({"status": "success"})
+    else:
+        return JsonResponse({"status": "error", "message": "Invalid request method"}, status=400)
