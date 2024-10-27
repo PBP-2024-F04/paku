@@ -1,47 +1,40 @@
 {% extends 'base_navbar.html' %}
 
 {% block content %}
-  <h1>Product Details</h1>
+<h1 class="text-3xl mt-4 text-center"><strong>Product Details</strong></h1>
+<div class="flex justify-center mt-8">
+  <div class="bg-sage relative p-2 pt-8 md:p-12 pb-12 lg:max-w-lg w-full transform duration-500 hover:shadow-2xl cursor-pointer hover:-translate-y-1">
+    <div class="flex justify-between font-bold text-sm">
+      <p>{{ product.category }}</p>
+      <p class="text-gray-400">{{ product.restaurant }}</p>
+    </div>
+    <h2 class="text-3xl font-semibold mt-4">{{ product.product_name }}</h2>
+    <p class="my-3 text-justify font-medium text-gray-700 leading-relaxed whitespace-normal">{{ product.description }}</p>
+    <p class="my-3 text-justify font-medium text-gray-700 leading-relaxed">Rp {{ product.price }}</p>
+    
+    <!-- Button section -->
+    <div class="flex space-x-2 mt-4">
+      {% if user.role == 'Merchant' %}
+        <!-- <a href="{% url 'products:edit_product' product.pk %}">
+          <button class="text-center block mt-8 mx-auto bg-moss-green-dark text-white font-bold py-2 px-4 hover:bg-moss-green hover:text-white w-fit">Edit</button>
+        </a>
+        <a href="{% url 'products:delete_product' product.pk %}">
+          <button class="text-center block mt-8 mx-auto bg-red-dark text-white font-bold py-2 px-4 hover:bg-red hover:text-white w-fit">Delete</button> -->
+        </a>
+      {% elif user.role == 'Foodie' %}
+        <a href="{% url 'reviews:product_review' product.pk %}">
+          <button class="text-center block mt-8 mx-auto bg-moss-green-dark text-white font-bold py-2 px-4 hover:bg-moss-green hover:text-white w-fit">Review</button>
+        </a>
+        <a href="{% url 'favorites:create_favorite' product.pk%}">
+          <button class="text-center block mt-8 mx-auto bg-red-dark text-white font-bold py-2 px-4 hover:bg-red hover:text-white w-fit">Favorites</button>
+        </a>
+      {% else %}
+        <a href="{% url 'products:main' %}">
+          <button class="p-2 px-4 bg-gray-500 text-white font-bold hover:bg-gray-700">Back to Products</button>
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</div>
 
-  <table>
-    <tr>
-      <th>Product Name</th>
-      <td>{{ product.product_name }}</td>
-    </tr>
-    <tr>
-      <th>Restaurant</th>
-      <td>{{ product.restaurant }}</td>
-    </tr>
-    <tr>
-      <th>Price</th>
-      <td>{{ product.price }}</td>
-    </tr>
-    <tr>
-      <th>Description</th>
-      <td>{{ product.description }}</td>
-    </tr>
-    <tr>
-      <th>Category</th>
-      <td>{{ product.category }}</td>
-    </tr>
-  </table>
-
-  {% if user.role == 'Merchant' %}
-  <a href="{% url 'products:view_products' %}">
-    <button>Back to Products</button>
-  </a>
-  {% elif user.role == 'Foodie' %}
-  <a href="{% url 'reviews:product_review' product.pk %}">
-    <button>
-        Review
-    </button>
-  </a>
-  <a href="{% url 'products:main' %}">
-    <button>Back to Products</button>
-  </a>
-  {% else %}
-  <a href="{% url 'products:main' %}">
-    <button>Back to Products</button>
-  </a>
-  {% endif %}
 {% endblock content %}
