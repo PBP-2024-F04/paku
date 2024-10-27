@@ -1,0 +1,13 @@
+{% extends 'profile_base.html' %}
+
+{% block main %}
+  <main>
+    {% for review in reviews %}
+    <div class="border px-6 py-4 border-moss-green-darker my-2">
+      <h1 class="text-lg">{{ review.product.product_name }} &mdash; {{ review.product.restaurant }}</h1>
+      <p>{{ review.rating }}/5</p>
+      <p>{{ review.comment|linebreaksbr }}</p>
+    </div>
+    {% endfor %}
+  </main>
+{% endblock main %}

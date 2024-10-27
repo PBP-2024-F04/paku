@@ -3,40 +3,40 @@
 {% block main %}
   <main>
     {% for post in posts %}
-		<div class="border px-6 py-4 border-moss-green-darker my-2">
-			<div class="flex flex-row justify-around">
-				<div>
-					<strong>
-						{% if post.user.role == "Foodie" %}
-							{{ post.user.foodieprofile.full_name }}
-						{% else %}
-							{{ post.user.merchantprofile.restaurant_name }}
-						{% endif %}
-					</strong>
+    <div class="border px-6 py-4 border-moss-green-darker my-2">
+      <div class="flex flex-row justify-around">
+        <div>
+          <strong>
+            {% if post.user.role == "Foodie" %}
+              {{ post.user.foodieprofile.full_name }}
+            {% else %}
+              {{ post.user.merchantprofile.restaurant_name }}
+            {% endif %}
+          </strong>
 
-					<span class="text-peach">
-						@{{ post.user.username }}
-					</span>
+          <span class="text-peach">
+            @{{ post.user.username }}
+          </span>
 
-					{% if post.is_edited %}
-						<small class="text-peach-dark">&mdash; edited</small>
-					{% endif %}
-				</div>
-				<div class="inline ml-auto">
-					{% if post.user.id == user.id %}
-					<a class="text-peach" href='{% url 'timeline:edit_post' post.id %}'>
-						<i data-lucide="pencil-line" class="inline" width="18"></i>
-					</a>
-					<a class="text-peach" href='{% url 'timeline:delete_post' post.id %}'>
-						<i data-lucide="trash" class="inline" width="18"></i>
-					</a>
-					{% endif %}
-				</div>
-			</div>
-			<a class="break-words" href="{% url 'timeline:view_post' post.id %}">
-				{{ post.text|linebreaksbr }}
-			</a>
-		</div>
-		{% endfor %}
+          {% if post.is_edited %}
+            <small class="text-peach-dark">&mdash; edited</small>
+          {% endif %}
+        </div>
+        <div class="inline ml-auto">
+          {% if post.user.id == user.id %}
+          <a class="text-peach" href='{% url 'timeline:edit_post' post.id %}'>
+            <i data-lucide="pencil-line" class="inline" width="18"></i>
+          </a>
+          <a class="text-peach" href='{% url 'timeline:delete_post' post.id %}'>
+            <i data-lucide="trash" class="inline" width="18"></i>
+          </a>
+          {% endif %}
+        </div>
+      </div>
+      <a class="break-words" href="{% url 'timeline:view_post' post.id %}">
+        {{ post.text|linebreaksbr }}
+      </a>
+    </div>
+    {% endfor %}
   </main>
 {% endblock main %}
