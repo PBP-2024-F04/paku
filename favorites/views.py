@@ -5,6 +5,9 @@ from reviews.models import Review
 from .models import Favorite
 from .forms import FavoriteForm
 from accounts.models import User, FoodieProfile
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
 @login_required(login_url='/accounts/login')
 def main(request):
@@ -53,7 +56,14 @@ def edit_favorite(request, favorite_id):
         form.save()
         return redirect('favorites:main')
 
-    context = {'form': form}
+    context = {
+        'form': form,
+        'favorite': favorite,
+        'user': request.user,
+        'want_to_try': Favorite.objects.filter(foodie=request.user, category='want_to_try'),
+        'loving_it': Favorite.objects.filter(foodie=request.user, category='loving_it'),
+        'all_time_favorites': Favorite.objects.filter(foodie=request.user, category='all_time_favorites')
+    }
 
     return render(request, 'edit_favorite.html', context)
 
@@ -100,5 +110,28 @@ def category_favorites(request, category_name):
 
     return render(request, 'category_favorites.html', {
         'favorites': favorites,
-        'category_name': valid_categories[category_name]
+        'category_name': valid_categories[category_name],
+        'category_strip':category_name
     })
+
+def search_results(request):
+    query = request.GET.get('q', '')
+    products = Product.objects.filter(product_name__icontains=query)  # Menyesuaikan pencarian
+    return render(request, 'search_results.html', {'products': products, 'query': query})
+
+def create_favorite_ajax(request, product_id):
+    product = get_object_or_404(Product, id=product_id)  # Ambil produk berdasarkan ID
+
+    if request.method == 'POST':
+        category = request.POST.get('category')
+
+        # Buat favorit baru
+        favorite = Favorite.objects.create(
+            foodie=request.user,
+            product=product,
+            category=category
+        )
+
+        return JsonResponse({'success': True, 'message': 'Favorit berhasil ditambahkan!'})
+    
+    return JsonResponse({'success': False, 'message': 'Request tidak valid.'}, status=400)

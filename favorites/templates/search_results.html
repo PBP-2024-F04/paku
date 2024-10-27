@@ -1,0 +1,134 @@
+{% extends 'base_navbar.html' %}
+{% load static %}
+{% block content %}
+<style>
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        max-width: 500px;
+        background-color: rgba(255, 255, 255, 1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        z-index: 999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+</style>
+
+<div class="container mt-4">
+    <h2 class="text-3xl font-bold text-center">Hasil Pencarian untuk "{{ query }}"</h2>
+    <div class="search-container flex items-center justify-center my-4">
+        <form action="{% url 'favorites:search_results' %}" method="GET" class="w-full max-w-2xl flex">
+            <input type="text" name="q" value="{{ query }}" class="border border-gray-300 rounded-l-lg p-2 w-full" required>
+            <button type="submit" class="bg-sage-dark hover:bg-sage-darker text-white font-bold py-2 px-4 rounded-r-lg transition">Search</button>
+        </form>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {% for product in products %}
+        <div class="bg-white shadow-lg rounded-lg p-4 flex items-center justify-between">
+            <div class="flex-grow flex flex-col space-y-2">
+                <h3 class="text-xl font-bold">{{ product.product_name }}</h3>
+                <p class="text-gray-700">{{ product.restaurant }}</p>
+                <p class="text-gray-900">Rp {{ product.price }}</p>
+            </div>
+            <button class="bg-peach hover:bg-peach-dark text-white font-bold py-2 px-4 rounded transition flex-shrink-0" onclick="openFavoriteForm('{{ product.id }}')">Favorite</button>
+        </div>
+        {% endfor %}
+    </div>    
+</div>
+
+<div id="modalOverlay" class="modal-overlay"></div>
+
+<div id="favoriteModal" class="modal">
+    <div class="modal-content p-6">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2 class="text-2xl font-bold mb-4">Pilih Kategori Favorit</h2>
+        <form id="favoriteForm" class="space-y-4">
+            {% csrf_token %}
+            <input type="hidden" id="product_id" name="product_id" value="">
+            <div>
+                <input type="radio" name="category" value="want_to_try" id="want_to_try" class="mr-2">
+                <label for="want_to_try">Want to Try</label>
+            </div>
+            <div>
+                <input type="radio" name="category" value="loving_it" id="loving_it" class="mr-2">
+                <label for="loving_it">Loving It</label>
+            </div>
+            <div>
+                <input type="radio" name="category" value="all_time_favorites" id="all_time_favorites" class="mr-2">
+                <label for="all_time_favorites">All Time Favorites</label>
+            </div>
+            <button type="submit" class="w-full bg-peach hover:bg-peach-dark text-white font-bold py-2 px-4 rounded transition">Add to Favorite</button>
+        </form>
+    </div>
+</div>
+
+<script>
+function openFavoriteForm(productId) {
+    document.getElementById('product_id').value = productId;
+    document.getElementById('modalOverlay').style.display = 'block';
+    document.getElementById('favoriteModal').style.display = 'block';
+}
+
+function closeModal() {
+    document.getElementById('modalOverlay').style.display = 'none';
+    document.getElementById('favoriteModal').style.display = 'none';
+}
+
+document.getElementById('favoriteForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const formData = new FormData(this);
+    const productId = document.getElementById('product_id').value;
+
+    fetch(`/favorites/create-ajax/${productId}/`, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Favorit berhasil ditambahkan!');
+            closeModal();
+            window.location.reload();
+        } else {
+            alert('Gagal menambahkan favorit: ' + JSON.stringify(data.errors));
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
+
+document.getElementById('modalOverlay').addEventListener('click', closeModal);
+</script>
+{% endblock %}
