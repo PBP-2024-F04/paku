@@ -2,25 +2,85 @@
 
 {% block navbar %}
 <nav class="pt-3 fixed top-0 left-1/2 -translate-x-1/2 w-[95%] max-w-screen-2xl bg-yellow-light z-10">
-	<div class="px-4 md:px-10 py-4 border-y border-moss-green-darker flex flex-row items-center gap-5 bg-yellow-light">
-		<h1 class="text-3xl font-bold inline">PaKu</h1>
+  <div class="px-4 md:px-10 py-4 border-y border-moss-green-darker flex flex-row items-center gap-5 bg-yellow-light">
+    <a href="{% url 'accounts:home' %}"><h1 class="text-3xl font-bold inline">PaKu</h1></a>
 
-		<div class="font-bold hidden lg:block">
-		{% if user.role == 'Foodie' %}
-			{% include 'components/navbar_link.html' with label="Products" icon="salad" keyword="products" href='products:main' %}
-			{% include 'components/navbar_link.html' with label="Timeline" icon="chart-no-axes-gantt" keyword="timeline" href='timeline:main' %}
-			{% include 'components/navbar_link.html' with label="Favorites" icon="star" keyword="favorites" href='favorites:main' %}
-			{% include 'components/navbar_link.html' with label="Promos" icon="gem" keyword="promos" href='promos:main' %}
-			{% include 'components/navbar_link.html' with label="Reviews" icon="notebook-pen" keyword="reviews" href='reviews:main' %}
-		{% else %}
-			{% include 'components/navbar_link.html' with label="Products" keyword="products" href='products:my_products' %}
-			{% include 'components/navbar_link.html' with label="Promos" keyword="promos" href='promos:main' %}
-		{% endif %}
-		</div>
+    <div class="font-bold hidden xl:block">
+      {% if user.role == 'Foodie' %}
+        {% include 'components/navbar_link.html' with label="Products" icon="salad" keyword="products" href='products:main' %}
+        {% include 'components/navbar_link.html' with label="Timeline" icon="chart-no-axes-gantt" keyword="timeline" href='timeline:main' %}
+        {% include 'components/navbar_link.html' with label="Favorites" icon="star" keyword="favorites" href='favorites:main' %}
+        {% include 'components/navbar_link.html' with label="Promos" icon="gem" keyword="promos" href='promos:main' %}
+        {% include 'components/navbar_link.html' with label="Reviews" icon="notebook-pen" keyword="reviews" href='reviews:main' %}
+      {% else %}
+        {% include 'components/navbar_link.html' with label="Products" keyword="products" href='products:my_products' %}
+        {% include 'components/navbar_link.html' with label="Promos" keyword="promos" href='promos:my_promos' %}
+      {% endif %}
+    </div>
 
-		<i data-lucide="menu" class="lg:hidden"></i>
-	</div>
+    <div class="ml-auto">
+      <a class="bg-red text-white py-2 px-4 max-xl:hidden" href="{% url 'accounts:logout' %}">
+        Logout
+      </a>
+      <button class="toggle-mobile-nav-btn xl:hidden">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+  </div>
 </nav>
+
+<aside id="mobile-nav" class="duration-300 transition-transform transform translate-x-full fixed right-0 top-0 h-screen w-96 max-w-[100vw] bg-moss-green-darker z-50 text-white px-12 py-8">
+  <div class="flex flex-row-reverse mb-6">
+    <button class="close-mobile-nav-btn">
+      <i data-lucide="x"></i>
+    </button>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    {% if user.role == 'Foodie' %}
+      {% include 'components/navbar_link.html' with label="Products" icon="salad" keyword="products" href='products:main' %}
+      {% include 'components/navbar_link.html' with label="Timeline" icon="chart-no-axes-gantt" keyword="timeline" href='timeline:main' %}
+      {% include 'components/navbar_link.html' with label="Favorites" icon="star" keyword="favorites" href='favorites:main' %}
+      {% include 'components/navbar_link.html' with label="Promos" icon="gem" keyword="promos" href='promos:main' %}
+      {% include 'components/navbar_link.html' with label="Reviews" icon="notebook-pen" keyword="reviews" href='reviews:main' %}
+    {% else %}
+      {% include 'components/navbar_link.html' with label="Products" keyword="products" href='products:my_products' %}
+      {% include 'components/navbar_link.html' with label="Promos" keyword="promos" href='promos:my_promos' %}
+    {% endif %}
+    <a class="bg-red text-white py-2 px-4 mt-6 text-center" href="{% url 'accounts:logout' %}">
+      Logout
+    </a>
+  </div>
+</aside>
+
+<script>
+function openMobile() {
+  $("#mobile-nav").addClass("translate-x-0");
+  $("#mobile-nav").removeClass("translate-x-full");
+}
+
+function closeMobile() {
+  $("#mobile-nav").addClass("translate-x-full");
+  $("#mobile-nav").removeClass("translate-x-0");
+}
+
+function toggleMobile() {
+  $("#mobile-nav").toggleClass("translate-x-full");
+  $("#mobile-nav").toggleClass("translate-x-0");
+}
+
+$(window).on("resize", closeMobile);
+$(".toggle-mobile-nav-btn").on("click", toggleMobile);
+$(".close-mobile-nav-btn").on("click", closeMobile);
+
+$(document).mouseup(function(e) {
+  const container = $("#mobile-nav");
+
+  if (container.hasClass("translate-x-0") && !container.is(e.target) && container.has(e.target).length === 0) {
+    closeMobile();
+  }
+});
+</script>
 {% endblock navbar %}
 
 {% block content %}
