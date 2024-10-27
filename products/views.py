@@ -8,6 +8,7 @@ from products.models import Product
 from django.db.models import Q
 
 # Show all products from database
+@login_required(login_url='/accounts/login')
 def main(request):
     query = request.GET.get('q', '')
     category = request.GET.get('category', '')
