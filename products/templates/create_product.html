@@ -42,10 +42,10 @@
 
 <script>
     document.getElementById('createProductForm').addEventListener('submit', function(event) {
-    event.preventDefault();  // Mencegah pengiriman form default
+    event.preventDefault();
 
     const formData = new FormData(this);
-    fetch('{% url "products:create_product" %}', {  // Gunakan URL name untuk memastikan konsistensi
+    fetch('{% url "products:create_product" %}', {
         method: 'POST',
         body: formData,
         headers: {
@@ -56,12 +56,12 @@
     .then(data => {
         if (data.success) {
             alert('Product berhasil ditambahkan!');
-            window.location.href = "{% url 'products:my_products' %}";  // Halaman produk milik pengguna
+            window.location.href = "{% url 'products:my_products' %}";
         } else {
             alert('Gagal menambahkan produk: ' + JSON.stringify(data.errors));
         }
     })
-    .catch(error => console.error('Error:', error)); // Menangkap error
+    .catch(error => console.error('Error:', error));
 });
 </script>
 
