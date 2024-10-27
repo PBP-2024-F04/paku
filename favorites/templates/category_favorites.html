@@ -1,22 +1,32 @@
 {% extends 'base_navbar.html' %}
+{% load static %}
 
 {% block content %}
-<h1 class="text-3xl font-bold mb-6">{{ category_name|title }} Favorites</h1>
+<h1 class="text-4xl font-bold mb-6 text-center pt-3 pb-2">{{ category_name|title }}</h1>
+
+<div class="container mx-auto px-4">
+    <div class="flex items-center justify-center mb-4 space-x-2">
+      <form action="{% url 'favorites:search_results' %}" method="GET" class="flex w-full max-w-2xl">
+        <input type="text" name="q" placeholder="Tambah Kuliner Baru..." class="border rounded-l-lg border-sage-dark p-2 w-full bg-sage-light" required>
+        <button type="submit" class="bg-sage-dark hover:bg-sage-darker text-white font-bold py-2 px-4 rounded-r-lg">Search</button>
+      </form>
+    </div>
+  </div>
 
 {% if favorites %}
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-5">
         {% for produk in favorites %}
-        <div class="bg-white shadow-md rounded-lg overflow-hidden flex cursor-pointer" onclick="window.location.href='{% url 'products:view_product' produk.product.pk %}'">
+        <div class="bg-yellow-light-hover shadow-md rounded-lg overflow-hidden flex hover:shadow-2xl border border-sage-hover cursor-pointer transition-shadow duration-300" onclick="window.location.href='{% url 'products:view_product' produk.product.pk %}'">
             <div class="p-4 flex-grow">
                 <h2 class="text-lg font-semibold">{{ produk.product.product_name }}</h2>
                 <p class="text-gray-600">{{ produk.product.restaurant }}</p>
-                <p class="text-gray-800 font-bold">Rp {{ produk.product.price|floatformat:2 }}</p>
+                <p class="text-gray-800 font-bold">Rp {{ produk.product.price }}</p>
             </div>
-            <div class="flex flex-col justify-between p-4">
-                <a href="{% url 'favorites:edit_favorite' produk.pk %}" class="bg-peach hover:bg-peach-hover text-white py-2 px-4 rounded transition mb-2 text-center">
+            <div class="flex flex-col justify-center items-center space-y-2 p-4">
+                <a href="{% url 'favorites:edit_favorite' produk.pk %}" class="bg-yellow hover:bg-yellow-hover text-yellow-darker font-bold py-2 px-4 rounded transition w-full text-center border border-yellow-dark">
                     Edit
                 </a>
-                <a href="{% url 'favorites:delete_favorite' produk.pk %}" class="bg-red hover:bg-red-hover text-white py-2 px-4 rounded transition text-center">
+                <a href="{% url 'favorites:delete_favorite' produk.pk %}" class="bg-yellow-darker hover:bg-yellow-dark text-white font-bold py-2 px-4 rounded transition w-full text-center border border-yellow">
                     Delete
                 </a>
             </div>
@@ -24,6 +34,9 @@
         {% endfor %}
     </div>
 {% else %}
-    <p>Belum ada produk dalam kategori ini.</p>
+    <div class="flex flex-col items-center justify-center min-h-[20rem]">
+        <h3 class="text-center text-gray-600">Belum ada kuliner pada kategori favorit ini.</h3>
+    </div>
 {% endif %}
+
 {% endblock %}

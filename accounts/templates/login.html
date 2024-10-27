@@ -19,6 +19,13 @@
         Sign In
       </button>
     </form>
+
+    <p>
+      Belum punya akun?
+      <a href="{% url 'accounts:register' %}" class="hover:underline text-sage-dark">
+        Registrasi.
+      </a>
+    </p>
   </div>
 </main>
 {% endblock body %}

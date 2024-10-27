@@ -1,0 +1,40 @@
+{% extends 'base_navbar.html' %}
+
+{% block content %}
+<div>
+  <div class="text-center py-4 flex flex-col">
+    <div class="flex flex-row items-center justify-center gap-2">
+      {% if user.role == "Foodie" %}
+        <i data-lucide="utensils-crossed" class="inline" height="36px" width="36px"></i>
+      {% else %}
+        <i data-lucide="chef-hat" class="inline" height="36px" width="36px"></i>
+      {% endif %}
+      <h1 class="text-5xl font-bold">
+        {% if user.role == "Foodie" %}
+          {{ user.foodieprofile.full_name }}
+        {% else %}
+          {{ user.merchantprofile.restaurant_name }}
+        {% endif %}
+      </h1>
+    </div>
+    <p class="text-moss-green">@{{ user.username }}</p>
+  </div>
+</div>
+
+<div class="overflow-x-auto border border-sage">
+  <div class="flex flex-row justify-center items-center min-w-min gap-x-4 py-2 px-4">
+    {% if user.role == "Foodie" %}
+      {% include 'components/tab_item.html' with href="profiles:profile_posts" keyword='/profile' label="Posts" %}
+      {% include 'components/tab_item.html' with href="profiles:profile_reviews" keyword='/reviews' label="Reviews" %}
+      {% include 'components/tab_item.html' with href="profiles:profile_favorites" keyword='/favorites' label="Favorites" %}
+    {% else %}
+      {% include 'components/tab_item.html' with href="profiles:profile_posts" keyword='/profile' label="Posts" %}
+      {% include 'components/tab_item.html' with href="profiles:profile_products" keyword='/products' label="Products" %}
+    {% endif %}
+  </div>
+</div>
+
+{% block main %}
+{% endblock main %}
+
+{% endblock content %}

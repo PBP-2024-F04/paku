@@ -10,7 +10,7 @@ from .forms import CommentForm, PostForm
 
 @login_required(login_url='/accounts/login')
 def main(request):
-    posts = Post.objects.all()
+    posts = Post.objects.all().order_by('-created_at')
     return render(request, 'timeline.html', {
         'posts': posts,
         'user': request.user,
@@ -39,17 +39,23 @@ def create_post(request):
 def view_post(request, post_id):
     post = Post.objects.get(pk=post_id)
     comments = Comment.objects.filter(post=post)
-    return render(request, 'view_post.html', {'post': post, 'comments': comments})
+    return render(request, 'view_post.html', {
+        'post': post,
+        'comments': comments,
+        'user': request.user,
+    })
 
 @login_required(login_url='/accounts/login')
 def edit_post(request, post_id):
-    instance = get_object_or_404(Post, pk=post_id)
+    instance = get_object_or_404(Post, pk=post_id, user=request.user)
 
     if request.method == 'POST':
         post_form = PostForm(request.POST, instance=instance)
 
         if post_form.is_valid():
-            post_form.save()
+            post: Post = post_form.save(commit=False)
+            post.is_edited = True
+            post.save()
 
         return redirect('timeline:main')
 
@@ -58,7 +64,7 @@ def edit_post(request, post_id):
 
 @login_required(login_url='/accounts/login')
 def delete_post(request, post_id):
-    instance = get_object_or_404(Post, pk=post_id)
+    instance = get_object_or_404(Post, pk=post_id, user=request.user)
 
     if request.method == 'POST':
         instance.delete()
@@ -75,8 +81,10 @@ def get_comments(_, post_id):
             'id': comment.id,
             'text': comment.text,
             'username': comment.user.username,
-            'user_fullname': comment.user.foodieprofile.full_name,
+            'displayname': comment.user.foodieprofile.full_name if comment.user.role == 'Foodie' else comment.user.merchantprofile.restaurant_name,
+            'user_role': comment.user.role,
             'user_id': comment.user.id,
+            'is_edited': comment.is_edited,
         }
         for comment in Comment.objects.filter(post=post)
     ]
@@ -98,22 +106,27 @@ def create_comment(request, post_id):
 
 @login_required(login_url='/accounts/login')
 def edit_comment(request, comment_id):
-    instance = get_object_or_404(Comment, pk=comment_id)
+    instance = get_object_or_404(Comment, pk=comment_id, user=request.user)
 
     if request.method == 'POST':
         comment_form = CommentForm(request.POST, instance=instance)
 
         if comment_form.is_valid():
-            comment_form.save()
+            comment: Comment = comment_form.save(commit=False)
+            comment.is_edited = True
+            comment.save()
 
         return redirect('timeline:view_post', post_id=instance.post.id)
 
     form = CommentForm(instance=instance)
-    return render(request, 'edit_comment.html', {'form': form})
+    return render(request, 'edit_comment.html', {
+        'form': form,
+        'comment': instance,
+    })
 
 @login_required(login_url='/accounts/login')
 def delete_comment(request, comment_id):
-    comment = get_object_or_404(Comment, pk=comment_id)
+    comment = get_object_or_404(Comment, pk=comment_id, user=request.user)
 
     if request.method == 'POST':
         comment.delete()
