@@ -1,0 +1,8 @@
+<a
+  href="{% url href user.username %}"
+  class="text-center"
+>
+  <h6 class="font-medium text-xl {% if keyword in request.path %}text-moss-green{% endif %}">
+    {{ label }}
+  </h6>
+</a>
