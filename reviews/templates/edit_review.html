@@ -60,7 +60,6 @@
         // Add click event to each star
         stars.forEach((star, index) => {
             star.addEventListener("click", () => {
-                // Set the color of all stars up to the clicked star
                 stars.forEach((s, i) => {
                     s.style.color = i <= index ? "#fee086" : "gray";
                 });
@@ -75,16 +74,16 @@
         const form = document.querySelector("form");
         
         form.addEventListener("submit", function(event) {
-            event.preventDefault(); // Prevent the default form submission
+            event.preventDefault(); 
 
             const formData = new FormData(form);
-            const url = form.action; // The action URL of the form
+            const url = form.action;
 
             fetch(url, {
                 method: 'POST',
                 body: formData,
                 headers: {
-                    'X-Requested-With': 'XMLHttpRequest', // To indicate it's an AJAX request
+                    'X-Requested-With': 'XMLHttpRequest', 
                 },
             })
             .then(response => {
@@ -92,7 +91,7 @@
             })
             .then(data => {
                 if (data.success) {
-                    // Handle success, e.g., show a success message, redirect, or update the UI
+                    // Handle success
                     alert('Review submitted successfully!');
                     window.location.href = `{% url 'reviews:product_review' product.id %}`; // Redirect to the product's reviews page
                 } else {
