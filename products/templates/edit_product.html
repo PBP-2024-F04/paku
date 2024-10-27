@@ -1,7 +1,7 @@
 {% extends 'base_navbar.html' %}
 
 {% block content %}
-<div class="bg-white border border-2 rounded-lg shadow relative m-6">
+<div class="bg-white border border-2 rounded-lg shadow relative mt-10">
 
     <div class="flex items-start justify-between p-5 border-b rounded-t">
         <h3 class="text-xl font-semibold">
@@ -62,19 +62,19 @@
                 alert('Gagal mengupdate product: ' + JSON.stringify(data.errors));
             }
         })
-        .catch(error => console.error('Error:', error)); // Menangkap error
+        .catch(error => console.error('Error:', error));
     });
 </script>
 
 <style>
-.bg-yellow-light-hover input,
-.form-style form input, form textarea, form select {
+input, textarea, select {
     background-color: transparent;
     width: 100%;
 }
 
-.form-style form input:focus, form textarea:focus, form select:focus {
+input:focus, textarea:focus, select:focus {
     outline: none;
+    box-shadow: none;
 }
 </style>
 
