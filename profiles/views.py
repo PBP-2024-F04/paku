@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, render
-from accounts.models import FoodieProfile, User
+from accounts.models import User
 from favorites.models import Favorite
+from products.models import Product
 from reviews.models import Review
 from timeline.models import Post
 
@@ -19,3 +20,7 @@ def profile_favorites(request, username):
     favorites = Favorite.objects.filter(foodie=user)
     return render(request, 'profile_favorite.html', {'user': user, 'favorites': favorites})
 
+def profile_products(request, username):
+    user = get_object_or_404(User, username=username)
+    products = Product.objects.filter(user=user)
+    return render(request, 'profile_products.html', {'user': user, 'products': products})
