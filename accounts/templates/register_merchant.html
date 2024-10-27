@@ -21,6 +21,13 @@
         Sign In
       </button>
     </form>
+
+    <p>
+      Sudah punya akun?
+      <a href="{% url 'accounts:login' %}" class="hover:underline text-sage-dark">
+        Login.
+      </a>
+    </p>
   </div>
 </main>
 {% endblock body %}
