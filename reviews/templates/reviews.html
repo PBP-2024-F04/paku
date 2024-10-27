@@ -49,10 +49,11 @@
                 <!-- Product Card -->
                 <div class="mb-4">
                     <a href="{% url 'products:view_product' review.product.pk %}" class="block hover:underline">
-                        <div class="bg-[#e7ecd7] p-4 rounded-lg">
+                        <div
+                            class="bg-[#e7ecd7] p-4 rounded-lg shadow-lg">
                             <h2 class="text-lg font-bold text-[#0F0F0F]">{{ review.product.product_name }}</h2>
-                            <p class="text-gray-600">{{ review.product.restaurant }}</p>
-                            <p class="text-green-500 font-semibold">Price: {{ review.product.price|floatformat:2 }}</p>
+                            <p class="text-gray-700">{{ review.product.restaurant }}</p>
+                            <p class="text-green-600 font-semibold">Price: {{ review.product.price|floatformat:2 }}</p>
                         </div>
                     </a>
                 </div>
@@ -95,10 +96,11 @@
                 <!-- Product Card -->
                 <div class="mb-4">
                     <a href="{% url 'products:view_product' review.product.pk %}" class="block hover:underline">
-                        <div class="bg-[#e7ecd7] p-4 rounded-lg">
+                        <div
+                            class="bg-[#e7ecd7] p-4 rounded-lg shadow-lg">
                             <h2 class="text-lg font-bold text-[#0F0F0F]">{{ review.product.product_name }}</h2>
-                            <p class="text-gray-600">{{ review.product.restaurant }}</p>
-                            <p class="text-green-500 font-semibold">Price: {{ review.product.price|floatformat:2 }}</p>
+                            <p class="text-gray-700">{{ review.product.restaurant }}</p>
+                            <p class="text-green-600 font-semibold">Price: {{ review.product.price|floatformat:2 }}</p>
                         </div>
                     </a>
                 </div>
@@ -286,6 +288,43 @@
 
     select:focus~.pointer-events-none svg {
         transform: rotate(180deg);
+    }
+
+    /* Product Card Styles */
+    .product-card {
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .product-card:hover {
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .text-lg {
+        font-size: 1.125rem;
+        /* Adjusted size for better readability */
+    }
+
+    .text-gray-700 {
+        color: #4B5563;
+        /* Darker gray for better contrast */
+    }
+
+    .text-green-600 {
+        color: #4CAF50;
+        /* Enhanced green for price */
+    }
+
+    .hover\:underline:hover {
+        text-decoration: underline;
+        /* Underline on hover */
+    }
+
+    /* Hover effects */
+    a:hover .product-card {
+        transform: scale(1.05);
+        /* Scale on hover */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        /* Larger shadow */
     }
 </style>
 
