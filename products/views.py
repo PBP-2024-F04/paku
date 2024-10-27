@@ -24,8 +24,8 @@ def main(request):
         user_products = user_products.filter(category__icontains=category)
 
     products = dataset_products.union(user_products)
-    
     categories = Product.objects.values_list('category', flat=True).distinct()
+
     context = {
         'products': products,
         'categories': categories,
@@ -97,17 +97,3 @@ def delete_product(request, id):
         return JsonResponse({"status": "success"})
     else:
         return JsonResponse({"status": "error", "message": "Invalid request method"}, status=400)
-
-# Show all categories
-def view_categories(request):
-    categories = Product.objects.values_list('category', flat=True).distinct()
-    return render(request, 'view_categories.html', {'categories': categories})
-
-# Show products by category
-def products_by_category(request, category_name):
-    products = Product.objects.filter(category=category_name)
-    context = {
-        'products': products,
-        'category_name': category_name
-    }
-    return render(request, 'database_products.html', context)
