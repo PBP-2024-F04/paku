@@ -118,7 +118,10 @@ def edit_comment(request, comment_id):
         return redirect('timeline:view_post', post_id=instance.post.id)
 
     form = CommentForm(instance=instance)
-    return render(request, 'edit_comment.html', {'form': form})
+    return render(request, 'edit_comment.html', {
+        'form': form,
+        'comment': instance,
+    })
 
 @login_required(login_url='/accounts/login')
 def delete_comment(request, comment_id):

@@ -2,10 +2,10 @@
 
 {% block content %}
 <main>
-  <div class="flex flex-row border-moss-green-darker border-b gap-2 mb-2">
-    <button onclick="history.back()">
+  <div class="flex flex-row border-moss-green-darker border-b gap-2 mb-2 items-center">
+    <a href="{% url 'timeline:main' %}">
       <i data-lucide="arrow-left"></i>
-    </button>
+    </a>
     <h1 class="text-3xl font-bold text-center py-4">Post</h1>
   </div>
 
