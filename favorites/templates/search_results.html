@@ -28,10 +28,10 @@
         </form>
     </div>
     
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-5">
         {% for product in products %}
-        <div class="bg-white shadow-lg rounded-lg p-4 flex items-center justify-between">
-            <div class="flex-grow flex flex-col space-y-2">
+        <div class="bg-yellow-light-hover shadow-lg rounded-lg p-4 flex items-center justify-between border border-sage-hover">
+            <div class="flex-grow flex flex-col space-y-2" onclick="window.location.href='{% url 'products:view_product' product.pk %}'">
                 <h3 class="text-xl font-bold">{{ product.product_name }}</h3>
                 <p class="text-gray-700">{{ product.restaurant }}</p>
                 <p class="text-gray-900">Rp {{ product.price }}</p>

@@ -77,24 +77,6 @@ def delete_favorite(request, favorite_id):
     return redirect('favorites:main')
 
 @login_required(login_url='/accounts/login')
-def user_favorites(request, user_id):
-    profile_user = get_object_or_404(User, pk=user_id)
-    favorites = Favorite.objects.filter(foodie=profile_user)
-
-    # Filter berdasarkan kategori
-    want_to_try = favorites.filter(category='want_to_try')
-    loving_it = favorites.filter(category='loving_it')
-    all_time_favorites = favorites.filter(category='all_time_favorites')
-
-    context = {
-        'profile_user': profile_user,
-        'want_to_try': want_to_try,
-        'loving_it': loving_it,
-        'all_time_favorites': all_time_favorites,
-    }
-    return render(request, 'profile_favorites.html', context)
-
-@login_required(login_url='/accounts/login')
 def category_favorites(request, category_name):
     valid_categories = {
         'want_to_try': 'Want to Try',
