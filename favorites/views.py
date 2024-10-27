@@ -1,10 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from products.models import Product
-from reviews.models import Review
 from .models import Favorite
 from .forms import FavoriteForm
-from accounts.models import User, FoodieProfile
+from accounts.models import User
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -114,19 +113,22 @@ def category_favorites(request, category_name):
         'category_strip':category_name
     })
 
+@login_required(login_url='/accounts/login')
 def search_results(request):
     query = request.GET.get('q', '')
     products = Product.objects.filter(product_name__icontains=query)  # Menyesuaikan pencarian
     return render(request, 'search_results.html', {'products': products, 'query': query})
 
+@csrf_exempt
+@require_POST
 def create_favorite_ajax(request, product_id):
-    product = get_object_or_404(Product, id=product_id)  # Ambil produk berdasarkan ID
+    product = get_object_or_404(Product, pk=product_id)  # Ambil produk berdasarkan ID
 
     if request.method == 'POST':
         category = request.POST.get('category')
 
         # Buat favorit baru
-        favorite = Favorite.objects.create(
+        Favorite.objects.create(
             foodie=request.user,
             product=product,
             category=category
