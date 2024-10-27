@@ -15,11 +15,8 @@
     <!-- Button section -->
     <div class="flex space-x-2 mt-4">
       {% if user.role == 'Merchant' %}
-        <!-- <a href="{% url 'products:edit_product' product.pk %}">
-          <button class="text-center block mt-8 mx-auto bg-moss-green-dark text-white font-bold py-2 px-4 hover:bg-moss-green hover:text-white w-fit">Edit</button>
-        </a>
-        <a href="{% url 'products:delete_product' product.pk %}">
-          <button class="text-center block mt-8 mx-auto bg-red-dark text-white font-bold py-2 px-4 hover:bg-red hover:text-white w-fit">Delete</button> -->
+        <a href="{% url 'reviews:product_review' product.pk %}">
+          <button class="text-center block mt-8 mx-auto bg-moss-green-dark text-white font-bold py-2 px-4 rounded-lg hover:bg-moss-green hover:text-white w-fit transform duration-500 cursor-pointer hover:-translate-y-1">Review</button>
         </a>
       {% elif user.role == 'Foodie' %}
         <a href="{% url 'reviews:product_review' product.pk %}">
@@ -30,7 +27,7 @@
         </a>
       {% else %}
         <a href="{% url 'products:main' %}">
-          <button class="p-2 px-4 bg-gray-500 text-white font-bold hover:bg-gray-700">Back to Products</button>
+          <button class="text-center block mt-8 mx-auto bg-white-darker text-white font-bold py-2 px-4 rounded-lg hover:bg-white-dark-active hover:text-white w-fit transform duration-500 cursor-pointer hover:-translate-y-1">Back to Products</button>
         </a>
       {% endif %}
     </div>
