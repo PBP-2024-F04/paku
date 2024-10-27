@@ -34,9 +34,9 @@
 						{% endif %}
 					</strong>
 
-					<span class="text-peach">
+					<a class="text-peach" href="{% url 'profiles:profile_posts' post.user.username %}">
 						@{{ post.user.username }}
-					</span>
+					</a>
 
 					{% if post.user.role == "Foodie" %}
 						<i data-lucide="utensils-crossed" class="text-peach-dark inline mb-1" height="14"></i>
