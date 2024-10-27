@@ -3,24 +3,45 @@
 {% block content %}
 
 {% if user.role == 'Foodie' %}
-<div class="flex justify-center my-10">
-    <div class="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
-        <h1 class="text-2xl font-bold mb-4">Add "{{ product.product_name }}" to Your Favorites</h1>
+<div class="flex justify-center my-10 pt-20">
+    <div class="w-full max-w-lg bg-moss-green-active border border-sage-dark p-5 rounded-lg shadow-lg">
+        <h1 class="text-2xl text-yellow font-bold mb-4">Add "{{ product.product_name }}" to Your Favorites</h1>
         
         <div class="mb-4">
-            <h2 class="text-xl font-semibold">Product Information</h2>
-            <p><strong>Restaurant:</strong> {{ product.restaurant }}</p>
-            <p><strong>Price:</strong> {{ product.price }}</p>
-            <p><strong>Description:</strong> {{ product.description|truncatewords:20 }}</p>
-            <p><strong>Category:</strong> {{ product.category }}</p>
-        </div>
+            <div class="bg-yellow-hover shadow-lg rounded-lg p-2">
+                <table class="min-w-full border-collapse">
+                    <tbody>
+                        <tr class="hover:bg-gray-100">
+                            <td class="border-b border-gray-300 py-2 px-4"><strong>Name</strong></td>
+                            <td class="border-b border-gray-300 py-2 px-4">{{ product.product_name }}</td>
+                        </tr>
+                        <tr class="hover:bg-gray-100">
+                            <td class="border-b border-gray-300 py-2 px-4"><strong>Restaurant</strong></td>
+                            <td class="border-b border-gray-300 py-2 px-4">{{ product.restaurant }}</td>
+                        </tr>
+                        <tr class="hover:bg-gray-100">
+                            <td class="border-b border-gray-300 py-2 px-4"><strong>Price</strong></td>
+                            <td class="border-b border-gray-300 py-2 px-4">Rp {{ product.price }}</td>
+                        </tr>
+                        <tr class="hover:bg-gray-100">
+                            <td class="border-b border-gray-300 py-2 px-4"><strong>Description</strong></td>
+                            <td class="border-b border-gray-300 py-2 px-4">{{ product.description }}</td>
+                        </tr>
+                        <tr class="hover:bg-gray-100">
+                            <td class="py-2 px-4"><strong>Category</strong></td>
+                            <td class="py-2 px-4">{{ product.category }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>        
 
         <form method="POST">
             {% csrf_token %}
-            <h2 class="text-xl font-semibold mb-2">Select Category</h2>
+            <h2 class="text-xl text-yellow font-semibold mb-2">Select Category</h2>
 
             <div class="mb-4">
-                <div class="flex justify-between items-center bg-yellow-light p-4 rounded-lg shadow-md mb-2">
+                <div class="flex justify-between items-center bg-yellow-light-active p-4 rounded-lg shadow-md mb-2">
                     <div onclick="location.href='{% url 'favorites:category_favorites' 'want_to_try' %}'">
                         <h3 class="font-bold">Want to Try</h3>
                         <p>{{ want_to_try|length }} Products</p>
@@ -31,7 +52,7 @@
                     </div>
                 </div>
                 
-                <div class="flex justify-between items-center bg-yellow-light p-4 rounded-lg shadow-md mb-2">
+                <div class="flex justify-between items-center bg-yellow-light-active p-4 rounded-lg shadow-md mb-2">
                     <div onclick="location.href='{% url 'favorites:category_favorites' 'loving_it' %}'">
                         <h3 class="font-bold">Loving It</h3>
                         <p>{{ loving_it|length }} Products</p>
@@ -42,7 +63,7 @@
                     </div>
                 </div>
 
-                <div class="flex justify-between items-center bg-yellow-light p-4 rounded-lg shadow-md mb-2">
+                <div class="flex justify-between items-center bg-yellow-light-active p-4 rounded-lg shadow-md mb-2">
                     <div onclick="location.href='{% url 'favorites:category_favorites' 'all_time_favorites' %}'">
                         <h3 class="font-bold">All Time Favorite</h3>
                         <p>{{ all_time_favorites|length }} Products</p>
@@ -55,7 +76,7 @@
             </div>
 
             <div class="text-center">
-                <input type="submit" value="Add to Favorites" class="bg-peach hover:bg-peach-light text-white font-bold py-2 px-4 rounded transition duration-300"/>
+                <input type="submit" value="Add to Favorites" class="bg-red hover:bg-red-hover text-white font-bold py-2 px-4 rounded transition duration-300"/>
             </div>
         </form>
     </div>

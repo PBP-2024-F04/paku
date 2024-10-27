@@ -1,16 +1,16 @@
 {% extends 'base_navbar.html' %}
 
 {% block content %}
-<h1 class="text-3xl font-bold mb-6">{{ category_name|title }} Favorites</h1>
+<h1 class="text-3xl font-bold mb-6 pt-20">{{ category_name|title }}</h1>
 
 {% if favorites %}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {% for produk in favorites %}
-        <div class="bg-white shadow-md rounded-lg overflow-hidden flex cursor-pointer" onclick="window.location.href='{% url 'products:view_product' produk.product.pk %}'">
+        <div class="bg-yellow-light-hover shadow-md rounded-lg overflow-hidden flex hover:shadow-2xl border border-sage-hover cursor-pointer transition-shadow duration-300" onclick="window.location.href='{% url 'products:view_product' produk.product.pk %}'">
             <div class="p-4 flex-grow">
                 <h2 class="text-lg font-semibold">{{ produk.product.product_name }}</h2>
                 <p class="text-gray-600">{{ produk.product.restaurant }}</p>
-                <p class="text-gray-800 font-bold">Rp {{ produk.product.price|floatformat:2 }}</p>
+                <p class="text-gray-800 font-bold">Rp {{ produk.product.price }}</p>
             </div>
             <div class="flex flex-col justify-center items-center space-y-2 p-4">
                 <a href="{% url 'favorites:edit_favorite' produk.pk %}" class="bg-peach hover:bg-peach-hover text-white py-2 px-4 rounded transition w-full text-center">
