@@ -22,6 +22,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('favorites/', include('favorites.urls')),
     path('products/', include('products.urls')),
+    path('profile/', include('profiles.urls')),
     path('promos/', include('promos.urls')),
     path('reviews/', include('reviews.urls')),
     path('timeline/', include('timeline.urls')),
