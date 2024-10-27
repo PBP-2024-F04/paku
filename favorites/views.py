@@ -98,18 +98,32 @@ def category_favorites(request, category_name):
 @login_required(login_url='/accounts/login')
 def search_results(request):
     query = request.GET.get('q', '')
-    products = Product.objects.filter(product_name__icontains=query)  # Menyesuaikan pencarian
+    products = Product.objects.filter(product_name__icontains=query) 
     return render(request, 'search_results.html', {'products': products, 'query': query})
 
 @csrf_exempt
 @require_POST
 def create_favorite_ajax(request, product_id):
-    product = get_object_or_404(Product, pk=product_id)  # Ambil produk berdasarkan ID
+    product = get_object_or_404(Product, pk=product_id) 
 
+    user = request.user
+
+    # Periksa apakah favorit untuk produk ini sudah ada
+    existing_favorite = Favorite.objects.filter(foodie=user, product_id=product_id).first()
+
+    if existing_favorite:
+        # Produk sudah ada sebagai favorit, kembalikan data kategori untuk form edit
+        return JsonResponse({
+            'success': False,
+            'error': 'Produk ini sudah ada di daftar favorit Anda.',
+            'favorite': {
+                'category': existing_favorite.category
+            }
+        })
+    
     if request.method == 'POST':
         category = request.POST.get('category')
 
-        # Buat favorit baru
         Favorite.objects.create(
             foodie=request.user,
             product=product,
@@ -118,4 +132,4 @@ def create_favorite_ajax(request, product_id):
 
         return JsonResponse({'success': True, 'message': 'Favorit berhasil ditambahkan!'})
     
-    return JsonResponse({'success': False, 'message': 'Request tidak valid.'}, status=400)
+    return JsonResponse({'success': False, 'error': 'Invalid request method.'})

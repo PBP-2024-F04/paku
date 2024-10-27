@@ -18,9 +18,9 @@
     }
 </style>
 
-<div class="container mt-4 pt-20">
+<div class="container mt-4">
     {{ url }}
-    <h2 class="text-3xl font-bold text-center">Hasil Pencarian untuk "{{ query }}"</h2>
+    <h2 class="text-3xl font-bold text-center pt-3 pb-2">Hasil Pencarian untuk "{{ query }}"</h2>
     <div class="search-container flex items-center justify-center my-4">
         <form action="{% url 'favorites:search_results' %}" method="GET" class="flex w-full max-w-2xl">
         <input type="text" name="q" value="{{ query }}" class="border rounded-l-lg border-sage-dark p-2 w-full bg-sage-light" required>
@@ -37,7 +37,7 @@
                 <p class="text-gray-900">Rp {{ product.price }}</p>
             </div>
             <button
-                class="bg-peach hover:bg-peach-dark text-white font-bold py-2 px-4 rounded transition flex-shrink-0"
+                class="bg-yellow hover:bg-yellow-hover text-sage-darker font-bold py-2 px-4 rounded transition flex-shrink-0 border border-yellow-dark"
                 onclick="openFavoriteForm('{{ product.id }}')"
             >
                 Favorite
@@ -48,7 +48,7 @@
 </div>
 
 <div id="favoriteModal" class="fixed inset-0 w-screen h-screen z-50 bg-white-dark/50 grid place-items-center">
-    <div id="modalContent" class="p-6 bg-white border border-moss-green-darker">
+    <div id="modalContent" class="p-6 bg-yellow-light-hover border border-sage-hover">
         <span class="close" onclick="closeModal()">
             <i data-lucide="x"></i>
         </span>
@@ -109,7 +109,10 @@
                 closeModal();
                 window.location.reload();
             } else {
-                alert('Gagal menambahkan favorit: ' + JSON.stringify(data.errors));
+                if (data.favorite) {
+                $('#category').val(data.favorite.category);  // Atur kategori sebelumnya
+                }
+                alert('Gagal menambahkan favorit: ' + (data.error || 'Unknown error occurred.'));
             }
         })
         .catch(error => console.error('Error:', error));
