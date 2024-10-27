@@ -1,7 +1,7 @@
-{% extends 'very_base.html' %}
+{% extends 'minimal.html' %}
 {% load static %}
 
-{% block content %}
+{% block body %}
 <main class="bg-[url({% static 'img/auth-bg.jpg' %})] bg-no-repeat bg-cover bg-right grid grid-cols-1 md:grid-cols-[70%_30%] xl:grid-cols-[60%_40%] w-full min-h-screen">
   <div class="w-full h-full flex flex-col items-center justify-center bg-white pb-24 gap-8 px-2 md:rounded-r-3xl">
     <div class="text-center">
@@ -11,12 +11,14 @@
 
     <div class="flex flex-col gap-2 text-center w-64">
       <a href="{% url 'accounts:register_foodie' %}" class="bg-sage-dark text-white py-2">
-        Buat Akun Foodie
+        <i data-lucide="utensils" class="inline mb-0.5 mr-3"></i>
+        <span>Buat Akun Foodie</span>
       </a>
       <a href="{% url 'accounts:register_merchant' %}" class="bg-sage-dark text-white py-2">
-        Buat Akun Merchant
+        <i data-lucide="chef-hat" class="inline mb-0.5 mr-3"></i>
+        <span>Buat Akun Merchant</span>
       </a>
     </div>
   </div>
 </main>
-{% endblock content %}
+{% endblock body %}
