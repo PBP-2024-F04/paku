@@ -10,7 +10,13 @@ from .forms import CommentForm, PostForm
 
 @login_required(login_url='/accounts/login')
 def main(request):
-    posts = Post.objects.all().order_by('-created_at')
+    query = request.GET.get('query')
+
+    if query:
+        posts = Post.objects.filter(text__contains=query).order_by('-created_at')
+    else:
+        posts = Post.objects.all().order_by('-created_at')
+
     return render(request, 'timeline.html', {
         'posts': posts,
         'user': request.user,
