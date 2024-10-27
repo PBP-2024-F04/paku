@@ -1,0 +1,13 @@
+{% extends 'base_navbar.html' %}
+
+{% block content %}
+<main>
+  <div class="mb-5 text-center border-b border-moss-green-darker py-4 flex flex-col">
+    <div class="flex flex-row items-center justify-center gap-2">
+      <i data-lucide="utensils-crossed" class="inline" height="36px" width="36px"></i>
+      <h1 class="text-5xl font-bold">{{ user.foodieprofile.full_name }}</h1>
+    </div>
+    <p class="text-moss-green">@{{ user.username }}</p>
+  </div>
+</main>
+{% endblock content %}
