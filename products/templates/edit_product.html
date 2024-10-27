@@ -1,37 +1,47 @@
 {% extends 'base_navbar.html' %}
 
 {% block content %}
-<div class="container mx-auto px-4 py-8 mt-16 max-w-xl">
-    <h2 class="text-3xl text-center font-bold">Edit Product</h2>
+<div class="bg-white border border-2 rounded-lg shadow relative m-6">
 
-    <form id="editProductForm" class="bg-white shadow-md rounded-lg p-6 form-style">
-        <form method="POST" class="space-y-6">
+    <div class="flex items-start justify-between p-5 border-b rounded-t">
+        <h3 class="text-xl font-semibold">
+            Edit Product
+        </h3>
+        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" onclick="window.location.href='{% url 'products:my_products' %}'">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+        </button>
+     </div>
+
+     <div class="p-6 space-y-6 -mt-6">
+        <form id="editProductForm" method="POST" class="space-y-6">
             {% csrf_token %}
-            {% for field in form %}
-                <div class="flex flex-col">
-                    <label for="{{ field.id_for_label }}" class="mb-2 font-semibold text-gray-700">
-                        {{ field.label }}
-                    </label>
-                    <div class="w-full">
-                        {{ field }}
+            <div class="grid grid-cols-6 gap-6">
+                {% for field in form %}
+                    <div class="col-span-6 sm:col-span-3 {% if field.label == 'Description' %}col-span-6 sm:col-span-6{% endif %}">
+                        <label for="{{ field.id_for_label }}" class="text-sm font-medium text-gray-900 block mb-2">
+                            {{ field.label }}
+                        </label>
+                        <div class="bg-yellow-light-hover border border-white-darker text-white-darker sm:text-sm rounded-lg block w-full p-2.5">
+                            {{ field }}
+                        </div>
+                        {% if field.help_text %}
+                            <p class="mt-1 text-sm text-gray-500">{{ field.help_text }}</p>
+                        {% endif %}
+                        {% for error in field.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ error }}</p>
+                        {% endfor %}
                     </div>
-                    {% if field.help_text %}
-                        <p class="mt-1 text-sm text-gray-500">{{ field.help_text }}</p>
-                    {% endif %}
-                    {% for error in field.errors %}
-                        <p class="mt-1 text-sm text-red-600">{{ error }}</p>
-                    {% endfor %}
-                </div>
-            {% endfor %}
-            <div class="flex justify-center mt-6">
-                <button type="submit" class="bg-moss-green hover:bg-moss-green-dark text-white font-bold py-2 px-4 mx-2">Edit</button>
+                {% endfor %}
+            </div>
+        </div>            
+            <div class="p-6 border-t border-gray-200 rounded-b">
+                <button type="submit" class="bg-moss-green hover:bg-moss-green-dark text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center">Save all</button>
             </div>
         </form>
-    </div>
-    </div>
-  </div>
+    
+</div>
 
-  <script>
+<script>
     document.getElementById('editProductForm').addEventListener('submit', function(event) {
         event.preventDefault();  
 
@@ -55,5 +65,17 @@
         .catch(error => console.error('Error:', error)); // Menangkap error
     });
 </script>
+
+<style>
+.bg-yellow-light-hover input,
+.form-style form input, form textarea, form select {
+    background-color: transparent;
+    width: 100%;
+}
+
+.form-style form input:focus, form textarea:focus, form select:focus {
+    outline: none;
+}
+</style>
 
 {% endblock %}
