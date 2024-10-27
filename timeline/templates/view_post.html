@@ -11,7 +11,7 @@
 
   <div class="px-6 py-4 border border-moss-green-darker bg-white">
     <div>
-      <span>{{ post.user.foodieprofile.full_name }}</span>
+      <strong>{{ post.user.foodieprofile.full_name }}</strong>
       <span class="text-peach">@{{ post.user.username }}</span>
     </div>
     <p class="break-words">
@@ -62,26 +62,34 @@ async function refreshComments() {
           .append(
             $('<div></div>')
               .append(
-                $('<span></span>')
-                  .html('<strong></strong> <span></span>')
+                $('<div></div>')
+                  .html('<strong class="max-w-full text-ellipsis"></strong> <span></span>')
                   .prepend($('#corner-down-right').html())
                   .find('strong').text(comment.user_fullname).end()
                   .find('span').text(`@${comment.username}`).addClass('text-peach').end()
+                  .addClass('min-w-0 overflow-hidden')
+                  .append(
+                    comment.is_edited
+                      ? $('<small></small>').html('<small class="text-peach-dark">&mdash; edited</small>')
+                      : ''
+                  )
               )
               .append(
-                $('<span></span>')
-                  .html('<a id="edit-btn"></a> <a id="delete-btn"></a>')
-                  .find('#edit-btn')
-                    .prop('href', `/timeline/comment/${comment.id}/edit`)
-                    .html($('#pencil-line').html())
-                    .end()
-                  .find('#delete-btn')
-                    .prop('href', `/timeline/comment/${comment.id}/delete`)
-                    .html($('#trash').html())
-                    .end()
-                  .addClass('text-peach inline ml-auto')
+                comment.user_id == "{{ user.id }}"
+                  ? $('<div></div>')
+                     .html('<a id="edit-btn"></a> <a id="delete-btn"></a>')
+                     .find('#edit-btn')
+                       .prop('href', `/timeline/comment/${comment.id}/edit`)
+                       .html($('#pencil-line').html())
+                       .end()
+                     .find('#delete-btn')
+                       .prop('href', `/timeline/comment/${comment.id}/delete`)
+                       .html($('#trash').html())
+                       .end()
+                     .addClass('flex-shrink-0 text-peach inline ml-auto')
+                  : ''
               )
-              .addClass('flex flex-row justify-around')
+              .addClass('flex flex-row justify-stretch')
           )
           .append($('<p></p>').text(comment.text))
           .addClass('border px-4 py-2 border-white-dark')
