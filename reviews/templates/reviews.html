@@ -3,9 +3,10 @@
 
 {% block content %}
 <div class="container mx-auto py-8 px-4">
-    <h1 class="text-4xl font-bold mb-6 text-gray-800 text-center">Product Reviews</h1>
 
     {% if user.role == 'Foodie' %}
+    <h1 class="text-4xl font-bold mb-6 text-gray-800 text-center">Product Reviews</h1>
+
     <!-- Tabs Navigation -->
     <div class="flex justify-center space-x-4 mb-6">
         <button id="all-reviews-tab" class="tab-button active">
@@ -151,15 +152,17 @@
         <p class="text-gray-500">You must be logged in to view your reviews.</p>
         {% endif %}
     </div>
-    
+
     {% elif user.role == 'Merchant' %}
+    <h1 class="text-4xl font-bold mb-6 text-gray-800 text-center">{{ user.merchantprofile.restaurant_name }}'s Product
+        Reviews</h1>
     <div class="space-y-4">
-        <h2 class="text-2xl font-semibold text-gray-700 mb-4">{{ user.merchantprofile.business_name }}'s Product Reviews</h2>
         {% if user.is_authenticated %}
         {% if merchant_reviews %}
         <ul class="space-y-4">
             {% for review in merchant_reviews %}
-            <li class="p-4 bg-white rounded-lg shadow-lg border border-gray-200 transition-transform transform hover:scale-105">
+            <li
+                class="p-4 bg-white rounded-lg shadow-lg border border-gray-200 transition-transform transform hover:scale-105">
                 <!-- Product Card -->
                 <div class="mb-4">
                     <a href="{% url 'products:view_product' review.product.pk %}" class="block hover:underline">
@@ -177,8 +180,12 @@
                 <!-- Star Rating Display -->
                 <div class="flex space-x-1 mt-2">
                     {% for i in "12345" %}
-                    <svg class="w-5 h-5" fill="{% if forloop.counter <= review.rating %}#fbbf24{% else %}#d1d5db{% endif %}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2z"></path>
+                    <svg class="w-5 h-5"
+                        fill="{% if forloop.counter <= review.rating %}#fbbf24{% else %}#d1d5db{% endif %}"
+                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2z">
+                        </path>
                     </svg>
                     {% endfor %}
                 </div>
@@ -197,7 +204,7 @@
         {% endif %}
     </div>
     {% endif %}
- 
+
 </div>
 
 <!-- Tailwind Tabs Switching Script -->
@@ -244,8 +251,6 @@
 
 </script>
 
-
-<!-- Tailwind CSS Styles for Tabs -->
 <style>
     .tab-button {
         padding: 0.5rem 1rem;
@@ -347,30 +352,23 @@
 
     .text-lg {
         font-size: 1.125rem;
-        /* Adjusted size for better readability */
     }
 
     .text-gray-700 {
         color: #4B5563;
-        /* Darker gray for better contrast */
     }
 
     .text-green-600 {
         color: #4CAF50;
-        /* Enhanced green for price */
     }
 
     .hover\:underline:hover {
         text-decoration: underline;
-        /* Underline on hover */
     }
 
-    /* Hover effects */
     a:hover .product-card {
         transform: scale(1.05);
-        /* Scale on hover */
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        /* Larger shadow */
     }
 </style>
 

@@ -13,7 +13,7 @@ def main(request):
         my_reviews = Review.objects.filter(user=request.user)
         
         if request.user.role == 'Merchant':
-            merchant_products = Product.objects.filter(owner=request.user)
+            merchant_products = Product.objects.filter(user=request.user)
             merchant_reviews = Review.objects.filter(product__in=merchant_products)
         else:
             merchant_reviews = None
