@@ -1,23 +1,47 @@
 {% extends 'base_navbar.html' %}
 
 {% block content %}
-<div class="sticky top-24 px-4 py-2 border border-moss-green-darker bg-white">
-  <div>
-    <span>{{ post.user.foodieprofile.full_name }}</span>
-    <span class="text-peach">@{{ post.user.username }}</span>
-  </div>
-  <p>{{ post.text }}</p>
-</div>
-
 <main>
-  <div id="comment-container" class="mt-4 mb-8">
+  <div class="flex flex-row border-moss-green-darker border-b gap-2 mb-2">
+    <button onclick="history.back()">
+      <i data-lucide="arrow-left"></i>
+    </button>
+    <h1 class="text-3xl font-bold text-center py-4">Post</h1>
+  </div>
+
+  <div class="px-6 py-4 border border-moss-green-darker bg-white">
+    <div>
+      <span>{{ post.user.foodieprofile.full_name }}</span>
+      <span class="text-peach">@{{ post.user.username }}</span>
+    </div>
+    <p class="break-words">
+      {{ post.text|linebreaksbr }}
+    </p>
+  </div>
+
+  <div id="comment-container" class="mt-2 mb-8 flex flex-col gap-2">
+    <p class="border border-white-dark text-white-dark py-2 px-4">
+      Belum ada komentar
+    </p>
   </div>
 
   <form class="flex flex-row gap-2 sticky bottom-6" id="comment-form">
-    <input type="text" class="focus:outline-none px-2.5 flex-grow bg-white-light border border-moss-green-darker" placeholder="Berikan komentarmu" />
+    <input type="text" class="focus:outline-none px-2.5 flex-grow bg-white-light border border-moss-green-darker" name="text" placeholder="Berikan komentarmu" />
     <button class="bg-sage-dark text-white py-2 px-4">Comment</button>
   </form>
 </main>
+
+<aside id="corner-down-right" hidden>
+  <i data-lucide="corner-down-right" class="inline" width="16"></i>
+</aside>
+
+<aside id="pencil-line" hidden>
+  <i data-lucide="pencil-line" class="inline" width="18"></i>
+</aside>
+
+<aside id="trash" hidden>
+  <i data-lucide="trash" class="inline" width="18"></i>
+</aside>
 
 <script>
 function getComments() {
@@ -27,27 +51,45 @@ function getComments() {
 async function refreshComments() {
   const comments = await getComments();
 
+  if (comments.length == 0) {
+    return;
+  }
+
   $("#comment-container").html(
     comments
       .map(comment => (
         $('<div></div>')
           .append(
-            $('<p></p>')
-              .html('<strong></strong> @<span></span> replied:')
-              .find('strong').text(comment.user_fullname).end()
-              .find('span').text(comment.username).end()
+            $('<div></div>')
+              .append(
+                $('<span></span>')
+                  .html('<strong></strong> <span></span>')
+                  .prepend($('#corner-down-right').html())
+                  .find('strong').text(comment.user_fullname).end()
+                  .find('span').text(`@${comment.username}`).addClass('text-peach').end()
+              )
+              .append(
+                $('<span></span>')
+                  .html('<a id="edit-btn"></a> <a id="delete-btn"></a>')
+                  .find('#edit-btn')
+                    .prop('href', `/timeline/comment/${comment.id}/edit`)
+                    .html($('#pencil-line').html())
+                    .end()
+                  .find('#delete-btn')
+                    .prop('href', `/timeline/comment/${comment.id}/delete`)
+                    .html($('#trash').html())
+                    .end()
+                  .addClass('text-peach inline ml-auto')
+              )
+              .addClass('flex flex-row justify-around')
           )
           .append($('<p></p>').text(comment.text))
-          .append(
-            comment.user_id === "{{ post.user_id }}"
-              ? `<a href="/timeline/comment/${comment.id}/edit">[edit]</a> &mdash;
-                 <a href="/timeline/comment/${comment.id}/delete">[delete]</a>`
-              : ''
-          )
-          .html()
+          .addClass('border px-4 py-2 border-white-dark')
+          .prop('outerHTML')
       ))
       .join('')
-  );
+  )
+  .addClass('pl-4');
 }
 
 $('#comment-form').on('submit', (e) => {

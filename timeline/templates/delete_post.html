@@ -9,16 +9,16 @@
 </div>
 
 <div class="sticky top-24 px-4 py-2 border-x border-b border-moss-green-darker bg-white">
-	<div>
-		<span>{{ post.user.foodieprofile.full_name }}</span>
-		<span class="text-peach">@{{ post.user.username }}</span>
-	</div>
-	<p>{{ post.text }}</p>
+  <div>
+    <span>{{ post.user.foodieprofile.full_name }}</span>
+    <span class="text-peach">@{{ post.user.username }}</span>
+  </div>
+  <p>{{ post.text }}</p>
 </div>
 
 <form method="POST" class="mt-4">
-	{% csrf_token %}
+  {% csrf_token %}
 
-	<button type="submit" class="bg-sage-dark text-white px-4 py-2 font-bold">Yes, delete this post</button>
+  <button type="submit" class="bg-sage-dark text-white px-4 py-2 font-bold">Yes, delete this post</button>
 </form>
 {% endblock content %}
