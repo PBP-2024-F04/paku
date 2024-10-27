@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'accounts',
     'favorites',
     'products',
+    'profiles',
     'promos',
     'reviews',
     'timeline',

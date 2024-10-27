@@ -1,0 +1,6 @@
+<a
+  href="{% url href user.username %}"
+  class="text-center font-medium text-lg {% if request.resolver_match.view_name == href %}text-moss-green{% endif %}"
+>
+  {{ label }}
+</a>
