@@ -3,9 +3,9 @@
 {% block content %}
 <h1>
   {% if category_name %}
-  <h1 class="text-3xl mt-4 text-center"><strong>Products in {{ category_name }}</strong></h1>
+  <h1 class="text-4xl mt-4 text-center"><strong>Products in {{ category_name }}</strong></h1>
   {% else %}
-    <h1 class="text-3xl mt-4 text-center"><strong>All Products</strong></h1>
+    <h1 class="text-4xl mt-4 text-center"><strong>All Products</strong></h1>
     <!-- Dropdown Kategori -->
     <div class="text-center mt-4">
       <label for="category-select" class="text-lg text-moss-green font-semibold">Lihat Produk per Kategori!</label>
@@ -31,9 +31,9 @@
 {% else %}
   <div class="p-6 my-6 m-4 w-full mx-auto flex flex-wrap justify-center gap-6 p-4">
     {% for product in products %}
-      <div  onclick="window.location.href='{% url 'products:view_product' product.pk %}'" class="relative bg-yellow-light-hover shadow-lg p-6 my-6 m-4 mx-auto w-80 flex flex-col justify-center gap-4 transform duration-500 hover:shadow-2xl cursor-pointer hover:-translate-y-1">
+      <div  onclick="window.location.href='{% url 'products:view_product' product.pk %}'" class="relative shadow-lg p-6 my-6 m-4 mx-auto w-80 flex flex-col justify-center gap-4 rounded-lg transform duration-500 hover:shadow-2xl cursor-pointer hover:-translate-y-1">
         <div class="absolute top-5 left-5 flex space-x-2 z-10 font-semibold text-sm">
-          <h5>{{ product.category }}</h5>
+          <p>{{ product.category }}</p>
         </div>
         {% if user.is_authenticated and user.role == 'Foodie' %}
           <div class="absolute top-3 right-3 flex space-x-2 z-10">
@@ -47,7 +47,7 @@
         {% endif %}
         <h3 class="text-2xl mt-4 font-semibold text-grey text-center product-name-spacing"><strong>{{ product.product_name }}</strong></h3>
         <p class="text-peach text-center"><strong> {{ product.restaurant }} </strong></p>
-        <p class="text-grey mt-2">Harga: Rp {{ product.price }}</p>
+        <p class="text-grey mt-2">Harga: Rp{{ product.price }},00</p>
       </div>
     {% endfor %}
   </div>

@@ -1,7 +1,7 @@
 {% extends 'base_navbar.html' %}
 
 {% block content %}
-<h1 class="text-3xl mt-4 text-center"><strong>My Products</strong></h1>
+<h1 class="text-4xl mt-4 text-center"><strong>My Products</strong></h1>
 <a href="{% url 'products:create_product' %}" class="text-center block mt-8 mx-auto bg-sage-dark text-white font-bold py-2 px-4 hover:bg-sage-darker hover:text-white w-fit">
   Tambah Produk Baru
 </a>
@@ -13,7 +13,7 @@
   {% else %}
     <div class="p-6 my-6 m-4 w-full mx-auto flex flex-wrap justify-center gap-6 p-4">
   {% for product in products %}
-    <div class="relative bg-yellow-light-hover shadow-lg p-6 my-6 m-4 mx-auto w-80 flex flex-col justify-center gap-4 transform duration-500 hover:shadow-2xl cursor-pointer hover:-translate-y-1">
+    <div class="relative shadow-lg p-6 my-6 m-4 mx-auto w-80 flex flex-col justify-center gap-4 rounded-lg transform duration-500 hover:shadow-2xl cursor-pointer hover:-translate-y-1">
       <div class="absolute top-5 left-5 flex space-x-2 z-10 font-semibold text-sm">
         <p>{{ product.category }}</p>
       </div>
@@ -31,7 +31,7 @@
       </div>
       <h3 class="text-2xl mt-4 font-semibold text-grey text-center"><strong>{{ product.product_name }}</strong></h3>
       <p class="text-grey mt-2">{{ product.description }}</p>
-      <p class="text-sm text-grey mt-2">Harga: Rp {{ product.price }}</p>
+      <p class="text-peach-dark mt-2"><strong>Harga: Rp{{ product.price }},00</strong></p>
     </div>
   {% endfor %}
   </div>

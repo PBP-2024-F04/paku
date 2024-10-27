@@ -1,16 +1,16 @@
 {% extends 'base_navbar.html' %}
 
 {% block content %}
-<h1 class="text-3xl mt-4 text-center"><strong>Product Details</strong></h1>
+<h1 class="text-4xl mt-4 text-center"><strong>Product Details</strong></h1>
 <div class="flex justify-center mt-8">
-  <div class="bg-sage relative p-2 pt-8 md:p-12 pb-12 lg:max-w-lg w-full transform duration-500 hover:shadow-2xl cursor-pointer hover:-translate-y-1">
+  <div class="bg-sage relative p-2 pt-8 md:p-12 pb-12 lg:max-w-lg w-full border border-white-darker transform duration-500 hover:shadow-xl cursor-pointer hover:-translate-y-0">
     <div class="flex justify-between font-bold text-sm">
       <p>{{ product.category }}</p>
       <p class="text-gray-400">{{ product.restaurant }}</p>
     </div>
     <h2 class="text-3xl font-semibold mt-4">{{ product.product_name }}</h2>
     <p class="my-3 text-justify font-medium text-gray-700 leading-relaxed whitespace-normal">{{ product.description }}</p>
-    <p class="my-3 text-justify font-medium text-gray-700 leading-relaxed">Rp {{ product.price }}</p>
+    <p class="my-3 text-justify font-medium text-peach-dark leading-relaxed"><strong>Rp{{ product.price }},00</strong></p>
     
     <!-- Button section -->
     <div class="flex space-x-2 mt-4">
