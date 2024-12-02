@@ -7,6 +7,8 @@ from accounts.models import User
 from django.http import JsonResponse, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from django.core.serializers import serialize
+from django.http import JsonResponse
 
 @login_required(login_url='/accounts/login')
 def main(request):
@@ -144,3 +146,8 @@ def create_favorite_ajax(request, product_id):
         return JsonResponse({'success': True, 'message': 'Favorit berhasil ditambahkan!'})
     
     return JsonResponse({'success': False, 'error': 'Invalid request method.'})
+
+@login_required(login_url='/accounts/login')
+def show_json(request):
+    favorites = Favorite.objects.filter(foodie=request.user)
+    return HttpResponse(serializers.serialize("json", favorites), content_type="application/json")

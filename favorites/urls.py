@@ -11,4 +11,5 @@ urlpatterns = [
     path('category/<str:category_name>', category_favorites, name='category_favorites'), 
     path('favorites/search/', search_results, name='search_results'),
     path('favorites/create-ajax/<uuid:product_id>', create_favorite_ajax, name='create_favorite_ajax'),
+    path('json/', show_json, name='show_json'),
 ]
