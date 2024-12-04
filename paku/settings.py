@@ -30,6 +30,8 @@ DEBUG = not PRODUCTION
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost", "muhammad-vito31-paku.pbp.cs.ui.ac.id"]
 
+CSRF_TRUSTED_ORIGINS = ["http://localhost:8000", "https://muhammad-vito31-paku.pbp.cs.ui.ac.id"]
+
 # Application definition
 
 INSTALLED_APPS = [
