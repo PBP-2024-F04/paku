@@ -1,7 +1,8 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
+from django.core import serializers
 from django.shortcuts import render, redirect, get_object_or_404
 from products.forms import ProductForm
 from products.models import Product
@@ -98,3 +99,11 @@ def delete_product(request, id):
         return JsonResponse({"status": "success"})
     else:
         return JsonResponse({"status": "error", "message": "Invalid request method"}, status=400)
+
+def show_json(request):
+    data = Product.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+def show_json_by_id(request, id):
+    data = Product.objects.filter(pk=id)
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
