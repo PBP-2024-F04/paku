@@ -79,6 +79,31 @@ def delete_post(request, post_id):
     return render(request, 'delete_post.html', {'post': instance})
 
 @login_required(login_url='/accounts/login')
+def get_posts(_):
+    posts = Post.objects.all().order_by('-created_at')
+
+    data = [
+        {
+            "id": post.id,
+            "user": {
+                "role": post.user.role,
+                "display_name":
+                    post.user.foodieprofile.full_name
+                    if post.user.role == "Foodie" else
+                    post.user.merchantprofile.restaurant_name,
+                "username": post.user.username,
+            },
+            "text": post.text,
+            "is_edited": post.is_edited,
+            "created_at": post.created_at,
+            "updated_at": post.updated_at,
+        }
+        for post in posts
+    ]
+
+    return JsonResponse(data, content_type="application/json", safe=False)
+
+@login_required(login_url='/accounts/login')
 def get_comments(_, post_id):
     post = get_object_or_404(Post, pk=post_id)
 
@@ -95,7 +120,7 @@ def get_comments(_, post_id):
         for comment in Comment.objects.filter(post=post)
     ]
 
-    return JsonResponse(list(comments), safe=False)
+    return JsonResponse(comments, content_type="application/json", safe=False)
 
 @csrf_exempt
 @require_POST
