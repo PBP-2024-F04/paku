@@ -10,4 +10,9 @@ urlpatterns = [
     path('register/', register_page, name='register'),
     path('register/foodie/', register_foodie_page, name='register_foodie'),
     path('register/merchant/', register_merchant_page, name='register_merchant'),
+
+    path('auth/login/', login),
+    path('auth/register/foodie/', register_foodie),
+    path('auth/register/merchant/', register_merchant),
+    path('auth/logout/', logout),
 ]
