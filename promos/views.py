@@ -7,6 +7,7 @@ from .forms import PromoForm
 from django.urls import reverse
 import json
 from django.contrib.auth.models import User
+import logging
 
 @login_required(login_url='/accounts/login')
 def my_promos(request):
@@ -39,17 +40,26 @@ def add_promo(request):
 @csrf_exempt
 @login_required(login_url='/accounts/login')
 def update_promo(request, promo_id):
-    promo = get_object_or_404(Promo, id=promo_id, user=request.user)  # Pastikan hanya merchant yang bisa mengupdate promo mereka
+    promo = get_object_or_404(Promo, id=promo_id, user=request.user)  # Ensure only the merchant can update their promo
+    if request.method == 'GET':
+        # Return the existing promo data in JSON format for editing
+        promo_data = {
+            'id': str(promo.id),
+            'judul_promo': promo.judul_promo,
+            'deskripsi_promo': promo.deskripsi_promo,
+            'tanggal_batas': promo.tanggal_batas,
+        }
+        return JsonResponse(promo_data)
+
     if request.method == 'POST':
-        form = PromoForm(request.POST, instance=promo)
+        # Update promo with the new data
+        data = json.loads(request.body)
+        form = PromoForm(data, instance=promo)
         if form.is_valid():
             form.save()
             return JsonResponse({'success': True, 'message': 'Promo berhasil diperbarui.'})
         else:
             return JsonResponse({'success': False, 'errors': form.errors})
-    else:
-        form = PromoForm(instance=promo)
-    return render(request, 'update_promo.html', {'form': form})
 
 @csrf_exempt
 @login_required(login_url='/accounts/login')
@@ -85,8 +95,10 @@ def promo_list_json(request):
     } for promo in promos]
     return JsonResponse(data, safe=False)
 
+@login_required(login_url='/accounts/login')
 def my_promo_list_json(request):
-    promos = Promo.objects.filter(user=request.user) 
+    # Ensure the user is authenticated
+    promos = Promo.objects.filter(user=request.user)
     data = [{
         'id': promo.id,
         'promo_title': promo.promo_title,
@@ -94,7 +106,7 @@ def my_promo_list_json(request):
         'promo_description': promo.promo_description,
         'batas_penggunaan': promo.batas_penggunaan.strftime('%d-%m-%Y') if promo.batas_penggunaan else "Tidak punya batas"
     } for promo in promos]
-    return JsonResponse(data, safe=False)
+    return JsonResponse(data, safe=False)  # Return the response with safe=False
 
 @csrf_exempt
 def create_promo_flutter(request):
