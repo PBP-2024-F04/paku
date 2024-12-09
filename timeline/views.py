@@ -80,7 +80,7 @@ def delete_post(request, post_id):
     return render(request, 'delete_post.html', {'post': instance})
 
 @login_required(login_url='/accounts/login')
-def get_posts(_):
+def get_posts(request):
     posts = Post.objects.all().order_by('-created_at')
 
     data = [
@@ -96,6 +96,7 @@ def get_posts(_):
             },
             "text": post.text,
             "is_edited": post.is_edited,
+            "is_mine": post.user == request.user,
             "created_at": post.created_at,
             "updated_at": post.updated_at,
         }
