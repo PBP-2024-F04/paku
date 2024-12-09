@@ -5,6 +5,8 @@ from django.views.decorators.csrf import csrf_exempt
 from promos.models import Promo
 from .forms import PromoForm
 from django.urls import reverse
+import json
+from django.contrib.auth.models import User
 
 @login_required(login_url='/accounts/login')
 def my_promos(request):
@@ -93,3 +95,36 @@ def my_promo_list_json(request):
         'batas_penggunaan': promo.batas_penggunaan.strftime('%d-%m-%Y') if promo.batas_penggunaan else "Tidak punya batas"
     } for promo in promos]
     return JsonResponse(data, safe=False)
+
+@csrf_exempt
+def create_promo_flutter(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        
+        # Mendapatkan data dari request
+        try:
+            promo_title = data['promo_title']
+            restaurant_name = data['restaurant_name']
+            promo_description = data['promo_description']
+            batas_penggunaan = data['batas_penggunaan']
+            
+            # Jika batas_penggunaan tidak ada, set ke null
+            if not batas_penggunaan:
+                batas_penggunaan = None
+
+            # Membuat objek promo baru
+            new_promo = Promo.objects.create(
+                user=User.objects.get(id=data['user_id']),  # Menetapkan user berdasarkan ID
+                promo_title=promo_title,
+                restaurant_name=restaurant_name,
+                promo_description=promo_description,
+                batas_penggunaan=batas_penggunaan
+            )
+            new_promo.save()
+
+            return JsonResponse({"status": "success", "message": "Promo berhasil dibuat!"}, status=200)
+        except KeyError as e:
+            return JsonResponse({"status": "error", "message": f"Missing parameter: {str(e)}"}, status=400)
+
+    else:
+        return JsonResponse({"status": "error", "message": "Hanya metode POST yang diperbolehkan."}, status=405)

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import main, my_promos, add_promo, update_promo, delete_promo, promo_list_json, my_promo_list_json
+from .views import main, my_promos, add_promo, update_promo, delete_promo, promo_list_json, my_promo_list_json, create_promo_flutter
 
 app_name = 'promos'
 
@@ -11,4 +11,5 @@ urlpatterns = [
     path('delete_promo/<uuid:promo_id>/', delete_promo, name='delete_promo'),
     path('promo_list_json/', promo_list_json, name='promo_list_json'),
     path('my_promo_list_json/', my_promo_list_json, name='my_promo_list_json'),
+    path('create_promo_flutter/', create_promo_flutter, name='create_promo_flutter'),
 ]
