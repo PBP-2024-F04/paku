@@ -195,7 +195,7 @@ def register_merchant(request):
         }, status=200)
     
     return JsonResponse({
-        "success": True,
+        "success": False,
         "errors": form.errors,
     }, status=200)
 

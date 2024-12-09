@@ -14,6 +14,7 @@ urlpatterns = [
     path('comment/<uuid:comment_id>/delete', delete_comment, name='delete_comment'),
 
     path('json/posts', get_posts, name='get_posts'),
+    path('json/posts/create', create_post_json, name='create_post_json'),
     path('json/posts/<uuid:post_id>/show_comments', get_comments, name='get_comments'),
     path('json/posts/<uuid:post_id>/create_comment', create_comment, name='create_comment'),
 ]

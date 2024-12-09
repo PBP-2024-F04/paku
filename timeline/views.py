@@ -1,3 +1,4 @@
+import json
 from django.contrib import messages
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -102,6 +103,29 @@ def get_posts(_):
     ]
 
     return JsonResponse(data, content_type="application/json", safe=False)
+
+@csrf_exempt
+@require_POST
+@login_required(login_url='/accounts/login')
+def create_post_json(request):
+    data = json.loads(request.body)
+
+    post_form = PostForm(data)
+
+    if post_form.is_valid():
+        post = post_form.save(commit=False)
+        post.user = request.user
+        post.save()
+
+        return JsonResponse({
+            "success": True,
+            "message": "Posted!"
+        }, status=200)
+
+    return JsonResponse({
+        "success": False,
+        "errors": post_form.errors,
+    }, status=200)
 
 @login_required(login_url='/accounts/login')
 def get_comments(_, post_id):
