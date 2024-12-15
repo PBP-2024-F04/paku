@@ -4,44 +4,45 @@
 
 {% block content %}
 <div class="container mx-auto py-8 px-4">
-    <h1 class="text-4xl font-bold mb-6 text-gray-800 text-center">{{ product.name }} Reviews</h1>
+    <h3 class="text-4xl font-bold mb-8 text-gray-800 text-center">{{ product.product_name }} Reviews</h3>
 
-    <div class="space-y-4">
+    <div class="space-y-6">
         {% if reviews %}
-        <div class="flex flex-col space-y-4">
+        <div class="flex flex-col space-y-6">
             {% for review in reviews %}
-            <div class="bg-[#e7ecd7] p-4 rounded-lg shadow-md transition-transform transform hover:scale-105">
-                <p class="text-[#0F0F0F]">{{ review.comment }}</p>
+            <div class="bg-white shadow-lg rounded-lg p-6 border border-gray-300 transition-transform transform hover:scale-105 hover:shadow-xl">
+                <p class="text-gray-800 text-lg">{{ review.comment }}</p>
 
                 <!-- Star Rating Display -->
-                <div class="flex space-x-1 mt-2">
+                <div class="flex space-x-1 mt-4">
                     {% for i in "12345" %}
-                    <svg class="w-5 h-5" fill="{% if forloop.counter <= review.rating %}#fbbf24{% else %}#d1d5db{% endif %}"
+                    <svg class="w-6 h-6" fill="{% if forloop.counter <= review.rating %}#fbbf24{% else %}#d1d5db{% endif %}" 
                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2z">
-                        </path>
+                        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2z"></path>
                     </svg>
                     {% endfor %}
                 </div>
 
                 <div class="text-sm text-gray-500 mt-2">
-                    - by {{ review.user.username }} | {{ review.created_at|date:"F j, Y" }}
+                    - by <strong class="text-gray-800">{{ review.user.username }}</strong> | 
+                    <span class="italic">{{ review.created_at|date:"F j, Y" }}</span>
                 </div>
             </div>
             {% endfor %}
         </div>
         {% else %}
-        <p class="text-gray-500 text-center">No reviews for this product yet.</p>
+        <p class="text-gray-500 text-center text-lg">No reviews for this product yet.</p>
         {% endif %}
     </div>
 
+    {% if user.role == 'Foodie' %}
     <!-- Add Review Button -->
-    <div class="text-center mb-6">
-        <a href="{% url 'reviews:create_review' product.id %}" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition duration-200">
+    <div class="text-center mt-8">
+        <a href="{% url 'reviews:create_review' product.id %}" 
+           class="bg-sage hover:bg-sage-dark text-white font-bold py-2 px-6 mx-2 rounded-lg transition duration-200">
             Create Review
         </a>
     </div>
-
+    {% endif %}
 </div>
 {% endblock content %}

@@ -1,3 +1,4 @@
+import json
 from django.contrib import messages
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -10,7 +11,13 @@ from .forms import CommentForm, PostForm
 
 @login_required(login_url='/accounts/login')
 def main(request):
-    posts = Post.objects.all()
+    query = request.GET.get('query')
+
+    if query:
+        posts = Post.objects.filter(text__contains=query).order_by('-created_at')
+    else:
+        posts = Post.objects.all().order_by('-created_at')
+
     return render(request, 'timeline.html', {
         'posts': posts,
         'user': request.user,
@@ -39,17 +46,23 @@ def create_post(request):
 def view_post(request, post_id):
     post = Post.objects.get(pk=post_id)
     comments = Comment.objects.filter(post=post)
-    return render(request, 'view_post.html', {'post': post, 'comments': comments})
+    return render(request, 'view_post.html', {
+        'post': post,
+        'comments': comments,
+        'user': request.user,
+    })
 
 @login_required(login_url='/accounts/login')
 def edit_post(request, post_id):
-    instance = get_object_or_404(Post, pk=post_id)
+    instance = get_object_or_404(Post, pk=post_id, user=request.user)
 
     if request.method == 'POST':
         post_form = PostForm(request.POST, instance=instance)
 
         if post_form.is_valid():
-            post_form.save()
+            post: Post = post_form.save(commit=False)
+            post.is_edited = True
+            post.save()
 
         return redirect('timeline:main')
 
@@ -58,13 +71,62 @@ def edit_post(request, post_id):
 
 @login_required(login_url='/accounts/login')
 def delete_post(request, post_id):
-    instance = get_object_or_404(Post, pk=post_id)
+    instance = get_object_or_404(Post, pk=post_id, user=request.user)
 
     if request.method == 'POST':
         instance.delete()
         return redirect('timeline:main')
 
     return render(request, 'delete_post.html', {'post': instance})
+
+@login_required(login_url='/accounts/login')
+def get_posts(request):
+    posts = Post.objects.all().order_by('-created_at')
+
+    data = [
+        {
+            "id": post.id,
+            "user": {
+                "role": post.user.role,
+                "display_name":
+                    post.user.foodieprofile.full_name
+                    if post.user.role == "Foodie" else
+                    post.user.merchantprofile.restaurant_name,
+                "username": post.user.username,
+            },
+            "text": post.text,
+            "is_edited": post.is_edited,
+            "is_mine": post.user == request.user,
+            "created_at": post.created_at,
+            "updated_at": post.updated_at,
+        }
+        for post in posts
+    ]
+
+    return JsonResponse(data, content_type="application/json", safe=False)
+
+@csrf_exempt
+@require_POST
+@login_required(login_url='/accounts/login')
+def create_post_json(request):
+    data = json.loads(request.body)
+
+    post_form = PostForm(data)
+
+    if post_form.is_valid():
+        post = post_form.save(commit=False)
+        post.user = request.user
+        post.save()
+
+        return JsonResponse({
+            "success": True,
+            "message": "Posted!"
+        }, status=200)
+
+    return JsonResponse({
+        "success": False,
+        "errors": post_form.errors,
+    }, status=200)
 
 @login_required(login_url='/accounts/login')
 def get_comments(_, post_id):
@@ -75,13 +137,15 @@ def get_comments(_, post_id):
             'id': comment.id,
             'text': comment.text,
             'username': comment.user.username,
-            'user_fullname': comment.user.foodieprofile.full_name,
+            'displayname': comment.user.foodieprofile.full_name if comment.user.role == 'Foodie' else comment.user.merchantprofile.restaurant_name,
+            'user_role': comment.user.role,
             'user_id': comment.user.id,
+            'is_edited': comment.is_edited,
         }
         for comment in Comment.objects.filter(post=post)
     ]
 
-    return JsonResponse(list(comments), safe=False)
+    return JsonResponse(comments, content_type="application/json", safe=False)
 
 @csrf_exempt
 @require_POST
@@ -98,22 +162,27 @@ def create_comment(request, post_id):
 
 @login_required(login_url='/accounts/login')
 def edit_comment(request, comment_id):
-    instance = get_object_or_404(Comment, pk=comment_id)
+    instance = get_object_or_404(Comment, pk=comment_id, user=request.user)
 
     if request.method == 'POST':
         comment_form = CommentForm(request.POST, instance=instance)
 
         if comment_form.is_valid():
-            comment_form.save()
+            comment: Comment = comment_form.save(commit=False)
+            comment.is_edited = True
+            comment.save()
 
         return redirect('timeline:view_post', post_id=instance.post.id)
 
     form = CommentForm(instance=instance)
-    return render(request, 'edit_comment.html', {'form': form})
+    return render(request, 'edit_comment.html', {
+        'form': form,
+        'comment': instance,
+    })
 
 @login_required(login_url='/accounts/login')
 def delete_comment(request, comment_id):
-    comment = get_object_or_404(Comment, pk=comment_id)
+    comment = get_object_or_404(Comment, pk=comment_id, user=request.user)
 
     if request.method == 'POST':
         comment.delete()

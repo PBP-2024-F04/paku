@@ -1,6 +1,7 @@
 {% extends 'base_navbar.html' %}
 
 {% block content %}
+<div class="container mx-auto py-8 px-4">
 <h1 class="text-4xl mt-4 text-center">
   <strong>{% if category_name %}Products in {{ category_name }}{% else %}All Products{% endif %}</strong>
 </h1>
@@ -24,11 +25,11 @@
 {% if not products %}
   <p class="text-xl my-6 mt-6 font-semibold text-moss-green-dark text-center">{{ empty_message }}</p>
 {% else %}
-  <div class="p-6 my-6 m-4 w-full mx-auto flex flex-wrap justify-center gap-6 p-4">
+  <div class="p-6 my-6 m-4 w-full mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     {% for product in products %}
-      <div onclick="window.location.href='{% url 'products:view_product' product.pk %}'" class="product-card shadow-lg p-6 w-80 flex flex-col justify-center gap-4 rounded-lg cursor-pointer transform transition duration-500 hover:shadow-2xl hover:-translate-y-1">
-        <div class="absolute top-5 left-5 flex space-x-2 z-10 font-semibold text-sm">
-          <p>{{ product.category }}</p>
+      <div onclick="window.location.href='{% url 'products:view_product' product.pk %}'" class="product-card shadow-lg p-6 w-full border border-sage-dark flex flex-col rounded-lg cursor-pointer transform transition duration-500 hover:shadow-2xl hover:-translate-y-1 bg-white">
+        <div class="absolute top-4 left-4 bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs font-medium uppercase tracking-wide">
+          {{ product.category }}
         </div>
         {% if user.is_authenticated and user.role == 'Foodie' %}
           <div class="absolute top-3 right-3 flex space-x-2 z-10">
@@ -40,13 +41,14 @@
             </button>
           </div>
         {% endif %}
-        <h3 class="text-2xl mt-4 font-semibold text-grey text-center product-name-spacing"><strong>{{ product.product_name }}</strong></h3>
+        <h3 class="text-2xl mt-7 font-bold text-gray-800 text-center">{{ product.product_name }}</h3>
         <p class="text-peach text-center"><strong>{{ product.restaurant }}</strong></p>
-        <p class="text-grey mt-2">Harga: Rp{{ product.price }},00</p>
+        <p class="text-peach-darker mt-4 text-lg font-semibold text-center">Rp{{ product.price }},00</p>
       </div>
     {% endfor %}
   </div>
 {% endif %}
+</div>
 
 <style>
   .product-name-spacing {

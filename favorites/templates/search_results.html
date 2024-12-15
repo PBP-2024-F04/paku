@@ -1,0 +1,121 @@
+{% extends 'base_navbar.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+</style>
+
+<div class="container mt-4">
+    {{ url }}
+    <h2 class="text-3xl font-bold text-center pt-3 pb-2">Hasil Pencarian untuk "{{ query }}"</h2>
+    <div class="search-container flex items-center justify-center my-4">
+        <form action="{% url 'favorites:search_results' %}" method="GET" class="flex w-full max-w-2xl">
+        <input type="text" name="q" value="{{ query }}" class="border rounded-l-lg border-sage-dark p-2 w-full bg-sage-light" required>
+        <button type="submit" class="bg-sage-dark hover:bg-sage-darker text-white font-bold py-2 px-4 rounded-r-lg">Search</button>
+        </form>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-5">
+        {% for product in products %}
+        <div class="bg-yellow-light-hover shadow-lg rounded-lg p-4 flex items-center justify-between border border-sage-hover">
+            <div class="flex-grow flex flex-col space-y-2" onclick="window.location.href='{% url 'products:view_product' product.pk %}'">
+                <h3 class="text-xl font-bold">{{ product.product_name }}</h3>
+                <p class="text-gray-700">{{ product.restaurant }}</p>
+                <p class="text-gray-900">Rp {{ product.price }}</p>
+            </div>
+            <button
+                class="bg-yellow hover:bg-yellow-hover text-sage-darker font-bold py-2 px-4 rounded transition flex-shrink-0 border border-yellow-dark"
+                onclick="openFavoriteForm('{{ product.id }}')"
+            >
+                Favorite
+            </button>
+        </div>
+        {% endfor %}
+    </div>    
+</div>
+
+<div id="favoriteModal" class="fixed inset-0 w-screen h-screen z-50 bg-white-dark/50 grid place-items-center">
+    <div id="modalContent" class="p-6 bg-yellow-light-hover border border-sage-hover">
+        <span class="close" onclick="closeModal()">
+            <i data-lucide="x"></i>
+        </span>
+        <h2 class="text-2xl font-bold mb-4">
+            Pilih Kategori Favorit
+        </h2>
+        <form id="favoriteForm" class="space-y-4 z-50">
+            <input type="hidden" id="product_id" name="product_id" value="" />
+            <div>
+                <input type="radio" name="category" value="want_to_try" id="want_to_try" class="mr-2">
+                <label for="want_to_try">Want to Try</label>
+            </div>
+            <div>
+                <input type="radio" name="category" value="loving_it" id="loving_it" class="mr-2">
+                <label for="loving_it">Loving It</label>
+            </div>
+            <div>
+                <input type="radio" name="category" value="all_time_favorites" id="all_time_favorites" class="mr-2">
+                <label for="all_time_favorites">All Time Favorites</label>
+            </div>
+            <button type="submit" class="w-full bg-peach hover:bg-peach-dark text-white font-bold py-2 px-4 rounded transition">Add to Favorite</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openFavoriteForm(productId) {
+        $('#product_id').val(productId);
+        $('#favoriteModal').show();
+    }
+
+    function closeModal() {
+        $('#favoriteModal').hide();
+    }
+
+    $('#favoriteModal').hide();
+
+    $(document).mouseup(function (e) {
+        const container = $('#modalContent');
+        if (!container.is(e.target) && container.has(e.target).length === 0) {
+            closeModal()
+        }
+    })
+
+    $('#favoriteForm').on('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(this);
+        const productId = document.getElementById('product_id').value;
+
+        fetch(`/favorites/favorites/create-ajax/${productId}`, {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Favorit berhasil ditambahkan!');
+                closeModal();
+                window.location.reload();
+            } else {
+                if (data.favorite) {
+                $('#category').val(data.favorite.category);  
+                }
+                alert('Gagal menambahkan favorit: ' + (data.error || 'Unknown error occurred.'));
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+</script>
+{% endblock %}

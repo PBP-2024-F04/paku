@@ -59,8 +59,8 @@ class ProductTest(TestCase):
             description= 'Terbuat dari nasi piihan',
             category= 'Indonesian'
         )
-        response = self.client.delete(reverse('products:delete_product', args=[product.id]))
-        self.assertEqual(response.status_code, 302)
+        response = self.client.post(reverse('products:delete_product', args=[product.id]))
+        self.assertEqual(response.status_code, 200)
 
     def test_my_products_with_products(self):
         response = self.client.get(self.my_products_url)

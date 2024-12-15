@@ -1,36 +1,69 @@
 {% extends 'base_navbar.html' %}
 
 {% block content %}
-<main>
-	<div class="mb-5 text-center border-b border-moss-green-darker py-4">
+<main class="pb-12">
+	<div class="mb-2 text-center border-b border-moss-green-darker py-4">
 		<h1 class="text-5xl font-bold mb-4">My Timeline</h1>
 		<a class="px-4 py-2 bg-sage-dark text-white font-bold" href="{% url 'timeline:create_post' %}">
 			Create Post
 		</a>
 	</div>
 
-	<!-- <form class="flex flex-row gap-2 mb-5"> -->
-	<!-- 	<input type="text" class="focus:outline-none px-2.5 flex-grow bg-white-light border border-moss-green-darker" placeholder="Apa yang ada di pikiranmu?" /> -->
-	<!-- 	<button class="bg-sage-dark text-white py-2 px-4">Post</button> -->
-	<!-- </form> -->
+	<form class="flex flex-row gap-2 mb-5">
+		<input
+			type="text"
+			class="focus:outline-none px-2.5 flex-grow bg-white-light border border-moss-green-darker"
+			name="query"
+			placeholder="Cari kata kunci"
+			autocomplete="off"
+			value="{{ request.GET.query }}"
+		/>
+		<button class="bg-sage-dark text-white py-2 px-4">Search</button>
+	</form>
 
 	<div>
 		{% for post in posts %}
 		<div class="border px-6 py-4 border-moss-green-darker my-2">
-			<p>
-				<span>{{ post.user.foodieprofile.full_name }}</span>
-				<span class="text-peach">@{{ post.user.username }}</span>
-			</p>
-			<p>
-				{{ post.text }}
-			</p>
-			{% if post.user.id == user.id %}
-				<a class="text-peach" href='{% url 'timeline:edit_post' post.id %}'>[edit]</a>
-				&mdash; <a class="text-peach" href='{% url 'timeline:delete_post' post.id %}'>[delete]</a>
-			{% endif %}
+			<div class="flex flex-row justify-around">
+				<div>
+					<strong>
+						{% if post.user.role == "Foodie" %}
+							{{ post.user.foodieprofile.full_name }}
+						{% else %}
+							{{ post.user.merchantprofile.restaurant_name }}
+						{% endif %}
+					</strong>
+
+					<a class="text-peach" href="{% url 'profiles:profile_posts' post.user.username %}">
+						@{{ post.user.username }}
+					</a>
+
+					{% if post.user.role == "Foodie" %}
+						<i data-lucide="utensils-crossed" class="text-peach-dark inline mb-1" height="14"></i>
+					{% else %}
+						<i data-lucide="chef-hat" class="text-peach-dark inline mb-1" height="14"></i>
+					{% endif %}
+
+					{% if post.is_edited %}
+						<small class="text-peach-dark">&mdash; edited</small>
+					{% endif %}
+				</div>
+				<div class="inline ml-auto">
+					{% if post.user.id == user.id %}
+					<a class="text-peach" href='{% url 'timeline:edit_post' post.id %}'>
+						<i data-lucide="pencil-line" class="inline" width="18"></i>
+					</a>
+					<a class="text-peach" href='{% url 'timeline:delete_post' post.id %}'>
+						<i data-lucide="trash" class="inline" width="18"></i>
+					</a>
+					{% endif %}
+				</div>
+			</div>
+			<a class="break-words" href="{% url 'timeline:view_post' post.id %}">
+				{{ post.text|linebreaksbr }}
+			</a>
 		</div>
 		{% endfor %}
 	</div>
 </main>
-
 {% endblock content %}

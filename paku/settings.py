@@ -28,7 +28,15 @@ SECRET_KEY = 'django-insecure-v6kvkw#h(336qn(p#7s(90(7(#y2d6fqinz=#ybx3a)!g(3b+)
 PRODUCTION = getenv('PRODUCTION', False)
 DEBUG = not PRODUCTION
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "muhammad-vito31-paku.pbp.cs.ui.ac.id"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "muhammad-vito31-paku.pbp.cs.ui.ac.id", "10.0.2.2"]
+
+CSRF_TRUSTED_ORIGINS = ["http://localhost:8000", "https://muhammad-vito31-paku.pbp.cs.ui.ac.id"]
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = 'None'
 
 # Application definition
 
@@ -39,9 +47,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'accounts',
     'favorites',
     'products',
+    'profiles',
     'promos',
     'reviews',
     'timeline',
@@ -49,6 +59,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

@@ -1,9 +1,13 @@
 {% extends 'minimal.html' %}
 
 {% block body %}
-	{% block navbar %} {% endblock navbar %}
+	{% block navbar %}
+	{% endblock navbar %}
 
-	<div class="relative top-24 left-1/2 transform -translate-x-1/2 w-[95%] px-2 max-w-screen-xl">
-		{% block content %} {% endblock content %}
+	<div class="mt-24 mx-auto w-[95%] px-2 max-w-screen-xl">
+		{% block content %}
+		{% endblock content %}
 	</div>
+
+	{% include 'footer.html' %}
 {% endblock body %}

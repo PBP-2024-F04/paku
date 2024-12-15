@@ -1,20 +1,84 @@
 {% extends 'base_navbar.html' %}
 
 {% block content %}
-{% if user.role == 'Foodie' %}
-<h1>Edit Favorite Level</h1>
 
-<form method="POST">
-    {% csrf_token %}
-    <table>
-        {{ form.as_table }}
-        <tr>
-            <td></td>
-            <td>
-                <input type="submit" value="Edit Favorite"/>
-            </td>
-        </tr>
-    </table>
-</form>
-{% endif %}
+<div class="flex justify-center my-10 pb-5">
+    <div class="w-full max-w-lg bg-moss-green-active border border-sage-dark p-5 rounded-lg shadow-lg">
+        <h1 class="text-2xl text-yellow font-bold mb-4">Edit Favorite Level for "{{ favorite.product.product_name }}"</h1>
+
+        <div class="mb-4">
+            <div class="bg-yellow-hover shadow-lg rounded-lg p-2">
+                <table class="min-w-full border-collapse">
+                    <tbody>
+                        <tr class="hover:bg-gray-100">
+                            <td class="border-b border-gray-300 py-2 px-4"><strong>Name</strong></td>
+                            <td class="border-b border-gray-300 py-2 px-4">{{ favorite.product.product_name }}</td>
+                        </tr>
+                        <tr class="hover:bg-gray-100">
+                            <td class="border-b border-gray-300 py-2 px-4"><strong>Restaurant</strong></td>
+                            <td class="border-b border-gray-300 py-2 px-4">{{ favorite.product.restaurant }}</td>
+                        </tr>
+                        <tr class="hover:bg-gray-100">
+                            <td class="border-b border-gray-300 py-2 px-4"><strong>Price</strong></td>
+                            <td class="border-b border-gray-300 py-2 px-4">Rp {{ favorite.product.price }}</td>
+                        </tr>
+                        <tr class="hover:bg-gray-100">
+                            <td class="border-b border-gray-300 py-2 px-4"><strong>Description</strong></td>
+                            <td class="border-b border-gray-300 py-2 px-4">{{ favorite.product.description }}</td>
+                        </tr>
+                        <tr class="hover:bg-gray-100">
+                            <td class="py-2 px-4"><strong>Category</strong></td>
+                            <td class="py-2 px-4">{{ favorite.product.category }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div> 
+
+        <form method="POST">
+            {% csrf_token %}
+            <h2 class="text-xl text-yellow font-bold mb-2">Update Category</h2>
+
+            <div class="mb-4">
+                <div class="flex justify-between items-center bg-yellow-light-active p-4 rounded-lg shadow-md mb-2">
+                    <div onclick="location.href='{% url 'favorites:category_favorites' 'want_to_try' %}'">
+                        <h3 class="font-bold">Want to Try</h3>
+                        <p>{{ want_to_try|length }} Products</p>
+                    </div>
+                    <div>
+                        <input type="radio" name="category" value="want_to_try" {% if favorite.category == 'want_to_try' %}checked{% endif %} class="mr-2" id="want_to_try">
+                        <label for="want_to_try"></label>
+                    </div>
+                </div>
+                
+                <div class="flex justify-between items-center bg-yellow-light-active p-4 rounded-lg shadow-md mb-2">
+                    <div onclick="location.href='{% url 'favorites:category_favorites' 'loving_it' %}'">
+                        <h3 class="font-bold">Loving It</h3>
+                        <p>{{ loving_it|length }} Products</p>
+                    </div>
+                    <div>
+                        <input type="radio" name="category" value="loving_it" {% if favorite.category == 'loving_it' %}checked{% endif %} class="mr-2" id="loving_it">
+                        <label for="loving_it"></label>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center bg-yellow-light-active p-4 rounded-lg shadow-md mb-2">
+                    <div onclick="location.href='{% url 'favorites:category_favorites' 'all_time_favorites' %}'">
+                        <h3 class="font-bold">All Time Favorite</h3>
+                        <p>{{ all_time_favorites|length }} Products</p>
+                    </div>
+                    <div>
+                        <input type="radio" name="category" value="all_time_favorites" {% if favorite.category == 'all_time_favorites' %}checked{% endif %} class="mr-2" id="all_time_favorites">
+                        <label for="all_time_favorites"></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <input type="submit" value="Edit Favorite" class="bg-red-hover hover:bg-red-hover text-white font-bold py-2 px-4 rounded transition duration-300"/>
+            </div>
+        </form>
+    </div>
+</div>
+
 {% endblock content %}
