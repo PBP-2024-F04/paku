@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from products.forms import ProductForm
 from products.models import Product
 from django.db.models import Q
+import json
 
 # Show all products from database
 @login_required(login_url='/accounts/login')
@@ -107,3 +108,22 @@ def show_json(request):
 def show_json_by_id(request, id):
     data = Product.objects.filter(pk=id)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+@csrf_exempt
+def create_product_flutter(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        new_product = Product.objects.create(
+            user=request.user,
+            product_name=data["productName"],
+            restaurant=data["restaurant"],
+            price=int(data["price"]),
+            description=data["description"],
+            category=data["category"],
+        )
+
+        new_product.save()
+
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
