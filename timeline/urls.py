@@ -15,6 +15,11 @@ urlpatterns = [
 
     path('json/posts', get_posts, name='get_posts'),
     path('json/posts/create', create_post_json, name='create_post_json'),
+    path('json/posts/<uuid:post_id>/edit', edit_post_json, name='edit_post_json'),
+    path('json/posts/<uuid:post_id>/delete', delete_post_json, name='delete_post_json'),
     path('json/posts/<uuid:post_id>/show_comments', get_comments, name='get_comments'),
     path('json/posts/<uuid:post_id>/create_comment', create_comment, name='create_comment'),
+
+    path('json/comments/<uuid:comment_id>/edit', edit_comment_json, name='edit_comment_json'),
+    path('json/comments/<uuid:comment_id>/delete', delete_comment_json, name='delete_comment_json'),
 ]
