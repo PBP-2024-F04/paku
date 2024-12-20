@@ -81,7 +81,12 @@ def delete_post(request, post_id):
 
 @login_required(login_url='/accounts/login')
 def get_posts_json(request):
-    posts = Post.objects.all().order_by('-created_at')
+    query = request.GET.get('query')
+
+    if query:
+        posts = Post.objects.filter(text__contains=query).order_by('-created_at')
+    else:
+        posts = Post.objects.all().order_by('-created_at')
 
     data = [
         {
