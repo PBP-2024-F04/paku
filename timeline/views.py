@@ -80,7 +80,7 @@ def delete_post(request, post_id):
     return render(request, 'delete_post.html', {'post': instance})
 
 @login_required(login_url='/accounts/login')
-def get_posts(request):
+def get_posts_json(request):
     posts = Post.objects.all().order_by('-created_at')
 
     data = [
@@ -167,7 +167,7 @@ def delete_post_json(request, post_id):
     }, status=200)
 
 @login_required(login_url='/accounts/login')
-def get_comments(request, post_id):
+def get_comments_json(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
 
     comments = [
@@ -190,8 +190,8 @@ def get_comments(request, post_id):
 @csrf_exempt
 @require_POST
 @login_required(login_url='/accounts/login')
-def create_comment(request, post_id):
-    data = json.loads(request.body)
+def create_comment_json(request, post_id):
+    data = json.loads(request.body) if request.content_type == "application/json" else request.POST
 
     post = get_object_or_404(Post, pk=post_id)
 

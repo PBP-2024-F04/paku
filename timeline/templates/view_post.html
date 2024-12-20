@@ -72,7 +72,7 @@
 
 <script>
 function getComments() {
-  return fetch("{% url 'timeline:get_comments' post.id %}").then(res => res.json());
+  return fetch("{% url 'timeline:get_comments_json' post.id %}").then(res => res.json());
 }
 
 async function refreshComments() {
@@ -136,7 +136,7 @@ async function refreshComments() {
 $('#comment-form').on('submit', (e) => {
   e.preventDefault();
 
-  fetch("{% url 'timeline:create_comment' post.id %}", {
+  fetch("{% url 'timeline:create_comment_json' post.id %}", {
     method: 'POST',
     body: new FormData(e.target),
   }).then(() => {
