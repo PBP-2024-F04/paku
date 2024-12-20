@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
@@ -113,43 +114,90 @@ def my_promo_list_json(request):
 @login_required(login_url='/accounts/login')
 def create_promo_json(request):
     try:
-        data = json.loads(request.body)
-        
-        # Menggunakan PromoForm untuk validasi
+        raw_body = request.body.decode('utf-8')
+        # Parse the JSON data from the request body
+        data = json.loads(raw_body)
+        print(f"Received data: {data}")
+
+        # Handle 'batas_penggunaan' field
+        if 'batas_penggunaan' in data and data['batas_penggunaan'] is not None:
+            try:
+                # Parse the date string to a date object
+                parsed_date = datetime.strptime(data['batas_penggunaan'], '%Y-%m-%d').date()
+                data['batas_penggunaan'] = parsed_date
+                print(f"Parsed batas_penggunaan: {parsed_date}")
+            except ValueError as ve:
+                print(f"Date parsing error: {ve}")
+                return JsonResponse({"status": "error", "message": "Invalid date format. Use 'yyyy-MM-dd'."}, status=400)
+        else:
+            # Ensure 'batas_penggunaan' is set to None if not provided
+            data['batas_penggunaan'] = None
+
+        # Validate and save the promo using PromoForm
         promo_form = PromoForm(data)
-        
         if promo_form.is_valid():
             promo = promo_form.save(commit=False)
-            promo.user = request.user  # Menetapkan user dari request.user
+            promo.user = request.user  # Associate promo with the logged-in user
             promo.save()
             return JsonResponse({"status": "success", "message": "Promo berhasil dibuat!"}, status=201)
         else:
+            # Return validation errors
             return JsonResponse({"status": "error", "errors": promo_form.errors}, status=400)
-    
+
     except json.JSONDecodeError:
+        print("JSON decode error")
         return JsonResponse({"status": "error", "message": "Invalid JSON"}, status=400)
+
     except KeyError as e:
+        print(f"Missing key error: {e}")
         return JsonResponse({"status": "error", "message": f"Missing parameter: {str(e)}"}, status=400)
+
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+        return JsonResponse({"status": "error", "message": "An unexpected error occurred."}, status=500)
+
     
 @csrf_exempt
 @require_POST
 @login_required(login_url='/accounts/login')
 def edit_promo_json(request, promo_id):
     try:
-        data = json.loads(request.body)
-        
+        raw_body = request.body.decode('utf-8')
+        print(request)
+        print(raw_body)
+
+        data = json.loads(raw_body)
+        print(f"Received data: {data}")
+
         promo = get_object_or_404(Promo, pk=promo_id, user=request.user)
-        
+
+        if 'batas_penggunaan' in data and data['batas_penggunaan'] is not None:
+            try:
+                parsed_date = datetime.strptime(data['batas_penggunaan'], '%Y-%m-%d').date()
+                data['batas_penggunaan'] = parsed_date
+                print(f"Parsed batas_penggunaan: {parsed_date}")
+            except ValueError as ve:
+                print(f"Date parsing error: {ve}")
+                return JsonResponse({"success": False, "message": "Invalid date format. Use 'yyyy-MM-dd'."}, status=400)
+        else:
+            data['batas_penggunaan'] = None
+
         promo_form = PromoForm(data, instance=promo)
-        
+
         if promo_form.is_valid():
             promo = promo_form.save()
+            print(f"Promo updated: {promo}")
             return JsonResponse({"success": True, "message": "Promo berhasil diperbarui!"}, status=200)
         else:
+            print(f"Form errors: {promo_form.errors}")
             return JsonResponse({"success": False, "errors": promo_form.errors}, status=400)
-    
+
     except json.JSONDecodeError:
+        print("JSON decode error")
         return JsonResponse({"success": False, "message": "Invalid JSON"}, status=400)
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+        return JsonResponse({"success": False, "message": "An unexpected error occurred."}, status=500)
 
 @csrf_exempt
 @require_POST

@@ -19,4 +19,4 @@ class Promo(models.Model):
         return 'User Invalid'
 
     def __str__(self):
-        return f"{self.promo_title} - {self.product.name}"
+        return f"{self.promo_title}"
