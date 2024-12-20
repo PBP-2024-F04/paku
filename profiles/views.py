@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from accounts.models import User
 from favorites.models import Favorite
@@ -29,3 +30,18 @@ def profile_products(request, username):
     user = get_object_or_404(User, username=username)
     products = Product.objects.filter(user=user)
     return render(request, 'profile_products.html', {'user': user, 'products': products})
+
+def profile_json(request, username):
+    return JsonResponse({})
+
+def profile_posts_json(request, username):
+    return JsonResponse({})
+
+def profile_reviews_json(request, username):
+    return JsonResponse({})
+
+def profile_favorites_json(request, username):
+    return JsonResponse({})
+
+def profile_products_json(request, username):
+    return JsonResponse({})
