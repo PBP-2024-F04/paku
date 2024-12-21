@@ -205,3 +205,12 @@ def home_page(request):
         return render(request, 'home_foodie.html', {'user': request.user})
     else:
         return render(request, 'home_merchant.html', {'user': request.user})
+
+@csrf_exempt
+@login_required(login_url='/accounts/login')
+def get_user_role(request):
+    print(request.user.role)
+    return JsonResponse({
+        "success": True,
+        "role": request.user.role,
+    }, status=200)

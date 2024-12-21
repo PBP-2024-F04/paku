@@ -15,4 +15,6 @@ urlpatterns = [
     path('auth/register/foodie/', register_foodie),
     path('auth/register/merchant/', register_merchant),
     path('auth/logout/', logout),
+    
+    path('json/get_user_role/', get_user_role, name='get_user_role')
 ]
