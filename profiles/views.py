@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.core import serializers
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from accounts.models import FoodieProfile, MerchantProfile, User
 from favorites.models import Favorite
@@ -57,8 +58,31 @@ def profile_json(_, username):
         'role': user.role,
     }, safe=False)
 
-def profile_posts_json(request, username):
-    return JsonResponse({})
+def profile_posts_json(_, username):
+    user = get_object_or_404(User, username=username)
+    posts = Post.objects.filter(user=user)
+
+    data = [
+        {
+            "id": post.id,
+            "user": {
+                "role": post.user.role,
+                "display_name":
+                    post.user.foodieprofile.full_name
+                    if post.user.role == "Foodie" else
+                    post.user.merchantprofile.restaurant_name,
+                "username": post.user.username,
+            },
+            "text": post.text,
+            "is_edited": post.is_edited,
+            "is_mine": True,
+            "created_at": post.created_at,
+            "updated_at": post.updated_at,
+        }
+        for post in posts
+    ]
+
+    return JsonResponse(data, content_type="application/json", safe=False)
 
 def profile_reviews_json(request, username):
     return JsonResponse({})
