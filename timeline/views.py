@@ -1,6 +1,6 @@
 import json
 from django.contrib import messages
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
@@ -80,8 +80,13 @@ def delete_post(request, post_id):
     return render(request, 'delete_post.html', {'post': instance})
 
 @login_required(login_url='/accounts/login')
-def get_posts(request):
-    posts = Post.objects.all().order_by('-created_at')
+def get_posts_json(request):
+    query = request.GET.get('query')
+
+    if query:
+        posts = Post.objects.filter(text__contains=query).order_by('-created_at')
+    else:
+        posts = Post.objects.all().order_by('-created_at')
 
     data = [
         {
@@ -126,10 +131,48 @@ def create_post_json(request):
     return JsonResponse({
         "success": False,
         "errors": post_form.errors,
+    }, status=400)
+
+@csrf_exempt
+@require_POST
+@login_required(login_url='/accounts/login')
+def edit_post_json(request, post_id):
+    data = json.loads(request.body)
+
+    instance = get_object_or_404(Post, pk=post_id, user=request.user)
+
+    post_form = PostForm(data, instance=instance)
+
+    if post_form.is_valid():
+        post: Post = post_form.save(commit=False)
+        post.is_edited = True
+        post.save()
+
+        return JsonResponse({
+            "success": True,
+            "message": "Edited!",
+        }, status=200)
+
+    return JsonResponse({
+        "success": False,
+        "errors": post_form.errors,
+    }, status=400)
+
+@csrf_exempt
+@require_POST
+@login_required(login_url='/accounts/login')
+def delete_post_json(request, post_id):
+    instance = get_object_or_404(Post, pk=post_id, user=request.user)
+
+    instance.delete()
+
+    return JsonResponse({
+        "success": True,
+        "message": "Deleted!",
     }, status=200)
 
 @login_required(login_url='/accounts/login')
-def get_comments(_, post_id):
+def get_comments_json(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
 
     comments = [
@@ -140,7 +183,9 @@ def get_comments(_, post_id):
             'displayname': comment.user.foodieprofile.full_name if comment.user.role == 'Foodie' else comment.user.merchantprofile.restaurant_name,
             'user_role': comment.user.role,
             'user_id': comment.user.id,
+            'post_id': comment.post.id,
             'is_edited': comment.is_edited,
+            'is_mine': comment.user == request.user,
         }
         for comment in Comment.objects.filter(post=post)
     ]
@@ -150,15 +195,57 @@ def get_comments(_, post_id):
 @csrf_exempt
 @require_POST
 @login_required(login_url='/accounts/login')
-def create_comment(request, post_id):
-    text = request.POST.get("text")
-    post = get_object_or_404(Post, pk=post_id)
-    user = request.user
+def create_comment_json(request, post_id):
+    data = json.loads(request.body) if request.content_type == "application/json" else request.POST
 
-    comment = Comment(user=user, post=post, text=text)
+    post = get_object_or_404(Post, pk=post_id)
+
+    comment = Comment(user=request.user, post=post, text=data['text'])
     comment.save()
 
-    return HttpResponse(b"CREATED", status=201)
+    return JsonResponse({
+        "success": True,
+        "message": "Comment created!",
+    }, status=201)
+
+@csrf_exempt
+@require_POST
+@login_required(login_url='/accounts/login')
+def edit_comment_json(request, comment_id):
+    data = json.loads(request.body)
+
+    instance = get_object_or_404(Comment, pk=comment_id, user=request.user)
+
+    comment_form = CommentForm(data, instance=instance)
+
+    if comment_form.is_valid():
+        comment: Comment = comment_form.save(commit=False)
+
+        comment.is_edited = True
+        comment.save()
+
+        return JsonResponse({
+            "success": True,
+            "message": "Edited!",
+        }, status=200)
+
+    return JsonResponse({
+        "success": False,
+        "errors": comment_form.errors,
+    }, status=400)
+
+@csrf_exempt
+@require_POST
+@login_required(login_url='/accounts/login')
+def delete_comment_json(request, comment_id):
+    comment = get_object_or_404(Comment, pk=comment_id, user=request.user)
+
+    comment.delete()
+
+    return JsonResponse({
+        "success": True,
+        "message": "Comment deleted!",
+    }, status=200)
 
 @login_required(login_url='/accounts/login')
 def edit_comment(request, comment_id):

@@ -1,7 +1,9 @@
+from datetime import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 from promos.models import Promo
 from .forms import PromoForm
 from django.urls import reverse
@@ -97,7 +99,6 @@ def promo_list_json(request):
 
 @login_required(login_url='/accounts/login')
 def my_promo_list_json(request):
-    # Ensure the user is authenticated
     promos = Promo.objects.filter(user=request.user)
     data = [{
         'id': promo.id,
@@ -106,37 +107,102 @@ def my_promo_list_json(request):
         'promo_description': promo.promo_description,
         'batas_penggunaan': promo.batas_penggunaan.strftime('%d-%m-%Y') if promo.batas_penggunaan else "Tidak punya batas"
     } for promo in promos]
-    return JsonResponse(data, safe=False)  # Return the response with safe=False
+    return JsonResponse(data, safe=False)
 
 @csrf_exempt
-def create_promo_flutter(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        
-        # Mendapatkan data dari request
-        try:
-            promo_title = data['promo_title']
-            restaurant_name = data['restaurant_name']
-            promo_description = data['promo_description']
-            batas_penggunaan = data['batas_penggunaan']
-            
-            # Jika batas_penggunaan tidak ada, set ke null
-            if not batas_penggunaan:
-                batas_penggunaan = None
+@require_POST
+@login_required(login_url='/accounts/login')
+def create_promo_json(request):
+    try:
+        raw_body = request.body.decode('utf-8')
+        # Parse the JSON data from the request body
+        data = json.loads(raw_body)
+        print(f"Received data: {data}")
 
-            # Membuat objek promo baru
-            new_promo = Promo.objects.create(
-                user=User.objects.get(id=data['user_id']),  # Menetapkan user berdasarkan ID
-                promo_title=promo_title,
-                restaurant_name=restaurant_name,
-                promo_description=promo_description,
-                batas_penggunaan=batas_penggunaan
-            )
-            new_promo.save()
+        # Handle 'batas_penggunaan' field
+        if 'batas_penggunaan' in data and data['batas_penggunaan'] is not None:
+            try:
+                # Parse the date string to a date object
+                parsed_date = datetime.strptime(data['batas_penggunaan'], '%Y-%m-%d').date()
+                data['batas_penggunaan'] = parsed_date
+                print(f"Parsed batas_penggunaan: {parsed_date}")
+            except ValueError as ve:
+                print(f"Date parsing error: {ve}")
+                return JsonResponse({"status": "error", "message": "Invalid date format. Use 'yyyy-MM-dd'."}, status=400)
+        else:
+            # Ensure 'batas_penggunaan' is set to None if not provided
+            data['batas_penggunaan'] = None
 
-            return JsonResponse({"status": "success", "message": "Promo berhasil dibuat!"}, status=200)
-        except KeyError as e:
-            return JsonResponse({"status": "error", "message": f"Missing parameter: {str(e)}"}, status=400)
+        # Validate and save the promo using PromoForm
+        promo_form = PromoForm(data)
+        if promo_form.is_valid():
+            promo = promo_form.save(commit=False)
+            promo.user = request.user  # Associate promo with the logged-in user
+            promo.save()
+            return JsonResponse({"status": "success", "message": "Promo berhasil dibuat!"}, status=201)
+        else:
+            # Return validation errors
+            return JsonResponse({"status": "error", "errors": promo_form.errors}, status=400)
 
-    else:
-        return JsonResponse({"status": "error", "message": "Hanya metode POST yang diperbolehkan."}, status=405)
+    except json.JSONDecodeError:
+        print("JSON decode error")
+        return JsonResponse({"status": "error", "message": "Invalid JSON"}, status=400)
+
+    except KeyError as e:
+        print(f"Missing key error: {e}")
+        return JsonResponse({"status": "error", "message": f"Missing parameter: {str(e)}"}, status=400)
+
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+        return JsonResponse({"status": "error", "message": "An unexpected error occurred."}, status=500)
+
+    
+@csrf_exempt
+@require_POST
+@login_required(login_url='/accounts/login')
+def edit_promo_json(request, promo_id):
+    try:
+        raw_body = request.body.decode('utf-8')
+        print(request)
+        print(raw_body)
+
+        data = json.loads(raw_body)
+        print(f"Received data: {data}")
+
+        promo = get_object_or_404(Promo, pk=promo_id, user=request.user)
+
+        if 'batas_penggunaan' in data and data['batas_penggunaan'] is not None:
+            try:
+                parsed_date = datetime.strptime(data['batas_penggunaan'], '%Y-%m-%d').date()
+                data['batas_penggunaan'] = parsed_date
+                print(f"Parsed batas_penggunaan: {parsed_date}")
+            except ValueError as ve:
+                print(f"Date parsing error: {ve}")
+                return JsonResponse({"success": False, "message": "Invalid date format. Use 'yyyy-MM-dd'."}, status=400)
+        else:
+            data['batas_penggunaan'] = None
+
+        promo_form = PromoForm(data, instance=promo)
+
+        if promo_form.is_valid():
+            promo = promo_form.save()
+            print(f"Promo updated: {promo}")
+            return JsonResponse({"success": True, "message": "Promo berhasil diperbarui!"}, status=200)
+        else:
+            print(f"Form errors: {promo_form.errors}")
+            return JsonResponse({"success": False, "errors": promo_form.errors}, status=400)
+
+    except json.JSONDecodeError:
+        print("JSON decode error")
+        return JsonResponse({"success": False, "message": "Invalid JSON"}, status=400)
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+        return JsonResponse({"success": False, "message": "An unexpected error occurred."}, status=500)
+
+@csrf_exempt
+@require_POST
+@login_required(login_url='/accounts/login')
+def delete_promo_json(request, promo_id):
+    promo = get_object_or_404(Promo, pk=promo_id, user=request.user)
+    promo.delete()
+    return JsonResponse({"success": True, "message": "Promo berhasil dihapus!"}, status=200)
