@@ -6,8 +6,13 @@ from accounts.models import User
 class Product(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    product_name = models.CharField(max_length=255)
-    restaurant = models.CharField(max_length=255)
+    product_name = models.CharField(max_length=50)
+    restaurant = models.CharField(max_length=100)
     price = models.IntegerField()
     description = models.TextField()
-    category = models.CharField(max_length=255)
+    category = models.CharField(max_length=30)
+
+    def save(self, *args, **kwargs):
+        if self.user and hasattr(self.user, 'merchantprofile'):
+            self.restaurant = self.user.merchantprofile.restaurant_name
+        super().save(*args, **kwargs)
