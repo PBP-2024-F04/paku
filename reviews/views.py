@@ -57,10 +57,16 @@ def get_reviews_flutter(request):
                 "username": review.user.username,
             },
             "product": {
-                "product_id": review.product.id,
-                "product_name": review.product.product_name,
-                "restaurant": review.product.restaurant,
-                "price": review.product.price,
+                "model": "products.product",  
+                "pk": review.product.id,  
+                "fields": {
+                    "user": review.product.user,
+                    "product_name": review.product.product_name,
+                    "restaurant": review.product.restaurant,
+                    "price": review.product.price,
+                    "description": review.product.description,
+                    "category": review.product.category,
+                }
             },
             "rating": review.rating,
             "comment": review.comment,
@@ -74,6 +80,7 @@ def get_reviews_flutter(request):
 @login_required(login_url='/accounts/login')
 def get_my_reviews_flutter(request):
     my_reviews = Review.objects.filter(user=request.user).order_by('-created_at')
+    
     data = [
         {
             "id": review.id,
@@ -86,10 +93,16 @@ def get_my_reviews_flutter(request):
                 "username": review.user.username,
             },
             "product": {
-                "product_id": review.product.id,
-                "product_name": review.product.product_name,
-                "restaurant": review.product.restaurant,
-                "price": review.product.price,
+                "model": "products.product",  
+                "pk": review.product.id,  
+                "fields": {
+                    "user": review.product.user,
+                    "product_name": review.product.product_name,
+                    "restaurant": review.product.restaurant,
+                    "price": review.product.price,
+                    "description": review.product.description,
+                    "category": review.product.category,
+                }
             },
             "rating": review.rating,
             "comment": review.comment,
@@ -161,7 +174,9 @@ def delete_review(request, review_id):
 
 def product_review_json(request, product_id):
     product = get_object_or_404(Product, id=product_id)
+ 
     reviews = Review.objects.filter(product=product)
+
     data = [
         {
             "id": review.id,
@@ -174,18 +189,25 @@ def product_review_json(request, product_id):
                 "username": review.user.username,
             },
             "product": {
-                "product_id": review.product.id,
-                "product_name": review.product.product_name,
-                "restaurant": review.product.restaurant,
-                "price": review.product.price,
+                "model": "products.product",  
+                "pk": review.product.id,  
+                "fields": {
+                    "user": review.product.user,
+                    "product_name": review.product.product_name,
+                    "restaurant": review.product.restaurant,
+                    "price": review.product.price,
+                    "description": review.product.description,
+                    "category": review.product.category,
+                }
             },
             "rating": review.rating,
             "comment": review.comment,
-            "created_at": review.created_at,
-            "updated_at": review.updated_at,
+            "created_at": review.created_at.isoformat(),
+            "updated_at": review.updated_at.isoformat(),
         }
         for review in reviews
     ]
+
     return JsonResponse(data, content_type="application/json", safe=False)
 
 @csrf_exempt
