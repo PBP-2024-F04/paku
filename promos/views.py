@@ -1,15 +1,12 @@
 from datetime import datetime
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from promos.models import Promo
 from .forms import PromoForm
-from django.urls import reverse
 import json
-from django.contrib.auth.models import User
-import logging
 
 @login_required(login_url='/accounts/login')
 def my_promos(request):
@@ -86,6 +83,7 @@ def get_promo(request, promo_id):
         'batas_penggunaan': promo.batas_penggunaan,
     })
     
+@login_required(login_url='/accounts/login')
 def promo_list_json(request):
     promos = Promo.objects.all()
     data = [{
@@ -93,7 +91,7 @@ def promo_list_json(request):
         'promo_title': promo.promo_title,
         'restaurant_name': promo.restaurant_name,
         'promo_description': promo.promo_description,
-        'batas_penggunaan': promo.batas_penggunaan.strftime('%d-%m-%Y') if promo.batas_penggunaan else "Tidak punya batas"
+        'batas_penggunaan': promo.batas_penggunaan,
     } for promo in promos]
     return JsonResponse(data, safe=False)
 
@@ -105,7 +103,7 @@ def my_promo_list_json(request):
         'promo_title': promo.promo_title,
         'restaurant_name': promo.restaurant_name,
         'promo_description': promo.promo_description,
-        'batas_penggunaan': promo.batas_penggunaan.strftime('%d-%m-%Y') if promo.batas_penggunaan else "Tidak punya batas"
+        'batas_penggunaan': promo.batas_penggunaan,
     } for promo in promos]
     return JsonResponse(data, safe=False)
 
