@@ -57,6 +57,7 @@ def get_reviews_flutter(request):
                 "username": review.user.username,
             },
             "product": {
+                "product_id": review.product.id,
                 "product_name": review.product.product_name,
                 "restaurant": review.product.restaurant,
                 "price": review.product.price,
@@ -85,6 +86,7 @@ def get_my_reviews_flutter(request):
                 "username": review.user.username,
             },
             "product": {
+                "product_id": review.product.id,
                 "product_name": review.product.product_name,
                 "restaurant": review.product.restaurant,
                 "price": review.product.price,
@@ -172,6 +174,7 @@ def product_review_json(request, product_id):
                 "username": review.user.username,
             },
             "product": {
+                "product_id": review.product.id,
                 "product_name": review.product.product_name,
                 "restaurant": review.product.restaurant,
                 "price": review.product.price,
