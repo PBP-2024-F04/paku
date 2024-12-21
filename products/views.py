@@ -101,22 +101,28 @@ def delete_product(request, id):
     else:
         return JsonResponse({"status": "error", "message": "Invalid request method"}, status=400)
 
-def show_json(request):
+def products_json(request):
     data = Product.objects.all()
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
-def show_json_by_id(request, id):
+def product_by_id_json(request, id):
     data = Product.objects.filter(pk=id)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 @csrf_exempt
 def create_product_flutter(request):
     if request.method == 'POST':
+        if not request.user.is_authenticated:
+            return JsonResponse({"status": "error", "message": "User not authenticated"}, status=401)
+
+        if not hasattr(request.user, 'role') or request.user.role != 'Merchant':
+            return JsonResponse({"status": "error", "message": "Access denied. Only merchants can add products."}, status=403)
+        
         data = json.loads(request.body)
         new_product = Product.objects.create(
             user=request.user,
             product_name=data["productName"],
-            restaurant=data["restaurant"],
+            restaurant=request.user.merchantprofile.restaurant_name,
             price=int(data["price"]),
             description=data["description"],
             category=data["category"],
@@ -127,3 +133,36 @@ def create_product_flutter(request):
         return JsonResponse({"status": "success"}, status=200)
     else:
         return JsonResponse({"status": "error"}, status=401)
+
+@login_required(login_url='/accounts/login')
+@csrf_exempt
+def edit_product_flutter(request, id):
+    try:
+        if request.method == "POST":
+            data = json.loads(request.body)
+
+            # Cari produk berdasarkan ID
+            try:
+                product = Product.objects.get(id=id)
+            except Product.DoesNotExist:
+                return JsonResponse({"status": "error", "message": "Produk tidak ditemukan."}, status=404)
+
+            product.product_name = data.get("productName", product.product_name)
+            product.price = data.get("price", product.price)
+            product.description = data.get("description", product.description)
+            product.category = data.get("category", product.category)
+            product.save()
+
+            return JsonResponse({"status": "success", "message": "Produk berhasil diperbarui!"})
+        else:
+            return JsonResponse({"status": "error", "message": "Metode tidak diizinkan."}, status=405)
+    except Exception as e:
+        print(f"Kesalahan: {e}")
+        return JsonResponse({"status": "error", "message": "Terjadi kesalahan."}, status=500)
+
+@login_required(login_url='/accounts/login')  
+def my_products_flutter(request):
+    products = Product.objects.filter(user=request.user).values(
+        'id', 'product_name', 'price', 'description', 'category'
+    )
+    return JsonResponse({'success': True, 'products': list(products)})
