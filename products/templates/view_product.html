@@ -1,19 +1,25 @@
 {% extends 'base_navbar.html' %}
+{% load static %}
 
 {% block content %}
 <h1 class="text-4xl mt-10 text-center"><strong>Product Details</strong></h1>
 <div class="flex justify-center mt-8">
-  <div class="bg-sage-light-active relative p-2 pt-8 mb-10 md:p-12 pb-12 lg:max-w-lg w-full rounded-lg border border-white-darker transform duration-500 hover:shadow-xl hover:-translate-y-0">
-    <div class="flex justify-between font-bold text-sm">
+  <div class="bg-sage-light-active relative p-2 pt-8 mb-10 md:p-12 pb-12 w-full max-w-md rounded-lg border border-white-darker transform duration-500 hover:shadow-xl hover:-translate-y-0">
+    <div class="w-full rounded-lg overflow-hidden mb-6">
+      <img src="{% if product.product_image %}{{ product.product_image }}{% else %}{% static 'img/default-image.png' %}{% endif %}" 
+           alt="{{ product.product_name }}" 
+           class="w-full h-auto max-h-80 object-cover">
+    </div>
+    <div class="flex justify-between font-bold text-sm max-w-md w-full mx-auto">
       <p>{{ product.category }}</p>
       <p class="text-gray-400">{{ product.restaurant }}</p>
     </div>
-    <h2 class="text-3xl font-semibold mt-4">{{ product.product_name }}</h2>
-    <p class="my-3 text-justify font-medium text-gray-700 leading-relaxed whitespace-normal">{{ product.description }}</p>
-    <p class="my-3 text-justify font-medium text-peach-dark leading-relaxed"><strong>Rp{{ product.price }},00</strong></p>
+    <h2 class="text-3xl font-semibold mt-4 max-w-md w-full mx-auto">{{ product.product_name }}</h2>
+    <p class="my-3 text-justify font-medium text-gray-700 leading-relaxed whitespace-normal max-w-md w-full mx-auto">{{ product.description }}</p>
+    <p class="my-3 text-justify font-medium text-peach-dark leading-relaxed max-w-md w-full mx-auto"><strong>Rp{{ product.price }},00</strong></p>
     
     <!-- Button section -->
-    <div class="flex space-x-2 mt-4">
+    <div class="flex space-x-2 mt-4 max-w-md w-full mx-auto">
       {% if user.role == 'Merchant' %}
         <a href="{% url 'reviews:product_review' product.pk %}">
           <button class="text-center block mt-8 mx-auto bg-moss-green-dark text-white font-bold py-2 px-4 rounded-lg hover:bg-moss-green hover:text-white w-fit transform duration-500 cursor-pointer hover:-translate-y-1">Review</button>
@@ -22,7 +28,7 @@
         <a href="{% url 'reviews:product_review' product.pk %}">
           <button class="text-center block mt-8 mx-auto bg-moss-green-dark text-white font-bold py-2 px-4 rounded-lg hover:bg-moss-green hover:text-white w-fit transform duration-500 cursor-pointer hover:-translate-y-1">Review</button>
         </a>
-        <a href="{% url 'favorites:create_favorite' product.pk%}">
+        <a href="{% url 'favorites:create_favorite' product.pk %}">
           <button class="text-center block mt-8 mx-auto bg-red-dark text-white font-bold py-2 px-4 hover:bg-red rounded-lg hover:text-white w-fit transform duration-500 cursor-pointer hover:-translate-y-1">Favorites</button>
         </a>
       {% else %}
