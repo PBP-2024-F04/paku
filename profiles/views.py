@@ -85,7 +85,41 @@ def profile_posts_json(_, username):
     return JsonResponse(data, content_type="application/json", safe=False)
 
 def profile_reviews_json(request, username):
-    return JsonResponse({})
+    user = get_object_or_404(User, username=username)
+    reviews = Review.objects.filter(user=user)
+
+    data = [
+        {
+            "id": review.id,
+            "user": {
+                "role": review.user.role,
+                "display_name":
+                    review.user.foodieprofile.full_name
+                    if review.user.role == "Foodie" else
+                    review.user.merchantprofile.restaurant_name,
+                "username": review.user.username,
+            },
+            "product": {
+                "model": "products.product",  
+                "pk": review.product.id,  
+                "fields": {
+                    "user": review.product.user,
+                    "product_name": review.product.product_name,
+                    "restaurant": review.product.restaurant,
+                    "price": review.product.price,
+                    "description": review.product.description,
+                    "category": review.product.category,
+                }
+            },
+            "rating": review.rating,
+            "comment": review.comment,
+            "created_at": review.created_at,
+            "updated_at": review.updated_at,
+        }
+        for review in reviews
+    ]
+    
+    return JsonResponse(data, content_type="application/json", safe=False)
 
 def profile_favorites_json(request, username):
     return JsonResponse({})
